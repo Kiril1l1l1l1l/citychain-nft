@@ -1,46 +1,81 @@
 ﻿<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Metropolis Mini App</title>
-  <link rel="stylesheet" href="./static/styles.css" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>Metropolis</title>
+  <link rel="stylesheet" href="./static/styles.css"/>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
   <div id="app">
-    <header class="app-header">
-      <div class="brand">Metropolis</div>
-      <div class="balance">Баланс: <span id="balance">100000</span> 💳</div>
+    <!-- Top App Bar -->
+    <header class="tg-topbar">
+      <div class="left">
+        <div class="app-title">Metropolis</div>
+      </div>
+      <div class="right">
+        <div class="balance-chip">
+          <span>Баланс</span><b id="balance">100000</b>
+        </div>
+        <button class="icon-btn" id="moreBtn" aria-label="more">⋯</button>
+      </div>
     </header>
 
-    <main id="screens" class="screens">
-      <!-- Магазин (пока заглушка) -->
+    <!-- Content -->
+    <main class="content">
+      <!-- Store -->
       <section id="screen-store" class="screen">
-        <div class="empty">Магазин скоро ✨</div>
-      </section>
-
-      <!-- Карта -->
-      <section id="screen-map" class="screen active">
-        <div class="map-wrap">
-          <img id="mapImg" src="./static/map.png" alt="Карта" draggable="false" />
+        <div class="surface">
+          <h2 class="section-title">Магазин</h2>
+          <div class="empty">Скоро появится ✨</div>
         </div>
       </section>
 
-      <!-- Профиль (пока заглушка) -->
+      <!-- Map (default) -->
+      <section id="screen-map" class="screen active">
+        <div class="surface">
+          <h2 class="section-title">Карта</h2>
+          <div class="map-card">
+            <div class="map-wrap">
+              <img id="mapImg" src="./static/map.png" alt="Карта" draggable="false"/>
+            </div>
+            <div class="zoom-controls">
+              <button id="zoomOut" class="fab">−</button>
+              <button id="zoomIn" class="fab">+</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Profile -->
       <section id="screen-profile" class="screen">
-        <div class="card">
-          <h3>Профиль</h3>
-          <p>Раздел в разработке.</p><button id="profile-add1000" class="card" style="margin-top:12px; text-align:center;">+1000 (демо)</button>
+        <div class="surface">
+          <h2 class="section-title">Профиль</h2>
+          <div class="card">
+            <div class="row">
+              <div>
+                <div class="title">Раздел в разработке</div>
+                <div class="hint">Скоро: покупки, избранное, настройки</div>
+              </div>
+              <button id="profile-add1000" class="primary-btn">+1000 (демо)</button>
+            </div>
+          </div>
         </div>
       </section>
     </main>
 
-    <!-- Нижняя навигация -->
-    <nav class="tabbar">
-      <button class="tab-btn" data-tab="store">🛒<span>Магазин</span></button>
-      <button class="tab-btn active" data-tab="map">🗺️<span>Карта</span></button>
-      <button class="tab-btn" data-tab="profile">👤<span>Профиль</span></button>
+    <!-- Bottom Tab Bar -->
+    <nav class="tg-tabbar">
+      <button class="tab-btn" data-tab="store">
+        <div class="ic">🛒</div><div class="lb">Магазин</div>
+      </button>
+      <button class="tab-btn active" data-tab="map">
+        <div class="ic">🗺️</div><div class="lb">Карта</div>
+      </button>
+      <button class="tab-btn" data-tab="profile">
+        <div class="ic">👤</div><div class="lb">Профиль</div>
+      </button>
     </nav>
   </div>
 
