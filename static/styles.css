@@ -1,78 +1,51 @@
-﻿/* ===== Theme bridge (uses Telegram theme params if available) ===== */
+﻿/* === базовые переменные (как были) === */
 :root{
   --bg: var(--tg-theme-bg-color, #0f1114);
   --text: var(--tg-theme-text-color, #e7e9ee);
   --hint: var(--tg-theme-hint-color, #9aa3aa);
-  --link: var(--tg-theme-link-color, #7aa2ff);
   --btn: var(--tg-theme-button-color, #2a7fff);
   --btn-text: var(--tg-theme-button-text-color, #fff);
   --sec: var(--tg-theme-secondary-bg-color, #171a1f);
-
   --elev: 0 6px 14px rgba(0,0,0,.28), 0 2px 6px rgba(0,0,0,.18);
-  --elev-sm: 0 2px 6px rgba(0,0,0,.22);
-  --br: 14px;
-  --border: 1px solid rgba(255,255,255,.06);
-
-  /* Размеры баров (грубо, с запасом) */
-  --topbar-h: 64px;
+  --br: 14px; --border:1px solid rgba(255,255,255,.06);
   --tabbar-h: 72px;
 }
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial}
 #app{max-width:520px;min-height:100vh;margin:0 auto;padding-bottom:calc(var(--tabbar-h) + env(safe-area-inset-bottom,0))}
 
-/* ===== Top App Bar ===== */
-.tg-topbar{
-  position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;
-  padding:10px 12px calc(10px + env(safe-area-inset-top,0)) 12px;gap:10px;background:var(--sec);border-bottom:var(--border)
-}
-.tg-topbar .left{display:flex;align-items:center;gap:8px}
-.app-title{font-weight:700;letter-spacing:.2px}
-.tg-topbar .right{margin-left:auto;display:flex;align-items:center;gap:8px}
+/* topbar/контент/карточки — оставляем как были */
+.tg-topbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:10px 12px calc(10px + env(safe-area-inset-top,0)) 12px;gap:10px;background:var(--sec);border-bottom:var(--border)}
+.app-title{font-weight:700}
 .balance-chip{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:var(--border);border-radius:999px;padding:6px 10px}
-.balance-chip span{opacity:.75}
 .icon-btn{height:36px;width:36px;border-radius:10px;border:var(--border);background:rgba(255,255,255,.06);color:var(--text)}
-.icon-btn:active{transform:scale(.98)}
-
-/* ===== Content ===== */
 .content{padding:12px}
 .surface{background:var(--sec);border:var(--border);border-radius:var(--br);box-shadow:var(--elev);padding:12px}
 .section-title{margin:4px 2px 10px 2px;font-size:16px}
 .card{background:rgba(255,255,255,.03);border:var(--border);border-radius:var(--br);padding:12px}
 .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.title{font-weight:600}
 .hint{color:var(--hint);font-size:12px}
-.empty{padding:28px;text-align:center;color:var(--hint)}
 .primary-btn{background:var(--btn);color:var(--btn-text);border:0;border-radius:12px;padding:10px 12px;font-weight:700}
-.primary-btn:active{transform:translateY(1px);opacity:.9}
 
-/* ===== Map (вписывание + центрирование) ===== */
+/* === КАРТА: строго по центру, без зума === */
 .map-card{position:relative;border-radius:var(--br);overflow:hidden;border:var(--border)}
-/* Высота доступной области: всё окно минус приблизительные высоты шапки/таббара и внутренние отступы */
 .map-wrap{
   width:100%;
-  height:calc(100dvh - var(--topbar-h) - var(--tabbar-h) - 140px);
-  /* 140px — запас под заголовок “Карта” и внутренние паддинги блока; можно микро корректировать */
-  min-height:260px;
-  display:flex;align-items:center;justify-content:center;
-  overflow:hidden;background:#0b0d10;
-  border-radius:calc(var(--br) - 2px);
+  display:flex; align-items:center; justify-content:center;
+  /* фикс пустых полей: просто центрируем изображение в блоке */
+  padding:10px; background:#0b0d10; border-radius:calc(var(--br) - 2px);
 }
 .map-wrap img{
+  display:block;
   max-width:100%;
-  max-height:100%;
-  width:auto;           /* по ширине */
-  height:auto;          /* и по высоте */
-  object-fit:contain;   /* вписать целиком, без обрезки */
-  user-select:none;touch-action:pan-x pan-y;
-  will-change:transform;
+  height:auto;
+  object-fit:contain;
+  margin:0 auto;              /* центр по горизонтали */
+  transform:none !important;  /* на всякий случай — убираем трансформации */
 }
+.zoom-controls{ display:none !important; } /* скрываем «+»/«−» */
 
-.zoom-controls{position:absolute;right:10px;bottom:10px;display:flex;flex-direction:column;gap:8px}
-.fab{width:40px;height:40px;border-radius:12px;border:0;background:rgba(255,255,255,.12);color:var(--text);backdrop-filter:saturate(140%) blur(6px);box-shadow:var(--elev-sm)}
-.fab:active{transform:scale(.98)}
-
-/* ===== Bottom Tab Bar ===== */
+/* === нижняя навигация === */
 .tg-tabbar{
   position:fixed;left:50%;transform:translateX(-50%);
   bottom:0;max-width:520px;width:100%;display:flex;gap:8px;
@@ -80,9 +53,8 @@ html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font:14px/
 }
 .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 6px;border-radius:12px;background:var(--sec);border:var(--border);color:var(--text)}
 .tab-btn.active{outline:2px solid rgba(122,162,255,.65);border-color:transparent}
-.ic{font-size:16px;line-height:1}
+.ic{font-size:16px}
 .lb{font-size:12px;color:var(--hint)}
 
-/* Screens */
 .screen{display:none}
 .screen.active{display:block}
