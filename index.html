@@ -1,30 +1,24 @@
 ﻿<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Metropolis</title>
-  <link rel="stylesheet" href="./static/styles.css"/>
+  <link rel="stylesheet" href="./static/styles.css" />
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
   <div id="app">
-    <!-- Top App Bar -->
     <header class="tg-topbar">
-      <div class="left">
-        <div class="app-title">Metropolis</div>
-      </div>
+      <div class="left"></div>
       <div class="right">
         <div class="balance-chip">
           <span>Баланс</span><b id="balance">100000</b>
         </div>
-        <button class="icon-btn" id="moreBtn" aria-label="more">⋯</button>
       </div>
     </header>
 
-    <!-- Content -->
     <main class="content">
-      <!-- Store -->
       <section id="screen-store" class="screen">
         <div class="surface">
           <h2 class="section-title">Магазин</h2>
@@ -32,40 +26,50 @@
         </div>
       </section>
 
-      <!-- Map (default) -->
       <section id="screen-map" class="screen active">
         <div class="surface">
           <h2 class="section-title">Карта</h2>
           <div class="map-card">
             <div class="map-wrap">
-              <img id="mapImg" src="./static/map.png" alt="Карта" draggable="false"/>
-            </div>
-            <div class="zoom-controls">
-              <button id="zoomOut" class="fab">−</button>
-              <button id="zoomIn" class="fab">+</button>
+              <img id="mapImg" src="./static/map.png" alt="Карта" draggable="false" />
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Profile -->
       <section id="screen-profile" class="screen">
         <div class="surface">
           <h2 class="section-title">Профиль</h2>
-          <div class="card">
-            <div class="row">
-              <div>
-                <div class="title">Раздел в разработке</div>
-                <div class="hint">Скоро: покупки, избранное, настройки</div>
-              </div>
-              <button id="profile-add1000" class="primary-btn">+1000 (демо)</button>
+
+          <div class="profile-header">
+            <img id="profileAvatar" class="avatar" src="" alt="Avatar" />
+            <div class="profile-info">
+              <div id="profileName" class="profile-name">Имя пользователя</div>
             </div>
           </div>
+
+          <div class="profile-card">
+            <h3>Инвентарь</h3>
+            <div id="inventoryList" class="inventory-list">Инвентарь пуст.</div>
+          </div>
+
+          <div class="profile-card">
+            <h3>Реферальная система</h3>
+            <div class="referral">
+              <input id="referralLink" type="text" readonly />
+              <button id="copyReferral" class="primary-btn">Копировать</button>
+            </div>
+          </div>
+
+          <div class="profile-card">
+            <h3>Пополнить баланс</h3>
+            <button id="addFunds" class="primary-btn">Пополнить</button>
+          </div>
+
         </div>
       </section>
     </main>
 
-    <!-- Bottom Tab Bar -->
     <nav class="tg-tabbar">
       <button class="tab-btn" data-tab="store">
         <div class="ic">🛒</div><div class="lb">Магазин</div>
