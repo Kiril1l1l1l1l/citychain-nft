@@ -1,0 +1,49 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Metropolis Mini App</title>
+  <link rel="stylesheet" href="./static/styles.css" />
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <div id="app">
+    <header class="app-header">
+      <div class="brand">Metropolis</div>
+      <div class="balance">Баланс: <span id="balance">100000</span> 💳</div>
+    </header>
+
+    <main id="screens" class="screens">
+      <!-- Магазин (пока заглушка) -->
+      <section id="screen-store" class="screen">
+        <div class="empty">Магазин скоро ✨</div>
+      </section>
+
+      <!-- Карта -->
+      <section id="screen-map" class="screen active">
+        <div class="map-wrap">
+          <img id="mapImg" src="./static/map.png" alt="Карта" draggable="false" />
+        </div>
+      </section>
+
+      <!-- Профиль (пока заглушка) -->
+      <section id="screen-profile" class="screen">
+        <div class="card">
+          <h3>Профиль</h3>
+          <p>Раздел в разработке.</p><button id="profile-add1000" class="card" style="margin-top:12px; text-align:center;">+1000 (демо)</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Нижняя навигация -->
+    <nav class="tabbar">
+      <button class="tab-btn" data-tab="store">🛒<span>Магазин</span></button>
+      <button class="tab-btn active" data-tab="map">🗺️<span>Карта</span></button>
+      <button class="tab-btn" data-tab="profile">👤<span>Профиль</span></button>
+    </nav>
+  </div>
+
+  <script type="module" src="./static/app.js"></script>
+</body>
+</html>
