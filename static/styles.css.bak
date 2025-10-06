@@ -28,14 +28,3 @@ a{color:var(--tg-theme-link-color,#61dafb);text-decoration:none}
   transform: none !important;
   width: 100vw !important;
 }
-
-/* hard overrides to stretch content full width */
-.content{padding-left:0!important;padding-right:0!important}
-.surface{padding-left:0!important;padding-right:0!important;margin-left:0!important;margin-right:0!important;border-radius:0!important}
-.map-wrap{padding:0!important;background:transparent!important;border-radius:0!important}
-html,body{overflow-x:hidden}
-/* === FONT FIX (force Cyrillic-capable stack) === */
-html, body, * {
-  font-family: "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif !important;
-  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-}
