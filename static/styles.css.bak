@@ -28,4 +28,3 @@ a{color:var(--tg-theme-link-color,#61dafb);text-decoration:none}
   transform: none !important;
   width: 100vw !important;
 }
-

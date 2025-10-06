@@ -1,10 +1,10 @@
-п»ї<!doctype html>
+<!doctype html>
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
   <title>Metropolis</title>
-  <link rel="stylesheet" href="./static/styles.css" />
+  <link rel="stylesheet" href="./static/styles.css?v=1759605465" />
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
@@ -13,54 +13,54 @@
       <div class="left"></div>
       <div class="right">
         <div class="balance-chip">
-          <span>Р‘Р°Р»Р°РЅСЃ</span><b id="balance">100000</b>
+          <span>Баланс</span><b id="balance">100000</b>
         </div>
       </div>
     </header>
 
     <main class="content">
-      <!-- РњР°РіР°Р·РёРЅ -->
+      <!-- Магазин -->
       <section id="screen-store" class="screen">
         <div class="surface">
-          <h2 class="section-title">РњР°РіР°Р·РёРЅ</h2>
-          <div class="empty">РЎРєРѕСЂРѕ РїРѕСЏРІРёС‚СЃСЏ вњЁ</div>
+          <h2 class="section-title">Магазин</h2>
+          <div class="empty">Скоро появится ?</div>
         </div>
       </section>
 
-      <!-- РљР°СЂС‚Р° -->
+      <!-- Карта -->
       <section id="screen-map" class="screen active">
         <div class="surface">
-          <h2 class="section-title">РљР°СЂС‚Р°</h2>
+          <h2 class="section-title">Карта</h2>
           <div class="map-card">
             <div class="map-wrap">
-              <img id="mapImg" src="./static/map.png" alt="РљР°СЂС‚Р°" draggable="false" />
+              <img id="mapImg" src="./static/map.png" alt="Карта" draggable="false" />
             </div>
           </div>
         </div>
       </section>
 
-      <!-- РџСЂРѕС„РёР»СЊ -->
+      <!-- Профиль -->
       <section id="screen-profile" class="screen">
         <div class="surface">
-          <h2 class="section-title">РџСЂРѕС„РёР»СЊ</h2>
+          <h2 class="section-title">Профиль</h2>
 
-          <!-- РіРµСЂРѕР№-Р±Р»РѕРє -->
+          <!-- герой-блок -->
           <div class="profile-hero">
             <img id="profileAvatar" class="avatar-lg" src="" alt="Avatar" />
-            <div id="profileName" class="profile-username">РРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ</div>
+            <div id="profileName" class="profile-username">Имя пользователя</div>
           </div>
 
-          <!-- Р±С‹СЃС‚СЂС‹Рµ РґРµР№СЃС‚РІРёСЏ -->
+          <!-- быстрые действия -->
           <div class="cta-row">
-            <button class="btn-primary" id="giftTopup">РџРѕРїРѕР»РЅРёС‚СЊ рџЋЃ</button>
-            <button class="btn-outline" id="cryptoTopup">РџРѕРїРѕР»РЅРёС‚СЊ в—‡</button>
+            <button class="btn-primary" id="giftTopup">Пополнить ??</button>
+            <button class="btn-outline" id="cryptoTopup">Пополнить ?</button>
           </div>
 
-          <!-- РРЅРІРµРЅС‚Р°СЂСЊ -->
+          <!-- Инвентарь -->
           <div class="profile-card">
             <div class="card-title-row">
-              <h3>РРЅРІРµРЅС‚Р°СЂСЊ <span class="muted" id="invCount">(0)</span></h3>
-              <button class="link-btn" id="sellAll">РџСЂРѕРґР°С‚СЊ РІСЃРµ</button>
+              <h3>Инвентарь <span class="muted" id="invCount">(0)</span></h3>
+              <button class="link-btn" id="sellAll">Продать все</button>
             </div>
             <div class="inv-grid">
               <div class="inv-slot"></div>
@@ -69,40 +69,42 @@
             </div>
           </div>
 
-          <!-- Р РµС„РµСЂР°Р»СЊРЅР°СЏ СЃРёСЃС‚РµРјР° -->
+          <!-- Реферальная система -->
           <div class="profile-card">
             <div class="card-title-row">
-              <h3>Р—Р°СЂР°Р±Р°С‚С‹РІР°Р№С‚Рµ 10% РѕС‚ РґРµРїРѕР·РёС‚РѕРІ РґСЂСѓР·РµР№</h3>
-              <button class="link-btn" id="termsBtn">РЈСЃР»РѕРІРёСЏ</button>
+              <h3>Зарабатывайте 10% от депозитов друзей</h3>
+              <button class="link-btn" id="termsBtn">Условия</button>
             </div>
 
             <div class="invite-row">
-              <button class="btn-primary" id="inviteBtn">РџСЂРёРіР»Р°СЃРёС‚СЊ</button>
-              <button class="icon-btn" id="copyReferral" aria-label="РљРѕРїРёСЂРѕРІР°С‚СЊ">рџ“‹</button>
+              <button class="btn-primary" id="inviteBtn">Пригласить</button>
+              <button class="icon-btn" id="copyReferral" aria-label="Копировать">??</button>
             </div>
 
             <input id="referralLink" class="ref-input" type="text" readonly />
 
             <div class="stats-row">
-              <div class="stat">Р‘Р°Р»Р°РЅСЃ: <b id="balanceStat">0.00 в—‡</b></div>
-              <div class="stat">Р РµС„РµСЂР°Р»РѕРІ: <b id="refsStat">0</b></div>
+              <div class="stat">Баланс: <b id="balanceStat">0.00 ?</b></div>
+              <div class="stat">Рефералов: <b id="refsStat">0</b></div>
             </div>
 
-            <button class="btn-outline full" id="withdrawBtn">Р’С‹РІРѕРґ</button>
+            <button class="btn-outline full" id="withdrawBtn">Вывод</button>
           </div>
 
         </div>
       </section>
     </main>
 
-    <!-- РќР°РІРёРіР°С†РёСЏ -->
+    <!-- Навигация -->
     <nav class="tg-tabbar">
-      <button class="tab-btn" data-tab="store"><div class="ic">рџ›’</div><div class="lb">РњР°РіР°Р·РёРЅ</div></button>
-      <button class="tab-btn active" data-tab="map"><div class="ic">рџ—єпёЏ</div><div class="lb">РљР°СЂС‚Р°</div></button>
-      <button class="tab-btn" data-tab="profile"><div class="ic">рџ‘¤</div><div class="lb">РџСЂРѕС„РёР»СЊ</div></button>
+      <button class="tab-btn" data-tab="store"><div class="ic">??</div><div class="lb">Магазин</div></button>
+      <button class="tab-btn active" data-tab="map"><div class="ic">???</div><div class="lb">Карта</div></button>
+      <button class="tab-btn" data-tab="profile"><div class="ic">??</div><div class="lb">Профиль</div></button>
     </nav>
   </div>
 
-  <script type="module" src="./static/app.js"></script>
+  <script type="module" src="./static/app.js?v=1759605465"></script>
 </body>
 </html>
+
+
