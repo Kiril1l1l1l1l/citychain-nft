@@ -39,3 +39,14 @@ q("#zoomOut").addEventListener("click",()=>{ scale=Math.max(minScale,+(scale-.2)
 
 /* helpers */
 function q(s){ return document.querySelector(s); }
+
+(function(){
+  try{
+    var isTG = !!(window.Telegram && Telegram.WebApp);
+    if (isTG) {
+      document.documentElement.classList.add("in-tg");
+      Telegram.WebApp.ready();
+      Telegram.WebApp.expand();
+    }
+  }catch(e){ console.warn("tg init warn", e); }
+})();
