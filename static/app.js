@@ -39,3 +39,30 @@ q("#zoomOut").addEventListener("click",()=>{ scale=Math.max(minScale,+(scale-.2)
 
 /* helpers */
 function q(s){ return document.querySelector(s); }
+
+(function(){
+  try{
+    var isTG = !!(window.Telegram && Telegram.WebApp);
+    if (isTG) {
+      document.documentElement.classList.add("in-tg");
+      Telegram.WebApp.ready();
+      Telegram.WebApp.expand();
+    }
+  }catch(e){ console.warn("tg init warn", e); }
+})();
+document.addEventListener("DOMContentLoaded", function(){
+  try{
+    document.querySelectorAll("img").forEach(i => i.setAttribute("draggable","false"));
+  }catch(e){}
+
+  try{
+    // мягкая чистка: заменим явные `n в коротких текстовых узлах
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+    let n; const re = /`n\s*/g;
+    while(n = walker.nextNode()){
+      if(n.nodeValue && re.test(n.nodeValue) && n.nodeValue.length <= 64){
+        n.nodeValue = n.nodeValue.replace(re, "");
+      }
+    }
+  }catch(e){ console.warn("cleanup `n:", e); }
+});
