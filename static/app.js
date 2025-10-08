@@ -39,3 +39,4 @@ q("#zoomOut").addEventListener("click",()=>{ scale=Math.max(minScale,+(scale-.2)
 
 /* helpers */
 function q(s){ return document.querySelector(s); }
+

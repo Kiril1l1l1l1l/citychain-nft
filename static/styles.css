@@ -19,7 +19,7 @@
 }
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial}
-#app{max-width:520px;min-height:100vh;margin:0 auto;padding-bottom:calc(var(--tabbar-h) + env(safe-area-inset-bottom,0))}
+#app{max-width: 100%;min-height:100vh;margin:0 auto;padding-bottom:calc(var(--tabbar-h) + env(safe-area-inset-bottom,0))}
 
 /* ===== Top App Bar ===== */
 .tg-topbar{
@@ -75,7 +75,7 @@ html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font:14px/
 /* ===== Bottom Tab Bar ===== */
 .tg-tabbar{
   position:fixed;left:50%;transform:translateX(-50%);
-  bottom:0;max-width:520px;width:100%;display:flex;gap:8px;
+  bottom:0;max-width: 100%;width:100%;display:flex;gap:8px;
   padding:8px 12px calc(8px + env(safe-area-inset-bottom,0));background:var(--bg);border-top:var(--border)
 }
 .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 6px;border-radius:12px;background:var(--sec);border:var(--border);color:var(--text)}
@@ -86,3 +86,39 @@ html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font:14px/
 /* Screens */
 .screen{display:none}
 .screen.active{display:block}
+
+.world-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px;
+}
+.world{
+  font-size:16px;
+  font-weight:600;
+}
+.menu-btn{
+  font-size:24px;
+  line-height:1;
+  color:var(--text);
+  cursor:pointer;
+}
+/* === MOBILE MAP CENTER === */
+@media (max-width: 899px) {
+  /* Внешняя карточка карты */
+  .map-card {
+    width: 92% !important;
+    max-width: 92% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border-radius: var(--radius, 16px) !important;
+    border: none !important;
+    background: var(--sec, rgba(255,255,255,0.03)) !important;
+  }
+  /* Внутренний контейнер карты */
+  .map-wrap {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+}
