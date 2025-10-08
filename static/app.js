@@ -1,80 +1,41 @@
 ﻿const tg = window.Telegram?.WebApp;
-if (tg) { tg.ready(); tg.expand(); tg.setHeaderColor("secondary_bg_color"); }
+if (tg) { tg.ready(); tg.expand(); tg.setHeaderColor("secondary_bg_color"); tg.onEvent?.("themeChanged",()=>{}); }
 
-/* Tabs */
+/* ---------- Tabs ---------- */
 const tabs = Array.from(document.querySelectorAll(".tab-btn"));
-const screens = {
-  store: document.getElementById("screen-store"),
-  map: document.getElementById("screen-map"),
-  profile: document.getElementById("screen-profile"),
-};
+const screens = { store: q("#screen-store"), map: q("#screen-map"), profile: q("#screen-profile") };
 tabs.forEach(b => b.addEventListener("click", () => switchTab(b.dataset.tab)));
-function switchTab(name){
-  tabs.forEach(b => b.classList.toggle("active", b.dataset.tab===name));
-  Object.entries(screens).forEach(([k,el]) => el.classList.toggle("active", k===name));
-  tg?.BackButton?.hide(); tg?.MainButton?.hide();
-}
+function switchTab(name){ tabs.forEach(b=>b.classList.toggle("active",b.dataset.tab===name)); Object.entries(screens).forEach(([k,el])=>el.classList.toggle("active",k===name)); tg?.BackButton?.hide(); tg?.MainButton?.hide(); }
 switchTab("map");
 
-/* Profile fill */
-const SVG_PLACEHOLDER =
-  'data:image/svg+xml;utf8,' +
-  encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120">
-  <rect width="100%" height="100%" fill="#2a2f36"/>
-  <circle cx="60" cy="48" r="22" fill="#3a424b"/>
-  <rect x="20" y="82" width="80" height="26" rx="13" fill="#3a424b"/>
-</svg>`);
+/* ---------- Balance demo ---------- */
+const balanceEl = q("#balance");
+document.addEventListener("click",(e)=>{ if(e.target.matches("#profile-add1000")){ const cur=parseInt(balanceEl.textContent||"0",10); balanceEl.textContent=String(cur+1000); tg?.HapticFeedback?.notificationOccurred("success"); }});
 
-function initProfile(){
-  const avatarEl = document.getElementById("profileAvatar");
-  const nameEl   = document.getElementById("profileName");
-  const refInput = document.getElementById("referralLink");
-  const copyBtn  = document.getElementById("copyReferral");
-  const inviteBtn= document.getElementById("inviteBtn");
-  const giftTop  = document.getElementById("giftTopup");
-  const cryptoTop= document.getElementById("cryptoTopup");
-  const withdraw = document.getElementById("withdrawBtn");
+/* ---------- Map zoom/pan ---------- */
+const mapWrap = q(".map-wrap");
+const mapImg  = q("#mapImg");
+let scale=1, minScale=1, maxScale=3;
+let pos={x:0,y:0}, start={x:0,y:0}, isPan=false;
 
-  const user = tg?.initDataUnsafe?.user;
-  const botName = tg?.initDataUnsafe?.bot?.username || "City_Chain_NFT_Bot";
+function applyTransform(){ mapImg.style.transform=`translate(${pos.x}px,${pos.y}px) scale(${scale})`; }
+function resetTransform(){ scale=1; pos={x:0,y:0}; applyTransform(); }
+resetTransform();
 
-  if (user) {
-    const fullName = [user.first_name, user.last_name].filter(Boolean).join(" ");
-    nameEl.textContent = user.username || fullName || "Пользователь";
-    const src = user.photo_url || SVG_PLACEHOLDER;
-    avatarEl.src = src;
-    avatarEl.onerror = () => { avatarEl.src = SVG_PLACEHOLDER; };
-    refInput.value = `https://t.me/${botName}?start=ref${user.id}`;
-  } else {
-    nameEl.textContent = "Гость";
-    avatarEl.src = SVG_PLACEHOLDER;
-    refInput.value = "";
-  }
+/* Вписывание не требует панорамирования по умолчанию, но оставим зум и перетаскивание для удобства */
+mapWrap.addEventListener("wheel",(e)=>{ e.preventDefault(); const delta=e.deltaY<0?.1:-.1; const old=scale; scale=Math.min(maxScale,Math.max(minScale,+(scale+delta).toFixed(2))); if(scale!==old) applyTransform(); },{passive:false});
+mapWrap.addEventListener("dblclick",()=>{ scale=Math.min(maxScale,+(scale+.5).toFixed(2)); applyTransform(); });
 
-  copyBtn.addEventListener("click", () => {
-    if (!refInput.value) { tg?.showAlert?.("Ссылка недоступна"); return; }
-    navigator.clipboard.writeText(refInput.value);
-    tg?.HapticFeedback?.notificationOccurred("success");
-  });
+mapWrap.addEventListener("mousedown",(e)=>{ isPan=true; start={x:e.clientX-pos.x,y:e.clientY-pos.y}; });
+window.addEventListener("mousemove",(e)=>{ if(!isPan) return; pos={x:e.clientX-start.x,y:e.clientY-start.y}; applyTransform(); });
+window.addEventListener("mouseup",()=>{ isPan=false; });
 
-  inviteBtn.addEventListener("click", () => {
-    const url = encodeURIComponent(refInput.value || `https://t.me/${botName}`);
-    const text = encodeURIComponent("Залетай в CityChainNFT!");
-    tg?.openTelegramLink?.(`https://t.me/share/url?url=${url}&text=${text}`);
-  });
+mapWrap.addEventListener("touchstart",(e)=>{ if(e.touches.length===1){ isPan=true; const t=e.touches[0]; start={x:t.clientX-pos.x,y:t.clientY-pos.y}; }},{passive:true});
+mapWrap.addEventListener("touchmove",(e)=>{ if(!isPan||e.touches.length!==1) return; const t=e.touches[0]; pos={x:t.clientX-start.x,y:t.clientY-start.y}; applyTransform(); },{passive:true});
+mapWrap.addEventListener("touchend",()=>{ isPan=false; });
 
-  giftTop.addEventListener("click", () => tg?.sendData?.(JSON.stringify({action:"deposit", type:"gift"})));
-  cryptoTop.addEventListener("click", () => tg?.sendData?.(JSON.stringify({action:"deposit", type:"token"})));
-  withdraw.addEventListener("click", () => tg?.sendData?.(JSON.stringify({action:"withdraw"})));
-}
-initProfile();
+q("#zoomIn").addEventListener("click",()=>{ scale=Math.min(maxScale,+(scale+.2).toFixed(2)); applyTransform(); });
+q("#zoomOut").addEventListener("click",()=>{ scale=Math.max(minScale,+(scale-.2).toFixed(2)); applyTransform(); });
 
-/* demo: кнопка увеличить баланс если нужна
-document.addEventListener("click",(e)=>{
-  if(e.target.matches("#profile-add1000")){
-    const b=document.getElementById("balance");
-    b.textContent=String((parseInt(b.textContent||"0",10))+1000);
-    tg?.HapticFeedback?.notificationOccurred("success");
-  }
-});
-*/
+/* helpers */
+function q(s){ return document.querySelector(s); }

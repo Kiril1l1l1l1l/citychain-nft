@@ -1,65 +1,88 @@
-﻿:root {
+﻿/* ===== Theme bridge (uses Telegram theme params if available) ===== */
+:root{
   --bg: var(--tg-theme-bg-color, #0f1114);
   --text: var(--tg-theme-text-color, #e7e9ee);
   --hint: var(--tg-theme-hint-color, #9aa3aa);
+  --link: var(--tg-theme-link-color, #7aa2ff);
   --btn: var(--tg-theme-button-color, #2a7fff);
   --btn-text: var(--tg-theme-button-text-color, #fff);
   --sec: var(--tg-theme-secondary-bg-color, #171a1f);
+
   --elev: 0 6px 14px rgba(0,0,0,.28), 0 2px 6px rgba(0,0,0,.18);
+  --elev-sm: 0 2px 6px rgba(0,0,0,.22);
   --br: 14px;
   --border: 1px solid rgba(255,255,255,.06);
+
+  /* Размеры баров (грубо, с запасом) */
+  --topbar-h: 64px;
   --tabbar-h: 72px;
 }
-
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial}
 #app{max-width:520px;min-height:100vh;margin:0 auto;padding-bottom:calc(var(--tabbar-h) + env(safe-area-inset-bottom,0))}
 
-/* topbar */
-.tg-topbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:10px 12px calc(10px + env(safe-area-inset-top,0)) 12px;background:var(--sec);border-bottom:var(--border)}
+/* ===== Top App Bar ===== */
+.tg-topbar{
+  position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;
+  padding:10px 12px calc(10px + env(safe-area-inset-top,0)) 12px;gap:10px;background:var(--sec);border-bottom:var(--border)
+}
+.tg-topbar .left{display:flex;align-items:center;gap:8px}
+.app-title{font-weight:700;letter-spacing:.2px}
+.tg-topbar .right{margin-left:auto;display:flex;align-items:center;gap:8px}
 .balance-chip{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:var(--border);border-radius:999px;padding:6px 10px}
 .balance-chip span{opacity:.75}
+.icon-btn{height:36px;width:36px;border-radius:10px;border:var(--border);background:rgba(255,255,255,.06);color:var(--text)}
+.icon-btn:active{transform:scale(.98)}
 
-/* content/cards */
+/* ===== Content ===== */
 .content{padding:12px}
-.surface{background:var(--sec);border:var(--border);border-radius:var(--br);box-shadow:var(--elev);padding:12px;margin-bottom:16px}
+.surface{background:var(--sec);border:var(--border);border-radius:var(--br);box-shadow:var(--elev);padding:12px}
 .section-title{margin:4px 2px 10px 2px;font-size:16px}
+.card{background:rgba(255,255,255,.03);border:var(--border);border-radius:var(--br);padding:12px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.title{font-weight:600}
+.hint{color:var(--hint);font-size:12px}
+.empty{padding:28px;text-align:center;color:var(--hint)}
+.primary-btn{background:var(--btn);color:var(--btn-text);border:0;border-radius:12px;padding:10px 12px;font-weight:700}
+.primary-btn:active{transform:translateY(1px);opacity:.9}
 
-/* map */
-.map-card{border-radius:var(--br);overflow:hidden;border:var(--border)}
-.map-wrap{width:100%;display:flex;align-items:center;justify-content:center;padding:10px;background:#0b0d10;border-radius:calc(var(--br) - 2px)}
-.map-wrap img{display:block;max-width:100%;height:auto;object-fit:contain;margin:0 auto;transform:none !important}
+/* ===== Map (вписывание + центрирование) ===== */
+.map-card{position:relative;border-radius:var(--br);overflow:hidden;border:var(--border)}
+/* Высота доступной области: всё окно минус приблизительные высоты шапки/таббара и внутренние отступы */
+.map-wrap{
+  width:100%;
+  height:calc(100dvh - var(--topbar-h) - var(--tabbar-h) - 140px);
+  /* 140px — запас под заголовок “Карта” и внутренние паддинги блока; можно микро корректировать */
+  min-height:260px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;background:#0b0d10;
+  border-radius:calc(var(--br) - 2px);
+}
+.map-wrap img{
+  max-width:100%;
+  max-height:100%;
+  width:auto;           /* по ширине */
+  height:auto;          /* и по высоте */
+  object-fit:contain;   /* вписать целиком, без обрезки */
+  user-select:none;touch-action:pan-x pan-y;
+  will-change:transform;
+}
 
-/* profile hero */
-.profile-hero{display:flex;flex-direction:column;align-items:center;gap:10px;margin:8px 0 14px}
-.avatar-lg{width:96px;height:96px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06)}
-.profile-username{font-weight:700;font-size:18px}
+.zoom-controls{position:absolute;right:10px;bottom:10px;display:flex;flex-direction:column;gap:8px}
+.fab{width:40px;height:40px;border-radius:12px;border:0;background:rgba(255,255,255,.12);color:var(--text);backdrop-filter:saturate(140%) blur(6px);box-shadow:var(--elev-sm)}
+.fab:active{transform:scale(.98)}
 
-/* cta row */
-.cta-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.btn-primary{background:var(--btn);color:var(--btn-text);border:0;border-radius:12px;padding:12px 12px;font-weight:700}
-.btn-outline{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:12px 12px;font-weight:700}
-.btn-outline.full{width:100%;margin-top:10px}
-.btn-primary:active,.btn-outline:active{transform:translateY(1px);opacity:.95}
-
-/* profile cards */
-.profile-card{background:rgba(255,255,255,.03);border:var(--border);border-radius:var(--br);padding:12px;margin-bottom:12px}
-.card-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.link-btn{background:transparent;color:var(--btn);border:0;font-weight:700}
-.muted{color:var(--hint)}
-.inv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.inv-slot{height:80px;border-radius:12px;border:1px dashed rgba(255,255,255,.2);background:rgba(255,255,255,.04)}
-
-/* referral */
-.invite-row{display:flex;gap:8px;margin-bottom:8px}
-.icon-btn{min-width:44px;height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:var(--text)}
-.ref-input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.04);color:var(--text);margin-bottom:8px}
-.stats-row{display:flex;align-items:center;justify-content:space-between;color:var(--hint);margin-top:2px}
-
-/* tabbar */
-.tg-tabbar{position:fixed;left:50%;transform:translateX(-50%);bottom:0;max-width:520px;width:100%;display:flex;gap:8px;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0));background:var(--bg);border-top:var(--border)}
+/* ===== Bottom Tab Bar ===== */
+.tg-tabbar{
+  position:fixed;left:50%;transform:translateX(-50%);
+  bottom:0;max-width:520px;width:100%;display:flex;gap:8px;
+  padding:8px 12px calc(8px + env(safe-area-inset-bottom,0));background:var(--bg);border-top:var(--border)
+}
 .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 6px;border-radius:12px;background:var(--sec);border:var(--border);color:var(--text)}
 .tab-btn.active{outline:2px solid rgba(122,162,255,.65);border-color:transparent}
-.ic{font-size:16px}.lb{font-size:12px;color:var(--hint)}
+.ic{font-size:16px;line-height:1}
+.lb{font-size:12px;color:var(--hint)}
 
-.screen{display:none}.screen.active{display:block}
+/* Screens */
+.screen{display:none}
+.screen.active{display:block}
