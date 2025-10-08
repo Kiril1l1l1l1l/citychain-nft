@@ -1,65 +1,456 @@
-﻿:root {
-  --bg: var(--tg-theme-bg-color, #0f1114);
-  --text: var(--tg-theme-text-color, #e7e9ee);
-  --hint: var(--tg-theme-hint-color, #9aa3aa);
-  --btn: var(--tg-theme-button-color, #2a7fff);
-  --btn-text: var(--tg-theme-button-text-color, #fff);
-  --sec: var(--tg-theme-secondary-bg-color, #171a1f);
-  --elev: 0 6px 14px rgba(0,0,0,.28), 0 2px 6px rgba(0,0,0,.18);
-  --br: 14px;
-  --border: 1px solid rgba(255,255,255,.06);
-  --tabbar-h: 72px;
+﻿:root{--vh:1vh;--tg-bg:var(--tg-theme-bg-color,#0f0f0f);--tg-tx:var(--tg-theme-text-color,#fff)}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--tg-bg);color:var(--tg-tx);-webkit-tap-highlight-color:transparent}
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+#app,.app,.root,.page{width:100vw;height:calc(var(--vh)*100)}
+@supports(height:100dvh){#app,.app,.root,.page{height:100dvh}}
+.app{display:flex;flex-direction:column;min-height:0}
+.header{flex:0 0 auto}
+.content,.tabs,.tab-content,.page{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
+.container,.wrap,.wrapper{max-width:none!important;width:100%!important;margin:0!important;padding:0 var(--page-hpad,12px)}
+.tab,.tab-pane,.screen{display:none;flex:1 1 auto;min-height:0}
+.tab.active,.tab-pane.active,.screen.active{display:flex}
+.center,.centered{flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center}
+.map,.map-wrap,#map,.map-container{position:relative;flex:1 1 auto;min-height:0;width:100%;display:flex}
+.map img,.map-wrap img,#map img,.map-container img{width:100%;height:100%;object-fit:contain;display:block}
+button,.btn{background:var(--tg-theme-button-color,#2481cc);color:var(--tg-theme-button-text-color,#fff);border:0;border-radius:12px;padding:10px 14px;font:inherit}
+a{color:var(--tg-theme-link-color,#61dafb);text-decoration:none}
+/* убираем ограничение ширины, чтобы занять всю область */
+#app {
+  max-width: none !important;
+  width: 100vw !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.tg-tabbar {
+  max-width: none !important;
+  left: 0 !important;
+  transform: none !important;
+  width: 100vw !important;
 }
 
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial}
-#app{max-width:520px;min-height:100vh;margin:0 auto;padding-bottom:calc(var(--tabbar-h) + env(safe-area-inset-bottom,0))}
+/* hard overrides to stretch content full width */
+.content{padding-left:0!important;padding-right:0!important}
+.surface{padding-left:0!important;padding-right:0!important;margin-left:0!important;margin-right:0!important;border-radius:0!important}
+.map-wrap{padding:0!important;background:transparent!important;border-radius:0!important}
+html,body{overflow-x:hidden}
+/* === FONT FIX (force Cyrillic-capable stack) === */
+html, body, * {
+  font-family: "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif !important;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+/* FONT FIX: кириллица */
+html, body, * { font-family: "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif !important;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
-/* topbar */
-.tg-topbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:10px 12px calc(10px + env(safe-area-inset-top,0)) 12px;background:var(--sec);border-bottom:var(--border)}
-.balance-chip{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:var(--border);border-radius:999px;padding:6px 10px}
-.balance-chip span{opacity:.75}
+/* FULL WIDTH CONTAINER */
+html,body{margin:0!important;padding:0!important;overflow-x:hidden!important;background:#0d0d0d!important}
+#app{max-width:none!important;width:100%!important;min-height:100vh;margin:0!important;padding:0!important}
 
-/* content/cards */
-.content{padding:12px}
-.surface{background:var(--sec);border:var(--border);border-radius:var(--br);box-shadow:var(--elev);padding:12px;margin-bottom:16px}
-.section-title{margin:4px 2px 10px 2px;font-size:16px}
+/* MAP EDGELESS */
+.content{padding-left:0!important;padding-right:0!important}
+.surface{padding-left:0!important;padding-right:0!important;margin-left:0!important;margin-right:0!important;border-radius:0!important;border:0!important}
+.map-wrap{padding:0!important;background:transparent!important;border-radius:0!important}
+/* ====== Desktop-centered column ====== */
+@media (min-width: 900px){
+  /* ширина колонки под «телефон»: можно регулировать */
+   :root{ --phone-col-w: 720px; } }
 
-/* map */
-.map-card{border-radius:var(--br);overflow:hidden;border:var(--border)}
-.map-wrap{width:100%;display:flex;align-items:center;justify-content:center;padding:10px;background:#0b0d10;border-radius:calc(var(--br) - 2px)}
-.map-wrap img{display:block;max-width:100%;height:auto;object-fit:contain;margin:0 auto;transform:none !important}
+  /* главный контейнер — растягиваем, но центрируем внутренности */
+  #app, .app { display:flex; flex-direction:column; align-items:center; }
 
-/* profile hero */
-.profile-hero{display:flex;flex-direction:column;align-items:center;gap:10px;margin:8px 0 14px}
-.avatar-lg{width:96px;height:96px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06)}
-.profile-username{font-weight:700;font-size:18px}
+  /* всё основное содержимое ограничиваем и центрируем */
+  .header, .toolbar, .content, .tabs, .tab-content, .page, .screen, .screen.active,
+  .surface, .map-card, .center, .centered {
+    max-width: var(--phone-col-w) !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
 
-/* cta row */
-.cta-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.btn-primary{background:var(--btn);color:var(--btn-text);border:0;border-radius:12px;padding:12px 12px;font-weight:700}
-.btn-outline{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:12px 12px;font-weight:700}
-.btn-outline.full{width:100%;margin-top:10px}
-.btn-primary:active,.btn-outline:active{transform:translateY(1px);opacity:.95}
+  /* нижняя панель вкладок — как у телефона, по центру */
+  .tg-tabbar{
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    max-width: var(--phone-col-w) !important;
+    width: 100% !important;
+  }
 
-/* profile cards */
-.profile-card{background:rgba(255,255,255,.03);border:var(--border);border-radius:var(--br);padding:12px;margin-bottom:12px}
-.card-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.link-btn{background:transparent;color:var(--btn);border:0;font-weight:700}
-.muted{color:var(--hint)}
-.inv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.inv-slot{height:80px;border-radius:12px;border:1px dashed rgba(255,255,255,.2);background:rgba(255,255,255,.04)}
+  /* карта внутри карточки занимает всю «телефонную» колонку */
+  .map-wrap, #map, .map-container { width: 100% !important; }
+  .map-wrap img, #map img, .map-container img{ width:100%; height:auto; object-fit:contain; }
+}
+/* ====== /Desktop-centered column ====== */
+/* === Desktop centered phone column === */
+@media (min-width: 900px){
+   :root{ --phone-col-w: 720px; } } /* поменяй ширину, если нужно */
 
-/* referral */
-.invite-row{display:flex;gap:8px;margin-bottom:8px}
-.icon-btn{min-width:44px;height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:var(--text)}
-.ref-input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.04);color:var(--text);margin-bottom:8px}
-.stats-row{display:flex;align-items:center;justify-content:space-between;color:var(--hint);margin-top:2px}
+  /* любой блок с этим классом становится «колонкой телефона» */
+  .phone-col{
+    max-width: var(--phone-col-w) !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
 
-/* tabbar */
-.tg-tabbar{position:fixed;left:50%;transform:translateX(-50%);bottom:0;max-width:520px;width:100%;display:flex;gap:8px;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0));background:var(--bg);border-top:var(--border)}
-.tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 6px;border-radius:12px;background:var(--sec);border:var(--border);color:var(--text)}
-.tab-btn.active{outline:2px solid rgba(122,162,255,.65);border-color:transparent}
-.ic{font-size:16px}.lb{font-size:12px;color:var(--hint)}
+  /* часто встречающиеся секции — тоже центрируем, если они вне .phone-col */
+  .header, .tg-topbar, .toolbar{
+    max-width: var(--phone-col-w) !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
 
-.screen{display:none}.screen.active{display:block}
+  /* нижний таббар как у телефона по центру */
+  .tg-tabbar{
+    position: fixed !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    max-width: var(--phone-col-w) !important;
+    width: 100% !important;
+  }
+
+  /* изображения внутри колонки не вылазят */
+  .phone-col img{ max-width:100% !important; height:auto !important; object-fit:contain; }
+
+  /* карта заполняет колонку */
+  .phone-col .map-wrap,
+  .phone-col #map,
+  .phone-col .map-container{ width:100% !important; }
+}
+/* === /Desktop centered phone column === */
+/* ===== Desktop phone-like centered column ===== */
+@media (min-width: 900px){
+   :root{ --phone-col-w: 720px; } } /* ширина колонки на десктопе */
+
+  /* Центрируем весь документ: без изменения HTML */
+  html, body { height: 100%; }
+  body{ display:flex !important; flex-direction:column !important; align-items:center !important; }
+
+  /* Главный контейнер приложения — ограничиваем ширину и центрируем */
+  #app, .app, .root, .page, .content {
+    max-width: var(--phone-col-w) !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* Нижний таббар также по центру и той же ширины */
+  .tg-tabbar{
+    position: fixed !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    max-width: var(--phone-col-w) !important;
+    width: 100% !important;
+  }
+
+  /* Карта и изображения внутри — не вылазят за колонку */
+  .map-wrap, #map, .map-container{ width:100% !important; }
+  .map-wrap img, #map img, .map-container img{ max-width:100% !important; height:auto !important; object-fit:contain; }
+}
+/* ===== /Desktop phone-like centered column ===== */
+/* === Desktop centered phone frame (жёстко) === */
+@media (min-width: 900px){
+   :root{ --phone-col-w: 720px; } } /* ширина "экрана телефона" */
+
+  html, body{ height:100%; }
+  body{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+  }
+
+  /* обёртка вокруг приложения */
+  #phone-frame{
+    width:100% !important;
+    max-width:var(--phone-col-w) !important;
+    margin:0 auto !important;
+    min-height:100vh;
+    position:relative;
+  }
+
+  /* нижний таббар — по центру и той же ширины */
+  .tg-tabbar{
+    position:fixed !important;
+    left:50% !important;
+    transform:translateX(-50%) !important;
+    max-width:var(--phone-col-w) !important;
+    width:100% !important;
+  }
+
+  /* карта/контент не вылазят за рамки */
+  .map-wrap, #map, .map-container{ width:100% !important; }
+  .map-wrap img, #map img, .map-container img{ max-width:100% !important; height:auto !important; object-fit:contain; }
+}
+/* ==== PHONE FRAME LAYOUT v2 ==== */
+ :root{ --phone-col-w: 720px; } } /* ширина колонки на десктопе (поменяй при желании) */
+
+@media (min-width: 900px){
+  html, body { height:100%; }
+  /* центрируем всю страницу, чтобы не зависеть от внутренней разметки */
+  body{
+    display:grid !important;
+    place-items:center !important; /* по центру и по вертикали */
+    grid-template-rows: 1fr;
+    background:#0d0d0d;
+  }
+
+  /* обёртка вокруг приложения («экран телефона») */
+  #phone-frame{
+    width:100% !important;
+    max-width:var(--phone-col-w) !important;
+    min-height:100vh;
+    margin:0 auto !important;
+    position:relative;
+  }
+
+  /* на случай, если нужно прижать к верху (переключается классом .top-mode) */
+  #phone-frame.top-mode{
+    align-self:start !important;
+    margin-top:24px !important;
+  }
+
+  /* нижний таббар — по центру экрана */
+  .tg-tabbar, .tabbar, .tabs-bar, .bottom-nav{
+    position:fixed !important;
+    left:50% !important;
+    transform:translateX(-50%) !important;
+    bottom:12px !important;
+    max-width:var(--phone-col-w) !important;
+    width:100% !important;
+    z-index: 1000;
+  }
+
+  /* контент и карта внутри — не вылазят за колонку */
+  .content, .page, .surface, .map-card, .map-wrap, #map, .map-container{
+    max-width:var(--phone-col-w) !important;
+    width:100% !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+  }
+  .map-wrap img, #map img, .map-container img{
+    max-width:100% !important;
+    height:auto !important;
+    object-fit:contain !important;
+  }
+}
+/* ==== /PHONE FRAME LAYOUT v2 ==== */
+
+/* ==== HARD DESKTOP CENTER (720px) ==== */
+@media (min-width: 900px){
+  html,body{height:100%}
+  body{
+    display:grid !important;
+    justify-items:center !important;
+    align-items:start !important;  /* прижатие к верху */
+    background:#0d0d0d;
+  }
+  /* главный фрейм и все основные секции ограничиваем и центрируем */
+  #phone-frame, #app, .app, .content, .page, .surface, .map-card{
+    max-width:720px !important;
+    width:100% !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+  }
+  /* нижняя панель */
+  .tg-tabbar, .bottom-nav, .tabs-bar{
+    position:fixed !important;
+    left:50% !important; transform:translateX(-50%) !important;
+    bottom:12px !important;
+    max-width:720px !important; width:100% !important;
+    z-index:1000;
+  }
+  /* карта */
+  .map-wrap, #map, .map-container{ width:100% !important; }
+  .map-wrap img, #map img, .map-container img{
+    width:100% !important; height:auto !important; object-fit:contain !important;
+  }
+}
+/* ==== /HARD DESKTOP CENTER ==== */
+/* ==== FINAL CENTER FIX ==== */
+@media (min-width: 900px){
+  body, html, #app, .app, .content, .page, #phone-frame {
+    margin: 0 auto !important;
+    max-width: 720px !important;
+    width: 100% !important;
+    display: block !important;
+  }
+  #phone-frame, .app {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: start !important;
+  }
+  .map-wrap, #map {
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 auto !important;
+  }
+}
+/* ==== /FINAL CENTER FIX ==== */
+/* === CENTER LAYOUT FINAL === */
+@media (min-width:900px){
+  body { display:flex !important; justify-content:center !important; align-items:flex-start !important; background:#0d0d0d; }
+  #phone-frame{ max-width:860px !important; width:100% !important; margin:24px auto 96px !important; }
+  #app, .app, .content, .page, .surface{
+    max-width:860px !important; width:100% !important; margin-left:auto !important; margin-right:auto !important; display:block !important;
+  }
+  .tg-tabbar, .bottom-nav, .tabs-bar{
+    position:fixed !important; left:50% !important; transform:translateX(-50%) !important;
+    bottom:12px !important; max-width:860px !important; width:100% !important; z-index:1000;
+  }
+  .map-wrap, #map, .map-container{ width:100% !important; }
+  .map-wrap img, #map img, .map-container img{ max-width:100% !important; height:auto !important; object-fit:contain !important; }
+}
+@media (max-width:899.98px){
+  #phone-frame, #app, .app, .content, .page, .surface{ max-width:none !important; width:100% !important; margin:0 !important; }
+}
+/* === /CENTER LAYOUT FINAL === */
+/* === CENTER LAYOUT FINAL === */
+@media (min-width:900px){
+  body { display:flex !important; justify-content:center !important; align-items:flex-start !important; background:#0d0d0d; }
+  #phone-frame{ max-width:860px !important; width:100% !important; margin:24px auto 96px !important; }
+  #app, .app, .content, .page, .surface{
+    max-width:860px !important; width:100% !important; margin-left:auto !important; margin-right:auto !important; display:block !important;
+  }
+  .tg-tabbar, .bottom-nav, .tabs-bar{
+    position:fixed !important; left:50% !important; transform:translateX(-50%) !important;
+    bottom:12px !important; max-width:860px !important; width:100% !important; z-index:1000;
+  }
+  .map-wrap, #map, .map-container{ width:100% !important; }
+  .map-wrap img, #map img, .map-container img{ max-width:100% !important; height:auto !important; object-fit:contain !important; }
+}
+@media (max-width:899.98px){
+  #phone-frame, #app, .app, .content, .page, .surface{ max-width:none !important; width:100% !important; margin:0 !important; }
+}
+/* === /CENTER LAYOUT FINAL === */
+/* === MOBILE FULL FIX === */
+@media (max-width: 899px){
+  html, body, #app, .app, .content, .page, .surface, #phone-frame {
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  body {
+    display: block !important;
+    background: #000 !important;
+  }
+  .map-wrap, #map, .map-container {
+    width: 100% !important;
+    height: auto !important;
+  }
+  .map-wrap img, #map img, .map-container img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+}
+/* === /MOBILE FULL FIX === */
+/* ======= CityChainNFT • Mobile-first UI ======= */
+/* База: убираем поля, включаем безопасные зоны */
+html,body{margin:0!important;padding:0!important;background:#0d0d0d;color:#fff;overscroll-behavior:none}
+:root{
+  --gap: 12px;
+  --radius: 16px;
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+}
+
+/* Контейнер приложения: на телефоне во всю ширину, с учётом safe-areas */
+#app, .app{
+  width:100%!important; max-width:none!important;
+  min-height:100svh; /* корректная ед.высоты на мобилках */
+  padding: calc(var(--safe-top) + 8px) var(--gap) calc(var(--safe-bottom) + 88px); /* место под таббар */
+  box-sizing: border-box;
+}
+
+/* КАРТА: всегда вписывается, без горизонтального скролла */
+.map-wrap, #map, .map-container{ width:100%!important; height:auto!important; margin:0 auto!important }
+.map-wrap img, #map img, .map-container img{ width:100%!important; height:auto!important; object-fit:contain!important; border-radius: var(--radius) }
+
+/* КНОПКИ/Табы: крупные тап-зоны */
+button, .btn{min-height:44px;font-size:16px;border-radius:12px}
+.tg-tabbar, .bottom-nav, .tabs-bar{
+  position:fixed!important; left:0; right:0; bottom:0;
+  padding: 8px calc(var(--gap)) calc(var(--safe-bottom) + 8px);
+  display:flex; gap:8px; justify-content:center; align-items:center;
+  background: linear-gradient(180deg, rgba(13,13,13,.0), rgba(13,13,13,.85));
+  backdrop-filter: blur(6px);
+  z-index:1000;
+}
+.tg-tabbar > *, .bottom-nav > *, .tabs-bar > *{ flex:1 1 auto; max-width:160px }
+
+/* Десктоп: просто аккуратно по центру (можно поменять ширину) */
+@media (min-width: 900px){
+  body{display:flex!important; justify-content:center!important; align-items:flex-start!important}
+  #phone-frame,#app,.app,.content,.page{max-width:860px!important; width:100%!important; margin:24px auto 120px!important}
+  .tg-tabbar,.bottom-nav,.tabs-bar{left:50%!important; transform:translateX(-50%)!important; max-width:860px!important}
+}
+/* ======= /Mobile-first UI ======= */
+/* === MOBILE OVERRIDE: убираем рамки и отступы для карты === */
+@media (max-width: 899px){
+  /* Убираем паддинги и border у контейнеров карты */
+  .surface, .map-card {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+  /* Вырезаем все внутренние отступы у map-wrap */
+  .map-wrap {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+  }
+  /* Картинка занимает всю ширину */
+  .map-wrap img, .map-container img, #map img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+}
+/* === SAFE-AREAS + CENTERING === */
+:root{
+  --safe-left: env(safe-area-inset-left);
+  --safe-right: env(safe-area-inset-right);
+}
+#app, .app {
+  padding-left: calc(var(--safe-left) + var(--gap, 12px)) !important;
+  padding-right: calc(var(--safe-right) + var(--gap, 12px)) !important;
+}
+
+/* мобильная версия: убираем маргины и бордеры у карточки карты */
+@media (max-width: 899px){
+  .surface, .map-card {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+  .map-wrap {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    background: transparent !important;
+  }
+  /* чтобы изображение карты занимало всю ширину */
+  .map-wrap img, .map-container img, #map img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+  /* нижняя панель: правильные отступы */
+  .tg-tabbar, .tabs-bar, .bottom-nav {
+    padding-left: calc(var(--safe-left) + 12px) !important;
+    padding-right: calc(var(--safe-right) + 12px) !important;
+  }
+}
