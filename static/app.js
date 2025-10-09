@@ -39,3 +39,74 @@ q("#zoomOut").addEventListener("click",()=>{ scale=Math.max(minScale,+(scale-.2)
 
 /* helpers */
 function q(s){ return document.querySelector(s); }
+
+(function(){
+  try{
+    var isTG = !!(window.Telegram && Telegram.WebApp);
+    if (isTG) {
+      document.documentElement.classList.add("in-tg");
+      Telegram.WebApp.ready();
+      Telegram.WebApp.expand();
+    }
+  }catch(e){ console.warn("tg init warn", e); }
+})();
+document.addEventListener("DOMContentLoaded", function(){
+  try{
+    document.querySelectorAll("img").forEach(i => i.setAttribute("draggable","false"));
+  }catch(e){}
+
+  try{
+    // мягкая чистка: заменим явные  в коротких текстовых узлах
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+    let n; const re = / \s*/g;
+    while(n = walker.nextNode()){
+      if(n.nodeValue && re.test(n.nodeValue) && n.nodeValue.length <= 64){
+        n.nodeValue = n.nodeValue.replace(re, "");
+      }
+    }
+  }catch(e){ console.warn("cleanup  :", e); }
+});
+(function(){
+  try{
+    var isTG = !!(window.Telegram && Telegram.WebApp);
+    if(isTG){
+      document.documentElement.classList.add("in-tg");
+      Telegram.WebApp.ready(); Telegram.WebApp.expand();
+    }
+  }catch(e){}
+  // Сделать все изображения недраггибельными
+  document.addEventListener("DOMContentLoaded", function(){
+    try{ document.querySelectorAll("img").forEach(i => i.setAttribute("draggable","false")); }catch(e){}
+    // Удалить визуальные ``  `` в текстовых узлах (иногда просачиваются из сборки)
+    try{
+      const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+      let n; const re = / \s*/g;
+      while(n = w.nextNode()){
+        if(n.nodeValue && re.test(n.nodeValue)){
+          n.nodeValue = n.nodeValue.replace(re, "");
+        }
+      }
+    }catch(e){}
+  });
+})();
+
+document.addEventListener("DOMContentLoaded", function () {
+  try {
+    // Подписываем нижние кнопки вкладок, если они есть
+    const navButtons = document.querySelectorAll(".tg-tabbar button, nav.tg-tabbar button, .tabs-bar button");
+    if (navButtons.length >= 3) {
+      navButtons[0].textContent = "Магазин";
+      navButtons[1].textContent = "Карта";
+      navButtons[2].textContent = "Профиль";
+    }
+    // Удаляем все повторяющиеся знаки вопроса и слово «деньги» в интерфейсе
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    let n;
+    while ((n = walker.nextNode())) {
+      n.nodeValue = n.nodeValue.replace(/\?{2,}/g, "").replace(/деньги/gi, "");
+    }
+  } catch (e) {
+    console.warn("UI cleanup error:", e);
+  }
+});
+

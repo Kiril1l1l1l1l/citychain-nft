@@ -19,7 +19,7 @@
 }
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial}
-#app{max-width:520px;min-height:100vh;margin:0 auto;padding-bottom:calc(var(--tabbar-h) + env(safe-area-inset-bottom,0))}
+#app{max-width: 100%;min-height:100vh;margin:0 auto;padding-bottom:calc(var(--tabbar-h) + env(safe-area-inset-bottom,0))}
 
 /* ===== Top App Bar ===== */
 .tg-topbar{
@@ -75,7 +75,7 @@ html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font:14px/
 /* ===== Bottom Tab Bar ===== */
 .tg-tabbar{
   position:fixed;left:50%;transform:translateX(-50%);
-  bottom:0;max-width:520px;width:100%;display:flex;gap:8px;
+  bottom:0;max-width: 100%;width:100%;display:flex;gap:8px;
   padding:8px 12px calc(8px + env(safe-area-inset-bottom,0));background:var(--bg);border-top:var(--border)
 }
 .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 6px;border-radius:12px;background:var(--sec);border:var(--border);color:var(--text)}
@@ -86,3 +86,191 @@ html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font:14px/
 /* Screens */
 .screen{display:none}
 .screen.active{display:block}
+
+.world-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px;
+}
+.world{
+  font-size:16px;
+  font-weight:600;
+}
+.menu-btn{
+  font-size:24px;
+  line-height:1;
+  color:var(--text);
+  cursor:pointer;
+}
+/* === MOBILE MAP CENTER === */
+@media (max-width: 899px) {
+  /* Внешняя карточка карты */
+  .map-card {
+    width: 92% !important;
+    max-width: 92% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border-radius: var(--radius, 16px) !important;
+    border: none !important;
+    background: var(--sec, rgba(255,255,255,0.03)) !important;
+  }
+  /* Внутренний контейнер карты */
+  .map-wrap {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+}
+/* === TG MOBILE CENTER === */
+html.in-tg @media (max-width: 899px){}
+/* Обход ограничения парсера: правила ниже применятся при .in-tg и ширине <900px */
+@media (max-width: 899px){
+  html.in-tg body{
+    margin:0!important; padding:0!important; background:#0d0d0d;
+  }
+  html.in-tg #app, html.in-tg .app{
+    /* симметричные поля с учётом безопасных зон */
+    padding-left:  max(12px, env(safe-area-inset-left)) !important;
+    padding-right: max(12px, env(safe-area-inset-right)) !important;
+    padding-top:   max(8px,  env(safe-area-inset-top)) !important;
+    padding-bottom:max(88px, env(safe-area-inset-bottom) + 88px) !important; /* место под таббар */
+  }
+  /* карточка карты — ровно по центру, чуть уже экрана */
+  html.in-tg .map-card, html.in-tg .surface{
+    width:94% !important;
+    max-width:94% !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    border:none !important;
+    border-radius:16px !important;
+    background: rgba(255,255,255,.04) !important; /* мягкий фон как на фото 1 */
+    padding-left:0 !important; padding-right:0 !important;
+  }
+  /* сам контейнер карты — без внутренних боковых отступов */
+  html.in-tg .map-wrap{ margin:0 !important; padding:0 !important; width:100% !important; }
+  html.in-tg .map-wrap img, html.in-tg #map img, html.in-tg .map-container img{
+    width:100% !important; height:auto !important; object-fit:contain !important;
+  }
+  /* нижний таббар — по центру и с симметричными отступами */
+  html.in-tg .tg-tabbar, html.in-tg .tabs-bar, html.in-tg .bottom-nav{
+    position:fixed!important; left:0; right:0; bottom:0;
+    padding: 8px max(12px, env(safe-area-inset-left)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-right));
+    display:flex; gap:8px; justify-content:center; align-items:center;
+    background: linear-gradient(180deg, rgba(13,13,13,0), rgba(13,13,13,.85));
+    backdrop-filter: blur(6px);
+    z-index: 1000;
+  }
+}
+/* === NO DRAG + TOUCH TUNING === */
+img { -webkit-user-drag: none !important; user-select: none !important; }
+.map-wrap, .map-container, #map {
+  overflow: hidden !important;
+  touch-action: pan-y !important; /* только вертикальная прокрутка страницы */
+}
+html, body { overscroll-behavior: none; } /* без «пружины» на iOS */
+@media (max-width: 899px){
+  .map-wrap img, .map-container img, #map img { pointer-events: none !important; }
+}
+/* === TG MOBILE POLISH (section + map full width) === */
+@media (max-width: 899px){
+  /* контейнер приложения — симметричные поля */
+  html.in-tg #app, html.in-tg .app{
+    padding-left:  max(16px, env(safe-area-inset-left)) !important;
+    padding-right: max(16px, env(safe-area-inset-right)) !important;
+    padding-top:   max(8px,  env(safe-area-inset-top)) !important;
+    padding-bottom:max(88px, env(safe-area-inset-bottom) + 88px) !important;
+  }
+
+  /* секция ("карта") — как на эталоне: мягкая карточка + равные поля */
+  html.in-tg .surface{
+    background: rgba(255,255,255,.04) !important;
+    border-radius: 16px !important;
+    padding: 16px !important;
+    margin: 16px 0 !important;
+  }
+
+  /* сама карточка карты — НЕ 94%, а ровно 100% ширины секции */
+  html.in-tg .map-card{
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    border: none !important;
+    border-radius: 12px !important;
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  /* контейнер и изображение карты */
+  html.in-tg .map-wrap{ margin:0 !important; padding:0 !important; width:100% !important; }
+  html.in-tg .map-wrap img, html.in-tg #map img, html.in-tg .map-container img{
+    width:100% !important; height:auto !important; object-fit:contain !important;
+  }
+
+  /* таббар снизу — симметричные поля */
+  html.in-tg .tg-tabbar, html.in-tg .tabs-bar, html.in-tg .bottom-nav{
+    position:fixed!important; left:0; right:0; bottom:0;
+    padding: 8px max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-right));
+    display:flex; gap:8px; justify-content:center; align-items:center;
+    background: linear-gradient(180deg, rgba(13,13,13,0), rgba(13,13,13,.85));
+    backdrop-filter: blur(6px);
+    z-index: 1000;
+  }
+
+  /* запрет перетаскивания картинки и горизонтального скролла */
+  img { -webkit-user-drag:none !important; user-select:none !important; }
+  html.in-tg .map-wrap, html.in-tg .map-container, html.in-tg #map { overflow:hidden!important; touch-action: pan-y !important; }
+}
+html, body { overscroll-behavior: none; }
+/* === TG DESKTOP POLISH === */
+@media (min-width: 900px){
+  html.in-tg body{
+    display:flex!important; justify-content:center!important; background:#0d0d0d;
+  }
+  html.in-tg #app, html.in-tg .app{
+    width:100%; max-width: 880px; margin: 0 auto;
+    padding: 16px 16px 120px !important;
+  }
+  html.in-tg .surface{
+    margin: 16px auto !important;
+    background: rgba(255,255,255,.04) !important;
+    border-radius: 16px !important;
+    padding: 16px !important;
+  }
+  html.in-tg .map-card{
+    width:100% !important; max-width:100% !important;
+    margin:0 !important; padding:0 !important; border:none !important; background:transparent !important;
+  }
+  html.in-tg .map-wrap{ width:100%!important; margin:0!important; padding:0!important; }
+  html.in-tg .map-wrap img{ width:100%!important; height:auto!important; object-fit:contain!important; }
+}
+/* запрет горизонтального драг/скролла карты */
+img{-webkit-user-drag:none!important; user-select:none!important;}
+html.in-tg .map-wrap, html.in-tg .map-container, html.in-tg #map{ overflow:hidden!important; touch-action: pan-y!important; }
+html,body{overscroll-behavior:none;}
+/* === TG DESKTOP POLISH === */
+@media (min-width: 900px){
+  html.in-tg body{
+    display:flex!important; justify-content:center!important; background:#0d0d0d;
+  }
+  html.in-tg #app, html.in-tg .app{
+    width:100%; max-width: 880px; margin: 0 auto;
+    padding: 16px 16px 120px !important;
+  }
+  html.in-tg .surface{
+    margin: 16px auto !important;
+    background: rgba(255,255,255,.04) !important;
+    border-radius: 16px !important;
+    padding: 16px !important;
+  }
+  html.in-tg .map-card{
+    width:100% !important; max-width:100% !important;
+    margin:0 !important; padding:0 !important; border:none !important; background:transparent !important;
+  }
+  html.in-tg .map-wrap{ width:100%!important; margin:0!important; padding:0!important; }
+  html.in-tg .map-wrap img{ width:100%!important; height:auto!important; object-fit:contain!important; }
+}
+/* запрет горизонтального драг/скролла карты */
+img{-webkit-user-drag:none!important; user-select:none!important;}
+html.in-tg .map-wrap, html.in-tg .map-container, html.in-tg #map{ overflow:hidden!important; touch-action: pan-y!important; }
+html,body{overscroll-behavior:none;}
