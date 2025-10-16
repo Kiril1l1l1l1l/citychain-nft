@@ -1,4 +1,4 @@
-/* ===== Theme bridge (uses Telegram theme params if available) ===== */
+﻿/* ===== Theme bridge (uses Telegram theme params if available) ===== */
 :root{
   --bg: var(--tg-theme-bg-color, #0f1114);
   --text: var(--tg-theme-text-color, #e7e9ee);
@@ -375,72 +375,4 @@ html,body{overscroll-behavior:none;}
 @media (min-width:900px){
   html.in-tg #app{max-width:880px;margin:0 auto;padding:16px 16px 120px}
   html.in-tg .surface{margin:16px auto}
-}
-
-/* ==== APPEND: карта центр/вписывание + профиль ==== */
-:root{ --topbar-h:64px; --tabbar-h:82px; --sec: var(--tg-theme-secondary-bg-color,#181b20); --text: var(--tg-theme-text-color,#e7e9ee); --hint:#9aa3aa; --br:16px; --border:1px solid rgba(255,255,255,.06) }
-#app{ max-width:100%; margin:0 auto; padding-bottom:calc(var(--tabbar-h) + env(safe-area-inset-bottom,0)) }
-.world-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.section-title{margin:6px 2px 10px 2px;font-size:16px}
-
-.map-card{position:relative;border-radius:var(--br);overflow:hidden;border:var(--border);background:var(--sec)}
-.map-wrap{width:100%;height:calc(100dvh - var(--topbar-h) - var(--tabbar-h) - 140px);min-height:260px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#0b0d10}
-.map-wrap img{max-width:100%;max-height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none;touch-action:pan-y;will-change:transform}
-.zoom-controls{position:absolute;right:10px;bottom:10px;display:flex;flex-direction:column;gap:8px;z-index:10}
-.fab{width:42px;height:42px;border-radius:12px;border:0;background:rgba(255,255,255,.12);color:var(--text);backdrop-filter:saturate(140%) blur(6px)}
-
-.tg-tabbar{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;justify-content:center;padding:10px max(14px,env(safe-area-inset-left)) max(14px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-right));background:linear-gradient(180deg,rgba(13,13,13,0),rgba(13,13,13,.85));backdrop-filter:blur(6px);z-index:1000;border-top:var(--border)}
-.tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px;border-radius:14px;background:var(--sec);border:var(--border);color:var(--text)}
-.tab-btn.active{outline:2px solid rgba(122,162,255,.55);border-color:transparent}
-
-/* профиль */
-.profile-hero{display:flex;flex-direction:column;align-items:center;gap:12px;margin:8px 0 16px}
-.avatar-lg{width:112px;height:112px;border-radius:999px;border:2px solid rgba(255,255,255,.15);background:#000;object-fit:cover}
-.profile-username{font-size:22px;font-weight:800}
-.cta-row{display:flex;gap:10px;margin-bottom:12px}
-.btn-outline,.btn-primary{border-radius:12px;padding:10px 12px;font-weight:700}
-.btn-outline{border:1px solid rgba(255,255,255,.18);background:transparent;color:var(--text)}
-.btn-primary{border:0;background:var(--tg-theme-button-color,#2a7fff);color:var(--tg-theme-button-text-color,#fff)}
-.profile-card{background:rgba(255,255,255,.04);border:var(--border);border-radius:16px;padding:14px;margin:12px 0}
-.card-title-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.inv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.inv-slot{aspect-ratio:1/1;border-radius:12px;background:rgba(255,255,255,.06);border:var(--border)}
-
-@media (max-width:899px){
-  html.in-tg .surface{background:rgba(255,255,255,.04);border-radius:16px;padding:16px;margin:16px 0}
-  html.in-tg .map-card{width:100%;max-width:100%;margin:0;border:none;background:transparent}
-  html.in-tg .map-wrap{margin:0;padding:0;width:100%}
-  html.in-tg .map-wrap img{width:100%;height:auto;object-fit:contain}
-}
-@media (min-width:900px){
-  html.in-tg #app{max-width:880px;margin:0 auto;padding:16px 16px 120px}
-  html.in-tg .surface{margin:16px auto}
-}
-
-/* === FONT & BASE === */
-html,body{
-  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,"Noto Sans","Helvetica Neue",sans-serif !important;
-}
-img{ -webkit-user-drag:none !important; user-select:none !important; }
-
-/* === MAP CENTER (mobile) === */
-.map-card{ position:relative; border-radius:14px; overflow:hidden; }
-.map-wrap{
-  width:100%;
-  height:calc(100dvh - 64px - 72px - 140px);
-  min-height:260px;
-  display:flex; align-items:center; justify-content:center;
-  overflow:hidden; background:#0b0d10;
-  border-radius:12px;
-  touch-action:pan-y !important;  /* только вертикальная прокрутка страницы */
-}
-.map-wrap img{
-  max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain;
-  pointer-events:none; will-change:transform;
-}
-@media (max-width:899px){
-  .surface{ background:rgba(255,255,255,.04); border-radius:16px; padding:16px; margin:16px 0; }
-  .map-card{ width:100% !important; max-width:100% !important; margin:0 !important; background:transparent !important; border:none !important; }
-  .map-wrap{ margin:0 !important; padding:0 !important; }
-  .tg-tabbar{ position:fixed; left:0; right:0; bottom:0; padding:8px 16px calc(16px + env(safe-area-inset-bottom,0)); z-index:1000; }
 }

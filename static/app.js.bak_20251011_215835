@@ -1,4 +1,4 @@
-const tg = window.Telegram?.WebApp;
+﻿const tg = window.Telegram?.WebApp;
 if (tg) { tg.ready(); tg.expand(); tg.setHeaderColor("secondary_bg_color"); tg.onEvent?.("themeChanged",()=>{}); }
 
 /* ---------- Tabs ---------- */
@@ -129,26 +129,3 @@ document.addEventListener("DOMContentLoaded", function () {
     console.warn("UI cleanup error:", e);
   }
 });
-
-//
-// === UI cleanup/labels block ===
-document.addEventListener('DOMContentLoaded', () => {
-  try {
-    // подписи нижних кнопок
-    const navButtons = document.querySelectorAll('.tg-tabbar .tab-btn, nav.tg-tabbar button');
-    if (navButtons.length >= 3) {
-      (navButtons[0].querySelector('.lb')||navButtons[0]).textContent = 'Магазин';
-      (navButtons[1].querySelector('.lb')||navButtons[1]).textContent = 'Карта';
-      (navButtons[2].querySelector('.lb')||navButtons[2]).textContent = 'Профиль';
-    }
-    // чистка «» и слова «деньги»
-    const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-    let n; while(n = w.nextNode()){
-      n.nodeValue = n.nodeValue.replace(/\?{2,}/g,'').replace(/деньги/gi,'');
-    }
-  } catch(e){ console.warn('ui polish warn', e); }
-});
-
-
-/* touch tuning */
-try{document.querySelectorAll('.map-wrap,.map-container,#map').forEach(e=>e.style.touchAction='pan-y');}catch(e){}

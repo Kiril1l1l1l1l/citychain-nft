@@ -1,0 +1,163 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <title>Metropolis</title>
+  <link rel="stylesheet" href=./static/styles.css?v=1759774191 />
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <div id="app">
+    <header class="tg-topbar">
+      <div class="left"></div>
+      <div class="right">
+        <div class="balance-chip">
+          <span>������</span><b id="balance">100000</b>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <!-- ������� -->
+      <section id="screen-store" class="screen">
+        <div class="surface">
+          <h2 class="section-title">�������</h2>
+          <div class="empty">����� �������� ?</div>
+        </div>
+      </section>
+
+      <!-- ����� -->
+      <section id="screen-map" class="screen active">
+        <div class="surface"> <div class="world-row"> <span class="world">Metropolis</span> <div class="balance-chip">Баланс <b id="balance">100000</b></div> </div>
+          <h2 class="section-title">�����</h2>
+          <div class="map-card">
+            <div class="map-wrap">
+              <img id="mapImg" src="./static/map.png" alt="�����" draggable="false" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ������� -->
+      <section id="screen-profile" class="screen">
+        <div class="surface">
+          <h2 class="section-title">�������</h2>
+
+          <!-- �����-���� -->
+          <div class="profile-hero">
+            <img id="profileAvatar" class="avatar-lg" src="" alt="Avatar" />
+            <div id="profileName" class="profile-username">��� ������������</div>
+          </div>
+
+          <!-- ������� �������� -->
+          <div class="cta-row">
+            <button class="btn-outline" id="cryptoTopup">��������� ?</button>
+          </div>
+
+          <!-- ��������� -->
+          <div class="profile-card">
+            <div class="card-title-row">
+              <h3>��������� <span class="muted" id="invCount">(0)</span></h3>
+              <button class="link-btn" id="sellAll">������� ���</button>
+            </div>
+            <div class="inv-grid">
+              <div class="inv-slot"></div>
+              <div class="inv-slot"></div>
+              <div class="inv-slot"></div>
+            </div>
+          </div>
+
+          <!-- ����������� ������� -->
+          <div class="profile-card">
+            <div class="card-title-row">
+              <h3>������������� 10% �� ��������� ������</h3>
+              <button class="link-btn" id="termsBtn">�������</button>
+            </div>
+
+            <div class="invite-row">
+              <button class="btn-primary" id="inviteBtn">����������</button>
+            </div>
+
+            <input id="referralLink" class="ref-input" type="text" readonly />
+
+            <div class="stats-row">
+              <div class="stat">������: <b id="balanceStat">0.00 ?</b></div>
+              <div class="stat">���������: <b id="refsStat">0</b></div>
+            </div>
+
+            <button class="btn-outline full" id="withdrawBtn">�����</button>
+          </div>
+
+        </div>
+      </section>
+    </main>
+
+    <!-- ��������� -->
+    <nav class="tg-tabbar">
+    </nav>
+  </div>
+
+  <script type="module" src=./static/app.js?v=1759774191></script>
+<script>
+// custom cleanup script: удаляет ?? и слово 'деньги', подписывает кнопки
+document.addEventListener('DOMContentLoaded', function() {
+  try {
+    // Удаляем повторяющиеся вопросики и слово "деньги"
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    let node;
+    while ((node = walker.nextNode())) {
+      node.nodeValue = node.nodeValue.replace(/\\?{2,}/g, '').replace(/деньги/gi, '');
+    }
+    // Подписываем первые три кнопки нижнего меню
+    const navButtons = document.querySelectorAll('nav button');
+    if (navButtons.length >= 3) {
+      navButtons[0].textContent = 'Магазин';
+      navButtons[1].textContent = 'Карта';
+      navButtons[2].textContent = 'Профиль';
+    }
+  } catch (e) {
+    console.warn('cleanup error:', e);
+  }
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

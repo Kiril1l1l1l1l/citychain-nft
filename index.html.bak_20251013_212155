@@ -1,0 +1,130 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <title>Metropolis</title>
+  <link rel="stylesheet" href=./static/$120251011_220323 />
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <div id="app">
+    <header class="tg-topbar">
+      <div class="left"></div>
+      <div class="right">
+        <div class="balance-chip"><b id="balance">100000</b>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <!--  -->
+      <section id="screen-store" class="screen">
+        <div class="surface">
+          
+          <div class="empty"></div>
+        </div>
+      </section>
+
+      <!--  -->
+      <section id="screen-map" class="screen active">
+        <div class="surface"> <div class="world-row"> <span class="world">Metropolis</span> <div class="balance-chip">Баланс <b id="balance">100000</b></div> </div><div class="map-card">
+            <div class="map-wrap">
+              <img id="mapImg" src="./static/map.png" alt="" draggable="false" />
+            </div>
+<div class="zoom-controls">
+  <button class="fab" id="zoomIn">+</button>
+  <button class="fab" id="zoomOut">−</button>
+</div>
+          </div>
+        </div>
+      </section>
+
+      <!--  -->
+      <section id="screen-profile" class="screen">
+        <div class="surface">
+          
+
+          <!-- - -->
+          <div class="profile-hero">
+            <img id="profileAvatar" class="avatar-lg" src="" alt="Avatar" />
+            <div id="profileName" class="profile-username"> </div>
+          </div>
+
+          <!--   -->
+          <div class="cta-row">
+            <button class="btn-outline" id="cryptoTopup"></button>
+          </div>
+
+          <!--  -->
+          <div class="profile-card">
+            <div class="card-title-row">
+              <h3> <span class="muted" id="invCount">(0)</span></h3>
+              <button class="link-btn" id="sellAll"> </button>
+            </div>
+            <div class="inv-grid">
+              <div class="inv-slot"></div>
+              <div class="inv-slot"></div>
+              <div class="inv-slot"></div>
+            </div>
+          </div>
+
+          <!--   -->
+          <div class="profile-card">
+            <div class="card-title-row">
+              <h3> 10%   </h3>
+              <button class="link-btn" id="termsBtn"></button>
+            </div>
+
+            <div class="invite-row">
+              <button class="btn-primary" id="inviteBtn"></button>
+            </div>
+
+            <input id="referralLink" class="ref-input" type="text" readonly />
+
+            <div class="stats-row">
+              <div class="stat">: <b id="balanceStat">0.00 ?</b></div>
+              <div class="stat">: <b id="refsStat">0</b></div>
+            </div>
+
+            <button class="btn-outline full" id="withdrawBtn"></button>
+          </div>
+
+        </div>
+      </section>
+    </main>
+
+    <!--  -->
+    <nav class="tg-tabbar">
+  <button class="tab-btn tab-store"   data-tab="store"><span class="ic">🛒</span><span class="lb">Профиль</span></button>
+  <button class="tab-btn tab-map active" data-tab="map"><span class="ic">🗺️</span><span class="lb">Карта</span></button>
+  <button class="tab-btn tab-profile" data-tab="profile"><span class="ic">👤</span><span class="lb">Профиль</span></button>
+</nav>
+  </div>
+
+  <script type="module" src=./static/$120251011_220323></script>
+
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+  try{
+    // 1) чистим текстовые узлы от «» и слова "деньги"
+    var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT), n;
+    while(n=w.nextNode()){
+      if(!n.nodeValue) continue;
+      n.nodeValue = n.nodeValue.replace(/\?{2,}/g,"").replace(/деньги/gi,"");
+    }
+    // 2) подписываем нижние табы
+    var btns=document.querySelectorAll(".tg-tabbar button, nav.tg-tabbar button, .tabs-bar button");
+    if(btns.length>=3){
+      btns[0].textContent="Магазин";
+      btns[1].textContent="Карта";
+      btns[2].textContent="Профиль";
+    }
+  }catch(e){ console.warn("cleanup warn",e); }
+});
+</script>
+</body>
+</html>
+
+
+

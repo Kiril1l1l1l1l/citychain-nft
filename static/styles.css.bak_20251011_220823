@@ -1,4 +1,4 @@
-/* ===== Theme bridge (uses Telegram theme params if available) ===== */
+﻿/* ===== Theme bridge (uses Telegram theme params if available) ===== */
 :root{
   --bg: var(--tg-theme-bg-color, #0f1114);
   --text: var(--tg-theme-text-color, #e7e9ee);
@@ -415,32 +415,4 @@ html,body{overscroll-behavior:none;}
 @media (min-width:900px){
   html.in-tg #app{max-width:880px;margin:0 auto;padding:16px 16px 120px}
   html.in-tg .surface{margin:16px auto}
-}
-
-/* === FONT & BASE === */
-html,body{
-  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,"Noto Sans","Helvetica Neue",sans-serif !important;
-}
-img{ -webkit-user-drag:none !important; user-select:none !important; }
-
-/* === MAP CENTER (mobile) === */
-.map-card{ position:relative; border-radius:14px; overflow:hidden; }
-.map-wrap{
-  width:100%;
-  height:calc(100dvh - 64px - 72px - 140px);
-  min-height:260px;
-  display:flex; align-items:center; justify-content:center;
-  overflow:hidden; background:#0b0d10;
-  border-radius:12px;
-  touch-action:pan-y !important;  /* только вертикальная прокрутка страницы */
-}
-.map-wrap img{
-  max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain;
-  pointer-events:none; will-change:transform;
-}
-@media (max-width:899px){
-  .surface{ background:rgba(255,255,255,.04); border-radius:16px; padding:16px; margin:16px 0; }
-  .map-card{ width:100% !important; max-width:100% !important; margin:0 !important; background:transparent !important; border:none !important; }
-  .map-wrap{ margin:0 !important; padding:0 !important; }
-  .tg-tabbar{ position:fixed; left:0; right:0; bottom:0; padding:8px 16px calc(16px + env(safe-area-inset-bottom,0)); z-index:1000; }
 }
