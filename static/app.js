@@ -110,6 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+<<<<<<< HEAD
 document.addEventListener("DOMContentLoaded", function () {
   try {
     // Подписываем нижние кнопки вкладок, если они есть
@@ -152,3 +153,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* touch tuning */
 try{document.querySelectorAll('.map-wrap,.map-container,#map').forEach(e=>e.style.touchAction='pan-y');}catch(e){}
+=======
+>>>>>>> 914d6e406c882eea813739a0647a022f9c5b77c8

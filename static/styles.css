@@ -274,6 +274,7 @@ html,body{overscroll-behavior:none;}
 img{-webkit-user-drag:none!important; user-select:none!important;}
 html.in-tg .map-wrap, html.in-tg .map-container, html.in-tg #map{ overflow:hidden!important; touch-action: pan-y!important; }
 html,body{overscroll-behavior:none;}
+<<<<<<< HEAD
 
 /* ==== APPEND: карта центр/вписывание + профиль-карточки ==== */
 :root{ --topbar-h:64px; --tabbar-h:82px; --sec: var(--tg-theme-secondary-bg-color, #181b20); --text: var(--tg-theme-text-color, #e7e9ee); --hint:#9aa3aa; --br:16px; --border:1px solid rgba(255,255,255,.06); }
@@ -444,3 +445,5 @@ img{ -webkit-user-drag:none !important; user-select:none !important; }
   .map-wrap{ margin:0 !important; padding:0 !important; }
   .tg-tabbar{ position:fixed; left:0; right:0; bottom:0; padding:8px 16px calc(16px + env(safe-area-inset-bottom,0)); z-index:1000; }
 }
+=======
+>>>>>>> 914d6e406c882eea813739a0647a022f9c5b77c8

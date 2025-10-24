@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>CityChainNFT</title>
+  <link rel="stylesheet" href="./styles.css"/>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="title">CityChainNFT</div>
+      <div class="balance-pill">
+        <span>Баланс</span><strong>100000</strong>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="section">
+        <div class="section-head">
+          <div class="sh-left"><strong>Metropolis</strong></div>
+          <div class="sh-right"><span class="pill">Баланс <b>100000</b></span></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Карта</div>
+          <div class="map-box">
+            <img src="./static/map.png" alt="map"/>
+          </div>
+        </div>
+      </section>
+
+      <section class="section hide" id="profile">
+        <div class="profile-head">
+          <img class="avatar" src="./static/avatar-placeholder.png" alt="Avatar"/>
+          <div class="username">Кирилл</div>
+        </div>
+
+        <div class="grid-2">
+          <button class="btn btn-primary">Пополнить</button>
+          <button class="btn btn-ghost">Пополнить</button>
+        </div>
+
+        <div class="card">
+          <div class="row">
+            <div>Инвентарь (0)</div><a class="link">Продать все</a>
+          </div>
+          <div class="inv-grid">
+            <div class="inv-slot"></div>
+            <div class="inv-slot"></div>
+            <div class="inv-slot"></div>
+            <div class="inv-next">›</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="row">
+            <div>Зарабатывайте 10% от депозитов ваших друзей</div>
+            <a class="pill small">Условия</a>
+          </div>
+          <div class="grid-2">
+            <button class="btn btn-primary">Пригласить</button>
+            <button class="btn btn-ghost icon">⧉</button>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="stat">Баланс: <b>0.00</b></div>
+          <button class="btn btn-disabled">Вывод</button>
+        </div>
+
+        <div class="stat">Рефералов: <b>0</b></div>
+      </section>
+    </main>
+
+    <nav class="tabbar">
+      <button data-tab="shop">Магазин</button>
+      <button data-tab="map" class="active">Карта</button>
+      <button data-tab="profile">Профиль</button>
+    </nav>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
