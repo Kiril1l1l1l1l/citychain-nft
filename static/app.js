@@ -1,4 +1,4 @@
-const tg = window.Telegram?.WebApp;
+﻿const tg = window.Telegram?.WebApp;
 if (tg) { tg.ready(); tg.expand(); tg.setHeaderColor("secondary_bg_color"); tg.onEvent?.("themeChanged",()=>{}); }
 
 /* ---------- Tabs ---------- */
@@ -22,7 +22,7 @@ function applyTransform(){ mapImg.style.transform=`translate(${pos.x}px,${pos.y}
 function resetTransform(){ scale=1; pos={x:0,y:0}; applyTransform(); }
 resetTransform();
 
-/* Вписывание не требует панорамирования по умолчанию, но оставим зум и перетаскивание для удобства */
+/* Р’РїРёСЃС‹РІР°РЅРёРµ РЅРµ С‚СЂРµР±СѓРµС‚ РїР°РЅРѕСЂР°РјРёСЂРѕРІР°РЅРёСЏ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ, РЅРѕ РѕСЃС‚Р°РІРёРј Р·СѓРј Рё РїРµСЂРµС‚Р°СЃРєРёРІР°РЅРёРµ РґР»СЏ СѓРґРѕР±СЃС‚РІР° */
 mapWrap.addEventListener("wheel",(e)=>{ e.preventDefault(); const delta=e.deltaY<0?.1:-.1; const old=scale; scale=Math.min(maxScale,Math.max(minScale,+(scale+delta).toFixed(2))); if(scale!==old) applyTransform(); },{passive:false});
 mapWrap.addEventListener("dblclick",()=>{ scale=Math.min(maxScale,+(scale+.5).toFixed(2)); applyTransform(); });
 
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function(){
   }catch(e){}
 
   try{
-    // мягкая чистка: заменим явные  в коротких текстовых узлах
+    // РјСЏРіРєР°СЏ С‡РёСЃС‚РєР°: Р·Р°РјРµРЅРёРј СЏРІРЅС‹Рµ  РІ РєРѕСЂРѕС‚РєРёС… С‚РµРєСЃС‚РѕРІС‹С… СѓР·Р»Р°С…
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
     let n; const re = / \s*/g;
     while(n = walker.nextNode()){
@@ -74,10 +74,10 @@ document.addEventListener("DOMContentLoaded", function(){
       Telegram.WebApp.ready(); Telegram.WebApp.expand();
     }
   }catch(e){}
-  // Сделать все изображения недраггибельными
+  // РЎРґРµР»Р°С‚СЊ РІСЃРµ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РЅРµРґСЂР°РіРіРёР±РµР»СЊРЅС‹РјРё
   document.addEventListener("DOMContentLoaded", function(){
     try{ document.querySelectorAll("img").forEach(i => i.setAttribute("draggable","false")); }catch(e){}
-    // Удалить визуальные ``  `` в текстовых узлах (иногда просачиваются из сборки)
+    // РЈРґР°Р»РёС‚СЊ РІРёР·СѓР°Р»СЊРЅС‹Рµ ``  `` РІ С‚РµРєСЃС‚РѕРІС‹С… СѓР·Р»Р°С… (РёРЅРѕРіРґР° РїСЂРѕСЃР°С‡РёРІР°СЋС‚СЃСЏ РёР· СЃР±РѕСЂРєРё)
     try{
       const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
       let n; const re = / \s*/g;
@@ -92,18 +92,18 @@ document.addEventListener("DOMContentLoaded", function(){
 
 document.addEventListener("DOMContentLoaded", function () {
   try {
-    // Подписываем нижние кнопки вкладок, если они есть
+    // РџРѕРґРїРёСЃС‹РІР°РµРј РЅРёР¶РЅРёРµ РєРЅРѕРїРєРё РІРєР»Р°РґРѕРє, РµСЃР»Рё РѕРЅРё РµСЃС‚СЊ
     const navButtons = document.querySelectorAll(".tg-tabbar button, nav.tg-tabbar button, .tabs-bar button");
     if (navButtons.length >= 3) {
-      navButtons[0].textContent = "Магазин";
-      navButtons[1].textContent = "Карта";
-      navButtons[2].textContent = "Профиль";
+      navButtons[0].textContent = "РњР°РіР°Р·РёРЅ";
+      navButtons[1].textContent = "РљР°СЂС‚Р°";
+      navButtons[2].textContent = "РџСЂРѕС„РёР»СЊ";
     }
-    // Удаляем все повторяющиеся знаки вопроса и слово «деньги» в интерфейсе
+    // РЈРґР°Р»СЏРµРј РІСЃРµ РїРѕРІС‚РѕСЂСЏСЋС‰РёРµСЃСЏ Р·РЅР°РєРё РІРѕРїСЂРѕСЃР° Рё СЃР»РѕРІРѕ В«РґРµРЅСЊРіРёВ» РІ РёРЅС‚РµСЂС„РµР№СЃРµ
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     let n;
     while ((n = walker.nextNode())) {
-      n.nodeValue = n.nodeValue.replace(/\?{2,}/g, "").replace(/деньги/gi, "");
+      n.nodeValue = n.nodeValue.replace(/\?{2,}/g, "").replace(/РґРµРЅСЊРіРё/gi, "");
     }
   } catch (e) {
     console.warn("UI cleanup error:", e);
@@ -113,18 +113,18 @@ document.addEventListener("DOMContentLoaded", function () {
 <<<<<<< HEAD
 document.addEventListener("DOMContentLoaded", function () {
   try {
-    // Подписываем нижние кнопки вкладок, если они есть
+    // РџРѕРґРїРёСЃС‹РІР°РµРј РЅРёР¶РЅРёРµ РєРЅРѕРїРєРё РІРєР»Р°РґРѕРє, РµСЃР»Рё РѕРЅРё РµСЃС‚СЊ
     const navButtons = document.querySelectorAll(".tg-tabbar button, nav.tg-tabbar button, .tabs-bar button");
     if (navButtons.length >= 3) {
-      navButtons[0].textContent = "Магазин";
-      navButtons[1].textContent = "Карта";
-      navButtons[2].textContent = "Профиль";
+      navButtons[0].textContent = "РњР°РіР°Р·РёРЅ";
+      navButtons[1].textContent = "РљР°СЂС‚Р°";
+      navButtons[2].textContent = "РџСЂРѕС„РёР»СЊ";
     }
-    // Удаляем все повторяющиеся знаки вопроса и слово «деньги» в интерфейсе
+    // РЈРґР°Р»СЏРµРј РІСЃРµ РїРѕРІС‚РѕСЂСЏСЋС‰РёРµСЃСЏ Р·РЅР°РєРё РІРѕРїСЂРѕСЃР° Рё СЃР»РѕРІРѕ В«РґРµРЅСЊРіРёВ» РІ РёРЅС‚РµСЂС„РµР№СЃРµ
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     let n;
     while ((n = walker.nextNode())) {
-      n.nodeValue = n.nodeValue.replace(/\?{2,}/g, "").replace(/деньги/gi, "");
+      n.nodeValue = n.nodeValue.replace(/\?{2,}/g, "").replace(/РґРµРЅСЊРіРё/gi, "");
     }
   } catch (e) {
     console.warn("UI cleanup error:", e);
@@ -135,17 +135,17 @@ document.addEventListener("DOMContentLoaded", function () {
 // === UI cleanup/labels block ===
 document.addEventListener('DOMContentLoaded', () => {
   try {
-    // подписи нижних кнопок
+    // РїРѕРґРїРёСЃРё РЅРёР¶РЅРёС… РєРЅРѕРїРѕРє
     const navButtons = document.querySelectorAll('.tg-tabbar .tab-btn, nav.tg-tabbar button');
     if (navButtons.length >= 3) {
-      (navButtons[0].querySelector('.lb')||navButtons[0]).textContent = 'Магазин';
-      (navButtons[1].querySelector('.lb')||navButtons[1]).textContent = 'Карта';
-      (navButtons[2].querySelector('.lb')||navButtons[2]).textContent = 'Профиль';
+      (navButtons[0].querySelector('.lb')||navButtons[0]).textContent = 'РњР°РіР°Р·РёРЅ';
+      (navButtons[1].querySelector('.lb')||navButtons[1]).textContent = 'РљР°СЂС‚Р°';
+      (navButtons[2].querySelector('.lb')||navButtons[2]).textContent = 'РџСЂРѕС„РёР»СЊ';
     }
-    // чистка «» и слова «деньги»
+    // С‡РёСЃС‚РєР° В«В» Рё СЃР»РѕРІР° В«РґРµРЅСЊРіРёВ»
     const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     let n; while(n = w.nextNode()){
-      n.nodeValue = n.nodeValue.replace(/\?{2,}/g,'').replace(/деньги/gi,'');
+      n.nodeValue = n.nodeValue.replace(/\?{2,}/g,'').replace(/РґРµРЅСЊРіРё/gi,'');
     }
   } catch(e){ console.warn('ui polish warn', e); }
 });
@@ -155,3 +155,4 @@ document.addEventListener('DOMContentLoaded', () => {
 try{document.querySelectorAll('.map-wrap,.map-container,#map').forEach(e=>e.style.touchAction='pan-y');}catch(e){}
 =======
 >>>>>>> 914d6e406c882eea813739a0647a022f9c5b77c8
+

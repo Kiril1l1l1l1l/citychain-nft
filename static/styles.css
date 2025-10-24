@@ -1,4 +1,4 @@
-/* ===== Theme bridge (uses Telegram theme params if available) ===== */
+﻿/* ===== Theme bridge (uses Telegram theme params if available) ===== */
 :root{
   --bg: var(--tg-theme-bg-color, #0f1114);
   --text: var(--tg-theme-text-color, #e7e9ee);
@@ -13,7 +13,7 @@
   --br: 14px;
   --border: 1px solid rgba(255,255,255,.06);
 
-  /* Размеры баров (грубо, с запасом) */
+  /* Р Р°Р·РјРµСЂС‹ Р±Р°СЂРѕРІ (РіСЂСѓР±Рѕ, СЃ Р·Р°РїР°СЃРѕРј) */
   --topbar-h: 64px;
   --tabbar-h: 72px;
 }
@@ -46,13 +46,13 @@ html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font:14px/
 .primary-btn{background:var(--btn);color:var(--btn-text);border:0;border-radius:12px;padding:10px 12px;font-weight:700}
 .primary-btn:active{transform:translateY(1px);opacity:.9}
 
-/* ===== Map (вписывание + центрирование) ===== */
+/* ===== Map (РІРїРёСЃС‹РІР°РЅРёРµ + С†РµРЅС‚СЂРёСЂРѕРІР°РЅРёРµ) ===== */
 .map-card{position:relative;border-radius:var(--br);overflow:hidden;border:var(--border)}
-/* Высота доступной области: всё окно минус приблизительные высоты шапки/таббара и внутренние отступы */
+/* Р’С‹СЃРѕС‚Р° РґРѕСЃС‚СѓРїРЅРѕР№ РѕР±Р»Р°СЃС‚Рё: РІСЃС‘ РѕРєРЅРѕ РјРёРЅСѓСЃ РїСЂРёР±Р»РёР·РёС‚РµР»СЊРЅС‹Рµ РІС‹СЃРѕС‚С‹ С€Р°РїРєРё/С‚Р°Р±Р±Р°СЂР° Рё РІРЅСѓС‚СЂРµРЅРЅРёРµ РѕС‚СЃС‚СѓРїС‹ */
 .map-wrap{
   width:100%;
   height:calc(100dvh - var(--topbar-h) - var(--tabbar-h) - 140px);
-  /* 140px — запас под заголовок “Карта” и внутренние паддинги блока; можно микро корректировать */
+  /* 140px вЂ” Р·Р°РїР°СЃ РїРѕРґ Р·Р°РіРѕР»РѕРІРѕРє вЂњРљР°СЂС‚Р°вЂќ Рё РІРЅСѓС‚СЂРµРЅРЅРёРµ РїР°РґРґРёРЅРіРё Р±Р»РѕРєР°; РјРѕР¶РЅРѕ РјРёРєСЂРѕ РєРѕСЂСЂРµРєС‚РёСЂРѕРІР°С‚СЊ */
   min-height:260px;
   display:flex;align-items:center;justify-content:center;
   overflow:hidden;background:#0b0d10;
@@ -61,9 +61,9 @@ html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font:14px/
 .map-wrap img{
   max-width:100%;
   max-height:100%;
-  width:auto;           /* по ширине */
-  height:auto;          /* и по высоте */
-  object-fit:contain;   /* вписать целиком, без обрезки */
+  width:auto;           /* РїРѕ С€РёСЂРёРЅРµ */
+  height:auto;          /* Рё РїРѕ РІС‹СЃРѕС‚Рµ */
+  object-fit:contain;   /* РІРїРёСЃР°С‚СЊ С†РµР»РёРєРѕРј, Р±РµР· РѕР±СЂРµР·РєРё */
   user-select:none;touch-action:pan-x pan-y;
   will-change:transform;
 }
@@ -105,7 +105,7 @@ html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font:14px/
 }
 /* === MOBILE MAP CENTER === */
 @media (max-width: 899px) {
-  /* Внешняя карточка карты */
+  /* Р’РЅРµС€РЅСЏСЏ РєР°СЂС‚РѕС‡РєР° РєР°СЂС‚С‹ */
   .map-card {
     width: 92% !important;
     max-width: 92% !important;
@@ -115,7 +115,7 @@ html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font:14px/
     border: none !important;
     background: var(--sec, rgba(255,255,255,0.03)) !important;
   }
-  /* Внутренний контейнер карты */
+  /* Р’РЅСѓС‚СЂРµРЅРЅРёР№ РєРѕРЅС‚РµР№РЅРµСЂ РєР°СЂС‚С‹ */
   .map-wrap {
     margin: 0 !important;
     padding: 0 !important;
@@ -124,19 +124,19 @@ html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font:14px/
 }
 /* === TG MOBILE CENTER === */
 html.in-tg @media (max-width: 899px){}
-/* Обход ограничения парсера: правила ниже применятся при .in-tg и ширине <900px */
+/* РћР±С…РѕРґ РѕРіСЂР°РЅРёС‡РµРЅРёСЏ РїР°СЂСЃРµСЂР°: РїСЂР°РІРёР»Р° РЅРёР¶Рµ РїСЂРёРјРµРЅСЏС‚СЃСЏ РїСЂРё .in-tg Рё С€РёСЂРёРЅРµ <900px */
 @media (max-width: 899px){
   html.in-tg body{
     margin:0!important; padding:0!important; background:#0d0d0d;
   }
   html.in-tg #app, html.in-tg .app{
-    /* симметричные поля с учётом безопасных зон */
+    /* СЃРёРјРјРµС‚СЂРёС‡РЅС‹Рµ РїРѕР»СЏ СЃ СѓС‡С‘С‚РѕРј Р±РµР·РѕРїР°СЃРЅС‹С… Р·РѕРЅ */
     padding-left:  max(12px, env(safe-area-inset-left)) !important;
     padding-right: max(12px, env(safe-area-inset-right)) !important;
     padding-top:   max(8px,  env(safe-area-inset-top)) !important;
-    padding-bottom:max(88px, env(safe-area-inset-bottom) + 88px) !important; /* место под таббар */
+    padding-bottom:max(88px, env(safe-area-inset-bottom) + 88px) !important; /* РјРµСЃС‚Рѕ РїРѕРґ С‚Р°Р±Р±Р°СЂ */
   }
-  /* карточка карты — ровно по центру, чуть уже экрана */
+  /* РєР°СЂС‚РѕС‡РєР° РєР°СЂС‚С‹ вЂ” СЂРѕРІРЅРѕ РїРѕ С†РµРЅС‚СЂСѓ, С‡СѓС‚СЊ СѓР¶Рµ СЌРєСЂР°РЅР° */
   html.in-tg .map-card, html.in-tg .surface{
     width:94% !important;
     max-width:94% !important;
@@ -144,15 +144,15 @@ html.in-tg @media (max-width: 899px){}
     margin-right:auto !important;
     border:none !important;
     border-radius:16px !important;
-    background: rgba(255,255,255,.04) !important; /* мягкий фон как на фото 1 */
+    background: rgba(255,255,255,.04) !important; /* РјСЏРіРєРёР№ С„РѕРЅ РєР°Рє РЅР° С„РѕС‚Рѕ 1 */
     padding-left:0 !important; padding-right:0 !important;
   }
-  /* сам контейнер карты — без внутренних боковых отступов */
+  /* СЃР°Рј РєРѕРЅС‚РµР№РЅРµСЂ РєР°СЂС‚С‹ вЂ” Р±РµР· РІРЅСѓС‚СЂРµРЅРЅРёС… Р±РѕРєРѕРІС‹С… РѕС‚СЃС‚СѓРїРѕРІ */
   html.in-tg .map-wrap{ margin:0 !important; padding:0 !important; width:100% !important; }
   html.in-tg .map-wrap img, html.in-tg #map img, html.in-tg .map-container img{
     width:100% !important; height:auto !important; object-fit:contain !important;
   }
-  /* нижний таббар — по центру и с симметричными отступами */
+  /* РЅРёР¶РЅРёР№ С‚Р°Р±Р±Р°СЂ вЂ” РїРѕ С†РµРЅС‚СЂСѓ Рё СЃ СЃРёРјРјРµС‚СЂРёС‡РЅС‹РјРё РѕС‚СЃС‚СѓРїР°РјРё */
   html.in-tg .tg-tabbar, html.in-tg .tabs-bar, html.in-tg .bottom-nav{
     position:fixed!important; left:0; right:0; bottom:0;
     padding: 8px max(12px, env(safe-area-inset-left)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-right));
@@ -166,15 +166,15 @@ html.in-tg @media (max-width: 899px){}
 img { -webkit-user-drag: none !important; user-select: none !important; }
 .map-wrap, .map-container, #map {
   overflow: hidden !important;
-  touch-action: pan-y !important; /* только вертикальная прокрутка страницы */
+  touch-action: pan-y !important; /* С‚РѕР»СЊРєРѕ РІРµСЂС‚РёРєР°Р»СЊРЅР°СЏ РїСЂРѕРєСЂСѓС‚РєР° СЃС‚СЂР°РЅРёС†С‹ */
 }
-html, body { overscroll-behavior: none; } /* без «пружины» на iOS */
+html, body { overscroll-behavior: none; } /* Р±РµР· В«РїСЂСѓР¶РёРЅС‹В» РЅР° iOS */
 @media (max-width: 899px){
   .map-wrap img, .map-container img, #map img { pointer-events: none !important; }
 }
 /* === TG MOBILE POLISH (section + map full width) === */
 @media (max-width: 899px){
-  /* контейнер приложения — симметричные поля */
+  /* РєРѕРЅС‚РµР№РЅРµСЂ РїСЂРёР»РѕР¶РµРЅРёСЏ вЂ” СЃРёРјРјРµС‚СЂРёС‡РЅС‹Рµ РїРѕР»СЏ */
   html.in-tg #app, html.in-tg .app{
     padding-left:  max(16px, env(safe-area-inset-left)) !important;
     padding-right: max(16px, env(safe-area-inset-right)) !important;
@@ -182,7 +182,7 @@ html, body { overscroll-behavior: none; } /* без «пружины» на iOS 
     padding-bottom:max(88px, env(safe-area-inset-bottom) + 88px) !important;
   }
 
-  /* секция ("карта") — как на эталоне: мягкая карточка + равные поля */
+  /* СЃРµРєС†РёСЏ ("РєР°СЂС‚Р°") вЂ” РєР°Рє РЅР° СЌС‚Р°Р»РѕРЅРµ: РјСЏРіРєР°СЏ РєР°СЂС‚РѕС‡РєР° + СЂР°РІРЅС‹Рµ РїРѕР»СЏ */
   html.in-tg .surface{
     background: rgba(255,255,255,.04) !important;
     border-radius: 16px !important;
@@ -190,7 +190,7 @@ html, body { overscroll-behavior: none; } /* без «пружины» на iOS 
     margin: 16px 0 !important;
   }
 
-  /* сама карточка карты — НЕ 94%, а ровно 100% ширины секции */
+  /* СЃР°РјР° РєР°СЂС‚РѕС‡РєР° РєР°СЂС‚С‹ вЂ” РќР• 94%, Р° СЂРѕРІРЅРѕ 100% С€РёСЂРёРЅС‹ СЃРµРєС†РёРё */
   html.in-tg .map-card{
     width: 100% !important;
     max-width: 100% !important;
@@ -201,13 +201,13 @@ html, body { overscroll-behavior: none; } /* без «пружины» на iOS 
     padding: 0 !important;
   }
 
-  /* контейнер и изображение карты */
+  /* РєРѕРЅС‚РµР№РЅРµСЂ Рё РёР·РѕР±СЂР°Р¶РµРЅРёРµ РєР°СЂС‚С‹ */
   html.in-tg .map-wrap{ margin:0 !important; padding:0 !important; width:100% !important; }
   html.in-tg .map-wrap img, html.in-tg #map img, html.in-tg .map-container img{
     width:100% !important; height:auto !important; object-fit:contain !important;
   }
 
-  /* таббар снизу — симметричные поля */
+  /* С‚Р°Р±Р±Р°СЂ СЃРЅРёР·Сѓ вЂ” СЃРёРјРјРµС‚СЂРёС‡РЅС‹Рµ РїРѕР»СЏ */
   html.in-tg .tg-tabbar, html.in-tg .tabs-bar, html.in-tg .bottom-nav{
     position:fixed!important; left:0; right:0; bottom:0;
     padding: 8px max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-right));
@@ -217,7 +217,7 @@ html, body { overscroll-behavior: none; } /* без «пружины» на iOS 
     z-index: 1000;
   }
 
-  /* запрет перетаскивания картинки и горизонтального скролла */
+  /* Р·Р°РїСЂРµС‚ РїРµСЂРµС‚Р°СЃРєРёРІР°РЅРёСЏ РєР°СЂС‚РёРЅРєРё Рё РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕРіРѕ СЃРєСЂРѕР»Р»Р° */
   img { -webkit-user-drag:none !important; user-select:none !important; }
   html.in-tg .map-wrap, html.in-tg .map-container, html.in-tg #map { overflow:hidden!important; touch-action: pan-y !important; }
 }
@@ -244,7 +244,7 @@ html, body { overscroll-behavior: none; }
   html.in-tg .map-wrap{ width:100%!important; margin:0!important; padding:0!important; }
   html.in-tg .map-wrap img{ width:100%!important; height:auto!important; object-fit:contain!important; }
 }
-/* запрет горизонтального драг/скролла карты */
+/* Р·Р°РїСЂРµС‚ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕРіРѕ РґСЂР°Рі/СЃРєСЂРѕР»Р»Р° РєР°СЂС‚С‹ */
 img{-webkit-user-drag:none!important; user-select:none!important;}
 html.in-tg .map-wrap, html.in-tg .map-container, html.in-tg #map{ overflow:hidden!important; touch-action: pan-y!important; }
 html,body{overscroll-behavior:none;}
@@ -270,13 +270,13 @@ html,body{overscroll-behavior:none;}
   html.in-tg .map-wrap{ width:100%!important; margin:0!important; padding:0!important; }
   html.in-tg .map-wrap img{ width:100%!important; height:auto!important; object-fit:contain!important; }
 }
-/* запрет горизонтального драг/скролла карты */
+/* Р·Р°РїСЂРµС‚ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕРіРѕ РґСЂР°Рі/СЃРєСЂРѕР»Р»Р° РєР°СЂС‚С‹ */
 img{-webkit-user-drag:none!important; user-select:none!important;}
 html.in-tg .map-wrap, html.in-tg .map-container, html.in-tg #map{ overflow:hidden!important; touch-action: pan-y!important; }
 html,body{overscroll-behavior:none;}
 <<<<<<< HEAD
 
-/* ==== APPEND: карта центр/вписывание + профиль-карточки ==== */
+/* ==== APPEND: РєР°СЂС‚Р° С†РµРЅС‚СЂ/РІРїРёСЃС‹РІР°РЅРёРµ + РїСЂРѕС„РёР»СЊ-РєР°СЂС‚РѕС‡РєРё ==== */
 :root{ --topbar-h:64px; --tabbar-h:82px; --sec: var(--tg-theme-secondary-bg-color, #181b20); --text: var(--tg-theme-text-color, #e7e9ee); --hint:#9aa3aa; --br:16px; --border:1px solid rgba(255,255,255,.06); }
 #app{ max-width:100%; margin:0 auto; padding-bottom:calc(var(--tabbar-h) + env(safe-area-inset-bottom,0)); }
 
@@ -303,7 +303,7 @@ html,body{overscroll-behavior:none;}
 .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px;border-radius:14px;background:var(--sec);border:var(--border);color:var(--text)}
 .tab-btn.active{outline:2px solid rgba(122,162,255,.55);border-color:transparent}
 
-/* Профиль — крупный аватар, две основные кнопки, карточки */
+/* РџСЂРѕС„РёР»СЊ вЂ” РєСЂСѓРїРЅС‹Р№ Р°РІР°С‚Р°СЂ, РґРІРµ РѕСЃРЅРѕРІРЅС‹Рµ РєРЅРѕРїРєРё, РєР°СЂС‚РѕС‡РєРё */
 .profile-hero{display:flex;flex-direction:column;align-items:center;gap:12px;margin:8px 0 16px}
 .avatar-lg{width:112px;height:112px;border-radius:999px;border:2px solid rgba(255,255,255,.15);background:#000;object-fit:cover}
 .profile-username{font-size:22px;font-weight:800}
@@ -327,7 +327,7 @@ html,body{overscroll-behavior:none;}
   html.in-tg .surface{margin:16px auto}
 }
 
-/* ==== APPEND: карта центр/вписывание + профиль-карточки ==== */
+/* ==== APPEND: РєР°СЂС‚Р° С†РµРЅС‚СЂ/РІРїРёСЃС‹РІР°РЅРёРµ + РїСЂРѕС„РёР»СЊ-РєР°СЂС‚РѕС‡РєРё ==== */
 :root{ --topbar-h:64px; --tabbar-h:82px; --sec: var(--tg-theme-secondary-bg-color, #181b20); --text: var(--tg-theme-text-color, #e7e9ee); --hint:#9aa3aa; --br:16px; --border:1px solid rgba(255,255,255,.06); }
 #app{ max-width:100%; margin:0 auto; padding-bottom:calc(var(--tabbar-h) + env(safe-area-inset-bottom,0)); }
 
@@ -354,7 +354,7 @@ html,body{overscroll-behavior:none;}
 .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px;border-radius:14px;background:var(--sec);border:var(--border);color:var(--text)}
 .tab-btn.active{outline:2px solid rgba(122,162,255,.55);border-color:transparent}
 
-/* Профиль — крупный аватар, две основные кнопки, карточки */
+/* РџСЂРѕС„РёР»СЊ вЂ” РєСЂСѓРїРЅС‹Р№ Р°РІР°С‚Р°СЂ, РґРІРµ РѕСЃРЅРѕРІРЅС‹Рµ РєРЅРѕРїРєРё, РєР°СЂС‚РѕС‡РєРё */
 .profile-hero{display:flex;flex-direction:column;align-items:center;gap:12px;margin:8px 0 16px}
 .avatar-lg{width:112px;height:112px;border-radius:999px;border:2px solid rgba(255,255,255,.15);background:#000;object-fit:cover}
 .profile-username{font-size:22px;font-weight:800}
@@ -378,7 +378,7 @@ html,body{overscroll-behavior:none;}
   html.in-tg .surface{margin:16px auto}
 }
 
-/* ==== APPEND: карта центр/вписывание + профиль ==== */
+/* ==== APPEND: РєР°СЂС‚Р° С†РµРЅС‚СЂ/РІРїРёСЃС‹РІР°РЅРёРµ + РїСЂРѕС„РёР»СЊ ==== */
 :root{ --topbar-h:64px; --tabbar-h:82px; --sec: var(--tg-theme-secondary-bg-color,#181b20); --text: var(--tg-theme-text-color,#e7e9ee); --hint:#9aa3aa; --br:16px; --border:1px solid rgba(255,255,255,.06) }
 #app{ max-width:100%; margin:0 auto; padding-bottom:calc(var(--tabbar-h) + env(safe-area-inset-bottom,0)) }
 .world-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
@@ -394,7 +394,7 @@ html,body{overscroll-behavior:none;}
 .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px;border-radius:14px;background:var(--sec);border:var(--border);color:var(--text)}
 .tab-btn.active{outline:2px solid rgba(122,162,255,.55);border-color:transparent}
 
-/* профиль */
+/* РїСЂРѕС„РёР»СЊ */
 .profile-hero{display:flex;flex-direction:column;align-items:center;gap:12px;margin:8px 0 16px}
 .avatar-lg{width:112px;height:112px;border-radius:999px;border:2px solid rgba(255,255,255,.15);background:#000;object-fit:cover}
 .profile-username{font-size:22px;font-weight:800}
@@ -433,7 +433,7 @@ img{ -webkit-user-drag:none !important; user-select:none !important; }
   display:flex; align-items:center; justify-content:center;
   overflow:hidden; background:#0b0d10;
   border-radius:12px;
-  touch-action:pan-y !important;  /* только вертикальная прокрутка страницы */
+  touch-action:pan-y !important;  /* С‚РѕР»СЊРєРѕ РІРµСЂС‚РёРєР°Р»СЊРЅР°СЏ РїСЂРѕРєСЂСѓС‚РєР° СЃС‚СЂР°РЅРёС†С‹ */
 }
 .map-wrap img{
   max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain;
@@ -447,3 +447,4 @@ img{ -webkit-user-drag:none !important; user-select:none !important; }
 }
 =======
 >>>>>>> 914d6e406c882eea813739a0647a022f9c5b77c8
+
