@@ -1,25 +1,31 @@
 ﻿(() => {
-  const mapSec = document.querySelector(".section"),
-        profile = document.getElementById("profile"),
-        tabs = document.querySelectorAll(".tabbar button");
+  const tg = window.Telegram?.WebApp;
+  try{ tg?.expand(); tg?.enableClosingConfirmation?.(false); }catch(e){}
 
-  function show(n) {
-    tabs.forEach(b => b.classList.remove("active"));
-    if(n === "profile") {
-      profile.classList.remove("hide");
-      mapSec.classList.add("hide");
-      tabs[2].classList.add("active");
-    } else {
-      profile.classList.add("hide");
-      mapSec.classList.remove("hide");
-      tabs[1].classList.add("active");
-    }
+  const $ = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+
+  const screens = {
+    shop:    $('#screen-shop'),
+    map:     $('#screen-map'),
+    profile: $('#screen-profile'),
+  };
+
+  function show(tab){
+    Object.entries(screens).forEach(([k,el])=> el?.classList.toggle('hidden', k!==tab));
+    $$('.tabbar button').forEach(b=> b.setAttribute('aria-selected', b.dataset.tab===tab ? 'true':'false'));
   }
 
-  tabs[0].onclick = () => show("shop");
-  tabs[1].onclick = () => show("map");
-  tabs[2].onclick = () => show("profile");
+  $$('.tabbar button').forEach(b=> b.addEventListener('click', ()=> show(b.dataset.tab)));
 
-  show("map");
+  // default
+  show('map');
+
+  // защита карты
+  const map = $('#map');
+  if(map){ ['dragstart','contextmenu'].forEach(e=> map.addEventListener(e,ev=>ev.preventDefault())); }
+
+  // тема
+  function applyTheme(){ /* стили уже берутся из CSS-переменных Telegram */ }
+  tg?.onEvent?.('themeChanged', applyTheme);
 })();
-
