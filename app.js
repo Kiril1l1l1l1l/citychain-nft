@@ -25,28 +25,28 @@
   /* MARK:USERDATA END */
 
   /* MARK:BALANCE START */
-  const BALANCE_KEY = "ccnft_balance";
-  const getBalance = () => parseFloat(localStorage.getItem(BALANCE_KEY) || "0") || 0;
-  const setBalance = (v) => { localStorage.setItem(BALANCE_KEY, String(v)); renderBalance(); };
-  function renderBalance(){
-    const val = getBalance();
-    const s = val.toFixed(2);
-    $("#balanceValue").textContent = s;
-    $("#balanceValueBottom").textContent = s;
-  }
-  renderBalance();
-  $("#btnAddFunds")?.addEventListener("click", ()=>{
-    const str = prompt("На сколько пополнить баланс? Введите число:", "100");
-    if (str===null) return;
-    const num = parseFloat(str.replace(",", "."));
-    if (isNaN(num)) return alert("Неверное число");
-    setBalance(getBalance()+num);
-  });
-  $("#btnTopUp")?.addEventListener("click", ()=> $("#btnAddFunds").click());
-  const withdrawHandler = ()=> alert("Вывод средств: позже подключим платёжку.");
-  $("#btnWithdrawTop")?.addEventListener("click", withdrawHandler);
-  $("#btnWithdrawBottom")?.addEventListener("click", withdrawHandler);
-  /* MARK:BALANCE END */
+const BALANCE_KEY = "ccnft_balance";
+const getBalance = () => parseFloat(localStorage.getItem(BALANCE_KEY) || "0") || 0;
+const setBalance = (v) => { localStorage.setItem(BALANCE_KEY, String(v)); renderBalance(); };
+
+function renderBalance(){
+  const s = getBalance().toFixed(2);
+  $("#balanceValue").textContent = s;
+  const btm = $("#balanceValueBottom"); if (btm) btm.textContent = s; // на случай, если вернём блок
+}
+renderBalance();
+
+$("#btnAddFunds")?.addEventListener("click", ()=>{
+  const str = prompt("На сколько пополнить баланс? Введите число:", "100");
+  if (str===null) return;
+  const num = parseFloat(str.replace(",", "."));
+  if (isNaN(num)) return alert("Неверное число");
+  setBalance(Math.max(0, getBalance()+num));
+});
+
+const withdrawHandler = ()=> alert("Вывод средств: подключим позже.");
+$("#btnWithdrawBottom")?.addEventListener("click", withdrawHandler);
+/* MARK:BALANCE END */
 
   /* MARK:REFERRAL START */
   const botUsername = "City_Chain_NFT_Bot";
@@ -67,3 +67,4 @@
 
   tg?.onEvent?.("themeChanged", ()=>{});
 })();
+
