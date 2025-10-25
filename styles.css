@@ -98,3 +98,14 @@ body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 system-ui,-ap
 .balance-inline{display:flex;align-items:center;gap:10px}
 .balance-inline .value{font-size:22px;font-weight:800}
 .balance .ticker{display:none!important}
+/* ===== CLEAN PROFILE HEADER ===== */
+.user-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 18px;background:var(--card2);border:1px solid var(--line);border-radius:16px
+}
+.user-meta{display:flex;flex-direction:column;margin-right:auto}
+.user-meta .name{font-size:18px;font-weight:700;margin:0}
+.balance-inline{display:flex;align-items:center;gap:10px}
+.balance-inline .value{font-size:22px;font-weight:800}
+.balance .ticker{display:none!important} /* на случай, если где-то осталась */
+.btn.tiny.primary{padding:4px 9px;font-size:14px;border-radius:10px}
