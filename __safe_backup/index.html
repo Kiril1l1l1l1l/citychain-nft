@@ -25,22 +25,38 @@
 
     <section id="screen-profile" class="hidden">
       <div class="profile">
-
         <!-- MARK:PROFILE_HEADER START -->
-        <div class="card user-header">
-          <div class="user-meta">
-            <div class="name" id="userName">Пользователь</div>
-          </div>
-          <div class="balance-inline">
-            <span class="value" id="balanceValue">0.00</span>
-            <button class="btn tiny primary" id="btnAddFunds" title="Пополнить баланс">+</button>
-          </div>
-        </div>
-        <!-- MARK:PROFILE_HEADER END -->
+<div class="card user-header">
+  <div class="user-meta">
+    <div class="name" id="userName">Пользователь</div>
+  </div>
+  <div class="balance-inline">
+    <span class="value" id="balanceValue">0.00</span>
+    <button class="btn tiny primary" id="btnAddFunds" title="Пополнить баланс">+</button>
+  </div>
+</div>
+<!-- MARK:PROFILE_HEADER END -->")
+  $text | Set-Content $Path -Encoding UTF8
+}
+
+# 1) ШАПКА ПРОФИЛЯ: только имя и баланс (убираем ID и ♦)
+$profileHeader = @'
+<div class="card user-header">
+  <div class="user-meta">
+    <div class="name" id="userName">Пользователь</div>
+  </div>
+  <div class="balance-inline">
+    <div class="balance">
+      <span class="value" id="balanceValue">0.00</span>
+    </div>
+    <button class="btn tiny primary" id="btnAddFunds" title="Пополнить баланс">+</button>
+  </div>
+</div>
+<!-- MARK:PROFILE_HEADER END -->
 
         <!-- MARK:PROFILE_ACTIONS START -->
-        <!-- (удалено по требованию — верхние действия не нужны) -->
-        <!-- MARK:PROFILE_ACTIONS END -->
+
+<!-- MARK:PROFILE_ACTIONS END -->
 
         <!-- MARK:INVENTORY START -->
         <div class="card">
@@ -58,16 +74,14 @@
         <!-- MARK:INVENTORY END -->
 
         <!-- MARK:REFERRAL START -->
-        <div class="card referral-card">
-          <div class="ref-row">
-            <div class="ref-text">Зарабатывайте 10% от депозитов ваших друзей</div>
-            <div class="ref-actions">
-              <button class="btn link" id="btnTerms">Условия</button>
-              <button class="btn copy" id="btnCopyRef">Скопировать</button>
-            </div>
+        <div class="card">
+          <div class="row row-compact">
+            <div>Зарабатывайте 10% от депозитов ваших друзей</div>
+            <button class="btn link" id="btnTerms">Условия</button>
           </div>
           <div class="row">
             <button class="btn primary" id="btnInvite">Пригласить</button>
+            <button class="btn copy" id="btnCopyRef">Скопировать</button>
           </div>
         </div>
         <!-- MARK:REFERRAL END -->
@@ -83,11 +97,13 @@
         <!-- MARK:STATS END -->
 
         <!-- MARK:BALANCE_BOTTOM START -->
-        <div class="card">
-          <button class="btn fullwidth" id="btnWithdrawBottom">Вывод</button>
-        </div>
-        <!-- MARK:BALANCE_BOTTOM END -->
-
+<div class="card">
+  <div class="row">
+    <div></div>
+    <button class="btn" id="btnWithdrawBottom">Вывод</button>
+  </div>
+</div>
+<!-- MARK:BALANCE_BOTTOM END -->
       </div>
     </section>
     <!-- MARK:SCREENS END -->
@@ -95,10 +111,19 @@
 
   <nav class="tabbar">
     <button data-tab="shop" aria-selected="false">Магазин</button>
-    <button data-tab="map" aria-selected="false">Карта</button>
-    <button data-tab="profile" aria-selected="true">Профиль</button>
+    <button data-tab="map" aria-selected="true">Карта</button>
+    <button data-tab="profile" aria-selected="false">Профиль</button>
   </nav>
 
   <script src="app.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+

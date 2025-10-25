@@ -18,55 +18,46 @@
   /* MARK:USERDATA START */
   const user = tg?.initDataUnsafe?.user || {};
   const name = [user.first_name, user.last_name].filter(Boolean).join(" ") || "Пользователь";
-  const id = user.id ? String(user.id) : "—";
   $("#userName").textContent = name;
-  $("#userId").textContent = `ID: ${id}`;
-  if (user.photo_url) $("#userAvatar").src = user.photo_url;
   /* MARK:USERDATA END */
 
   /* MARK:BALANCE START */
-const BALANCE_KEY = "ccnft_balance";
-const getBalance = () => parseFloat(localStorage.getItem(BALANCE_KEY) || "0") || 0;
-const setBalance = (v) => { localStorage.setItem(BALANCE_KEY, String(v)); renderBalance(); };
+  const BALANCE_KEY = "ccnft_balance";
+  const getBalance = () => parseFloat(localStorage.getItem(BALANCE_KEY) || "0") || 0;
+  const setBalance = (v) => { localStorage.setItem(BALANCE_KEY, String(v)); renderBalance(); };
+  function renderBalance(){
+    const s = getBalance().toFixed(2);
+    const top = document.getElementById("balanceValue");
+    if (top) top.textContent = s;
+  }
+  renderBalance();
 
-function renderBalance(){
-  const s = getBalance().toFixed(2);
-  const top = document.getElementById("balanceValue");
-  if (top) top.textContent = s;
-}
-renderBalance();
+  document.getElementById("btnAddFunds")?.addEventListener("click", ()=>{
+    const str = prompt("На сколько пополнить баланс? Введите число:", "100");
+    if (str===null) return;
+    const num = parseFloat(str.replace(",", "."));
+    if (isNaN(num)) return alert("Неверное число");
+    setBalance(Math.max(0, getBalance()+num));
+  });
 
-document.getElementById("btnAddFunds")?.addEventListener("click", ()=>{
-  const str = prompt("На сколько пополнить баланс? Введите число:", "100");
-  if (str===null) return;
-  const num = parseFloat(str.replace(",", "."));
-  if (isNaN(num)) return alert("Неверное число");
-  setBalance(Math.max(0, getBalance()+num));
-});
-
-const withdrawHandler = ()=> alert("Вывод средств: подключим позже.");
-document.getElementById("btnWithdrawBottom")?.addEventListener("click", withdrawHandler);
-/* MARK:BALANCE END */
+  const withdrawHandler = ()=> alert("Вывод средств: подключим позже.");
+  document.getElementById("btnWithdrawBottom")?.addEventListener("click", withdrawHandler);
+  /* MARK:BALANCE END */
 
   /* MARK:REFERRAL START */
   const botUsername = "City_Chain_NFT_Bot";
-  const refLink = `https://t.me/${botUsername}?start=${id || "ref"}`;
-  $("#btnInvite")?.addEventListener("click", ()=> (tg?.openTelegramLink ? tg.openTelegramLink(refLink) : window.open(refLink, "_blank")));
-  $("#btnCopyRef")?.addEventListener("click", async ()=>{
+  const refLink = `https://t.me/${botUsername}?start=ref`;
+  document.getElementById("btnInvite")?.addEventListener("click", ()=> (tg?.openTelegramLink ? tg.openTelegramLink(refLink) : window.open(refLink, "_blank")));
+  document.getElementById("btnCopyRef")?.addEventListener("click", async ()=>{
     try{ await navigator.clipboard.writeText(refLink); alert("Ссылка скопирована"); }
     catch{ alert("Не удалось скопировать"); }
   });
-  $("#btnTerms")?.addEventListener("click", ()=> alert("Условия программы появятся позже."));
+  document.getElementById("btnTerms")?.addEventListener("click", ()=> alert("Условия программы появятся позже."));
   /* MARK:REFERRAL END */
 
   /* MARK:INVENTORY START */
   const inventory = [];
-  $("#invCount").textContent = inventory.length;
-  $("#btnSellAll")?.addEventListener("click", ()=> alert("Продажа всех предметов: реализуем позже."));
+  document.getElementById("invCount").textContent = inventory.length;
+  document.getElementById("btnSellAll")?.addEventListener("click", ()=> alert("Продажа всех предметов: позже."));
   /* MARK:INVENTORY END */
-
-  tg?.onEvent?.("themeChanged", ()=>{});
 })();
-
-
-
