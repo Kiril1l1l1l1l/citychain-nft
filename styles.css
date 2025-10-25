@@ -51,3 +51,42 @@ body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 system-ui,-ap
 .tabbar button{appearance:none;border:0;background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center;font:inherit;padding:8px 0;cursor:pointer}
 .tabbar button[aria-selected=true]{color:var(--text);font-weight:600}
 .hidden{display:none!important}
+/* === Referral block: bigger & cleaner === */
+.referral-card{
+  padding: 20px 16px;
+  min-height: 110px;
+}
+.ref-row{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+.ref-text{
+  font-size: 14px;
+  line-height: 1.45;
+}
+.ref-actions{
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.referral-card .row{
+  margin-top: 12px; /* отступ между текстом и кнопкой "Пригласить" */
+}
+#btnInvite{
+  width: 100%;
+  padding: 12px;
+  font-weight: 600;
+  border-radius: 12px;
+}
+
+/* Узкие экраны — складываем в одну колонку */
+@media (max-width: 380px){
+  .ref-row{
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .ref-actions{ justify-content: flex-start; }
+}
