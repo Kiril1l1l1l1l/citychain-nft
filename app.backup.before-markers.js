@@ -27,41 +27,6 @@
   /* MARK:BALANCE START */
   const BALANCE_KEY = "ccnft_balance";
   const getBalance = () => parseFloat(localStorage.getItem(BALANCE_KEY) || "0") || 0;
-  const setBalance = (v) => { localSto
-cd "C:\Users\Кирилл Чубко\Desktop\MYTGBOT\web"
-
-Copy-Item .\app.js .\app.backup.before-markers.js -Force
-
-@'
-(() => {
-  const tg = window.Telegram?.WebApp;
-  try { tg?.expand(); tg?.enableClosingConfirmation?.(false); } catch(e){}
-
-  const $  = s => document.querySelector(s);
-  const $$ = s => Array.from(document.querySelectorAll(s));
-
-  /* MARK:ROUTER START */
-  const screens = { shop: $("#screen-shop"), map: $("#screen-map"), profile: $("#screen-profile") };
-  function show(tab){
-    Object.entries(screens).forEach(([k,el])=> el?.classList.toggle("hidden", k!==tab));
-    $$(".tabbar button").forEach(b=> b.setAttribute("aria-selected", b.dataset.tab===tab ? "true":"false"));
-  }
-  $$(".tabbar button").forEach(b => b.addEventListener("click", ()=> show(b.dataset.tab)));
-  show("profile");
-  /* MARK:ROUTER END */
-
-  /* MARK:USERDATA START */
-  const user = tg?.initDataUnsafe?.user || {};
-  const name = [user.first_name, user.last_name].filter(Boolean).join(" ") || "Пользователь";
-  const id   = user.id ? String(user.id) : "—";
-  $("#userName").textContent = name;
-  $("#userId").textContent   = `ID: ${id}`;
-  if (user.photo_url) $("#userAvatar").src = user.photo_url;
-  /* MARK:USERDATA END */
-
-  /* MARK:BALANCE START */
-  const BALANCE_KEY = "ccnft_balance";
-  const getBalance = () => parseFloat(localStorage.getItem(BALANCE_KEY) || "0") || 0;
   const setBalance = (v) => { localStorage.setItem(BALANCE_KEY, String(v)); renderBalance(); };
   function renderBalance(){
     const val = getBalance();
