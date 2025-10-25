@@ -12,7 +12,7 @@ function show(tab){
   $(".tabbar button").forEach(b=> b.setAttribute("aria-selected", b.dataset.tab===tab ? "true":"false"));
 }
 $(".tabbar button").forEach(b => b.addEventListener("click", ()=> show(b.dataset.tab)));
-show("profile"); // ← профиль по умолчанию
+show("profile");
 /* MARK:ROUTER END */
 
   /* MARK:USERDATA START */
@@ -38,6 +38,10 @@ function renderBalance(){
 }
 renderBalance();
 
+// Удаляем целиком карточку, где была синяя «Пополнить»
+document.querySelector("#btnTopUp")?.closest(".card")?.remove();
+
+// Нижний «Вывод»
 const withdrawHandler = ()=> alert("Вывод средств: подключим платёжку позже.");
 $("#btnWithdrawBottom")?.addEventListener("click", withdrawHandler);
 /* MARK:BALANCE END */
@@ -61,6 +65,8 @@ $("#btnWithdrawBottom")?.addEventListener("click", withdrawHandler);
 
   tg?.onEvent?.("themeChanged", ()=>{});
 })();
+
+
 
 
 
