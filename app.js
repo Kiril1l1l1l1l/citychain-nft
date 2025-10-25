@@ -15,9 +15,10 @@ const screens = {
 function show(tab){
   Object.entries(screens).forEach(([k,el])=> el?.classList.toggle("hidden", k!==tab));
   $(".tabbar button").forEach(b=> b.setAttribute("aria-selected", b.dataset.tab===tab ? "true":"false"));
+  document.body.setAttribute("data-tab", tab);
 }
 $(".tabbar button").forEach(b => b.addEventListener("click", ()=> show(b.dataset.tab)));
-show("profile"); // по умолчанию профиль
+show("map");
 /* MARK:ROUTER END */
 
   /* MARK:USERDATA START */
@@ -67,4 +68,17 @@ show("profile"); // по умолчанию профиль
   /* MARK:INVENTORY END */
 })();
 
+
+
+const screens = {
+  shop: $("#screen-shop"),
+  map: $("#screen-map"),
+  profile: $("#screen-profile"),
+  region: $("#screen-region")
+};
+function show(tab){
+  Object.entries(screens).forEach(([k,el])=> el?.classList.toggle("hidden", k!==tab));
+  $$(".tabbar button").forEach(b=> b.setAttribute("aria-selected", b.dataset.tab===tab ? "true":"false"));
+}
+$$(".tabbar button").forEach(b => b.addEventListener("click", ()=> show(b.dataset.tab)));
 

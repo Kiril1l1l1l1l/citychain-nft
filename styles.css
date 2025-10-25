@@ -115,3 +115,8 @@ body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 system-ui,-ap
 .offer-thumb{ width:72px; height:54px; border-radius:10px; background:rgba(255,255,255,.08); object-fit:cover }
 .offer-title{ font-weight:700 }
 .offer-meta{ color:var(--muted); font-size:13px }
+/* FIX: map layering & clicks */
+#screen-map{ position:relative !important; }
+#screen-map.hidden{ display:none !important; }
+#map-wrap{ position:absolute !important; inset:0 !important; z-index:0 !important; }
+body[data-tab!="map"] #map-wrap{ pointer-events:none !important; visibility:hidden !important; }
