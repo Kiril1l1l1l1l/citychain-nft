@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>CityChainNFT</title>
   <link rel="stylesheet" href="styles.css">
-  <!-- MARK:HEAD EXTRAS START -->
-  <!-- сюда можно добавлять meta/links при нужде -->
-  <!-- MARK:HEAD EXTRAS END -->
 </head>
 <body>
   <header class="app-header">
@@ -15,7 +12,6 @@
   </header>
 
   <main class="app-main">
-    <!-- MARK:SCREENS START -->
     <!-- Магазин (заглушка) -->
     <section id="screen-shop" class="hidden">
       <div class="card" style="text-align:center;padding:24px">Магазин появится позже</div>
@@ -32,7 +28,7 @@
     <section id="screen-profile" class="hidden">
       <div class="profile">
 
-        <!-- MARK:PROFILE_HEADER START -->
+        <!-- USER HEADER: аватар + имя/ID + баланс справа -->
         <div class="card user-header">
           <div class="user">
             <img id="userAvatar" src="static/avatar-placeholder.png" alt="Avatar">
@@ -41,25 +37,25 @@
               <div class="muted" id="userId">ID: —</div>
             </div>
           </div>
+
           <div class="balance-wrap">
             <div class="balance">
-              <span class="value" id="balanceValue">0.00</span><span class="ticker">♦</span>
+              <span class="value" id="balanceValue">0.00</span>
+              <span class="ticker">♦</span>
             </div>
             <button class="btn tiny primary" id="btnAddFunds" title="Пополнить баланс">+</button>
           </div>
         </div>
-        <!-- MARK:PROFILE_HEADER END -->
 
-        <!-- MARK:PROFILE_ACTIONS START -->
+        <!-- Действия: пополнить/вывод -->
         <div class="card">
           <div class="row">
             <button class="btn primary" id="btnTopUp">Пополнить</button>
             <button class="btn" id="btnWithdrawTop">Вывод</button>
           </div>
         </div>
-        <!-- MARK:PROFILE_ACTIONS END -->
 
-        <!-- MARK:INVENTORY START -->
+        <!-- Инвентарь -->
         <div class="card">
           <div class="row row-compact">
             <div class="muted">Инвентарь (<span id="invCount">0</span>)</div>
@@ -72,9 +68,8 @@
             <div class="inventory-cell placeholder"></div>
           </div>
         </div>
-        <!-- MARK:INVENTORY END -->
 
-        <!-- MARK:REFERRAL START -->
+        <!-- Рефералка -->
         <div class="card">
           <div class="row row-compact">
             <div>Зарабатывайте 10% от депозитов ваших друзей</div>
@@ -85,42 +80,49 @@
             <button class="btn copy" id="btnCopyRef">Скопировать</button>
           </div>
         </div>
-        <!-- MARK:REFERRAL END -->
 
-        <!-- MARK:STATS START -->
+        <!-- Статистика -->
         <div class="card">
           <div class="stats">
-            <div class="stat"><div class="stat-label">Покупок</div><div class="stat-value" id="statPurchases">0</div></div>
-            <div class="stat"><div class="stat-label">Городов</div><div class="stat-value" id="statCities">0</div></div>
-            <div class="stat"><div class="stat-label">Друзей</div><div class="stat-value" id="statRefs">0</div></div>
+            <div class="stat">
+              <div class="stat-label">Покупок</div>
+              <div class="stat-value" id="statPurchases">0</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Городов</div>
+              <div class="stat-value" id="statCities">0</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Друзей</div>
+              <div class="stat-value" id="statRefs">0</div>
+            </div>
           </div>
         </div>
-        <!-- MARK:STATS END -->
 
-        <!-- MARK:BALANCE_BOTTOM START -->
+        <!-- Баланс/Вывод внизу -->
         <div class="card">
           <div class="row">
             <div>
               <div class="muted">Баланс</div>
-              <div class="balance"><span class="value" id="balanceValueBottom">0.00</span><span class="ticker">♦</span></div>
+              <div class="balance">
+                <span class="value" id="balanceValueBottom">0.00</span>
+                <span class="ticker">♦</span>
+              </div>
             </div>
             <button class="btn" id="btnWithdrawBottom">Вывод средств</button>
           </div>
         </div>
-        <!-- MARK:BALANCE_BOTTOM END -->
 
       </div>
     </section>
-    <!-- MARK:SCREENS END -->
   </main>
 
-  <!-- MARK:TABBAR START -->
+  <!-- Таббар -->
   <nav class="tabbar">
     <button data-tab="shop" aria-selected="false">Магазин</button>
     <button data-tab="map" aria-selected="true">Карта</button>
     <button data-tab="profile" aria-selected="false">Профиль</button>
   </nav>
-  <!-- MARK:TABBAR END -->
 
   <script src="app.js"></script>
 </body>
