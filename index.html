@@ -29,16 +29,15 @@
 <div class="card user-header">
   <div class="user-meta">
     <div class="name" id="userName">Пользователь</div>
- 
-cd "C:\Users\Кирилл Чубко\Desktop\MYTGBOT\web"
-
-function Replace-Block {
-  param([string]$Path,[string]$MarkerName,[string]$NewBlock)
-  $text = Get-Content $Path -Raw
-  $name = [Regex]::Escape($MarkerName)
-  $pattern = "(?s)(<!--\s*MARK:$name\s*START\s*-->).*?(<!--\s*MARK:$name\s*END\s*-->)"
-  if ($text -notmatch $pattern) { throw "Marker '$MarkerName' not found in $Path" }
-  $text = [regex]::Replace($text, $pattern, "`<!-- MARK:PROFILE_HEADER START -->`r`n$NewBlock`r`n`<!-- MARK:PROFILE_HEADER END -->")
+  </div>
+  <div class="balance-inline">
+    <div class="balance">
+      <span class="value" id="balanceValue">0.00</span>
+    </div>
+    <button class="btn tiny primary" id="btnAddFunds" title="Пополнить баланс">+</button>
+  </div>
+</div>
+<!-- MARK:PROFILE_HEADER END -->")
   $text | Set-Content $Path -Encoding UTF8
 }
 
@@ -58,13 +57,8 @@ $profileHeader = @'
 <!-- MARK:PROFILE_HEADER END -->
 
         <!-- MARK:PROFILE_ACTIONS START -->
-        <div class="card">
-          <div class="row">
-            <button class="btn primary" id="btnTopUp">Пополнить</button>
-            <button class="btn" id="btnWithdrawTop">Вывод</button>
-          </div>
-        </div>
-        <!-- MARK:PROFILE_ACTIONS END -->
+
+<!-- MARK:PROFILE_ACTIONS END -->
 
         <!-- MARK:INVENTORY START -->
         <div class="card">
@@ -126,6 +120,9 @@ $profileHeader = @'
   <script src="app.js"></script>
 </body>
 </html>
+
+
+
 
 
 

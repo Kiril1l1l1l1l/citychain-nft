@@ -31,12 +31,12 @@ const setBalance = (v) => { localStorage.setItem(BALANCE_KEY, String(v)); render
 
 function renderBalance(){
   const s = getBalance().toFixed(2);
-  $("#balanceValue").textContent = s;
-  const btm = $("#balanceValueBottom"); if (btm) btm.textContent = s; // на случай, если вернём блок
+  const top = document.getElementById("balanceValue");
+  if (top) top.textContent = s;
 }
 renderBalance();
 
-$("#btnAddFunds")?.addEventListener("click", ()=>{
+document.getElementById("btnAddFunds")?.addEventListener("click", ()=>{
   const str = prompt("На сколько пополнить баланс? Введите число:", "100");
   if (str===null) return;
   const num = parseFloat(str.replace(",", "."));
@@ -45,7 +45,7 @@ $("#btnAddFunds")?.addEventListener("click", ()=>{
 });
 
 const withdrawHandler = ()=> alert("Вывод средств: подключим позже.");
-$("#btnWithdrawBottom")?.addEventListener("click", withdrawHandler);
+document.getElementById("btnWithdrawBottom")?.addEventListener("click", withdrawHandler);
 /* MARK:BALANCE END */
 
   /* MARK:REFERRAL START */
@@ -67,4 +67,5 @@ $("#btnWithdrawBottom")?.addEventListener("click", withdrawHandler);
 
   tg?.onEvent?.("themeChanged", ()=>{});
 })();
+
 
