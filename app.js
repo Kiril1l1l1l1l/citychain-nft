@@ -6,14 +6,14 @@
   const $$ = s => Array.from(document.querySelectorAll(s));
 
   /* MARK:ROUTER START */
-  const screens = { shop: $("#screen-shop"), map: $("#screen-map"), profile: $("#screen-profile") };
-  function show(tab){
-    Object.entries(screens).forEach(([k,el])=> el?.classList.toggle("hidden", k!==tab));
-    $$(".tabbar button").forEach(b=> b.setAttribute("aria-selected", b.dataset.tab===tab ? "true":"false"));
-  }
-  $$(".tabbar button").forEach(b => b.addEventListener("click", ()=> show(b.dataset.tab)));
-  show("profile");
-  /* MARK:ROUTER END */
+const screens = { shop: $("#screen-shop"), map: $("#screen-map"), profile: $("#screen-profile") };
+function show(tab){
+  Object.entries(screens).forEach(([k,el])=> el?.classList.toggle("hidden", k!==tab));
+  $(".tabbar button").forEach(b=> b.setAttribute("aria-selected", b.dataset.tab===tab ? "true":"false"));
+}
+$(".tabbar button").forEach(b => b.addEventListener("click", ()=> show(b.dataset.tab)));
+show("profile"); // ← профиль по умолчанию
+/* MARK:ROUTER END */
 
   /* MARK:USERDATA START */
   const user = tg?.initDataUnsafe?.user || {};
@@ -34,21 +34,12 @@ function renderBalance(){
   const s = val.toFixed(2);
   $("#balanceValue").textContent = s;
   const btm = $("#balanceValueBottom");
-  if (btm) btm.textContent = s; // если низ когда-нибудь вернём
+  if (btm) btm.textContent = s;
 }
 renderBalance();
 
-// Кнопка "+"
-$("#btnAddFunds")?.addEventListener("click", ()=>{
-  const str = prompt("На сколько пополнить баланс? Введите число:", "100");
-  if (str === null) return;
-  const num = parseFloat(str.replace(",", "."));
-  if (isNaN(num)) return alert("Неверное число");
-  setBalance(Math.max(0, getBalance() + num));
-});
-
-// «Пополнить» вызывает то же действие
-$("#btnTopUp")?.addEventListener("click", ()=> $("#btnAddFunds").click());
+const withdrawHandler = ()=> alert("Вывод средств: подключим платёжку позже.");
+$("#btnWithdrawBottom")?.addEventListener("click", withdrawHandler);
 /* MARK:BALANCE END */
 
   /* MARK:REFERRAL START */
@@ -70,4 +61,6 @@ $("#btnTopUp")?.addEventListener("click", ()=> $("#btnAddFunds").click());
 
   tg?.onEvent?.("themeChanged", ()=>{});
 })();
+
+
 
