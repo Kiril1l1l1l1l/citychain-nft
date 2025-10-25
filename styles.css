@@ -88,3 +88,7 @@ body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 system-ui,-ap
   font-weight: 600;
   border-radius: 14px;
 }
+/* === HEADER CLEAN PATCH === */
+.user-meta .name { font-size: 18px; font-weight: 700; margin-bottom: 0; }
+.balance-inline .value { font-size: 22px; font-weight: 800; }
+.balance-inline .ticker { display: none !important; }
