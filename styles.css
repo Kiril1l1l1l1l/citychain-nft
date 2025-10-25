@@ -71,3 +71,16 @@ body[data-tab!="map"] #map-wrap{pointer-events:none}
 
 
 
+/* === HARD OVERRIDES FOR MAP INTERACTIVITY === */
+#screen-map{ position: relative !important; }
+#screen-map.hidden{ display: none !important; }
+#map-wrap{ position: absolute !important; inset: 0 !important; z-index: 0 !important; }
+.app-main{ z-index: 1 !important; }
+.profile .card, .tabbar, .app-header{ position: relative; z-index: 1; }
+
+/* вне вкладки "Карта" — карту полностью убираем из потока и кликов */
+body:not([data-tab="map"]) #map-wrap{
+  pointer-events: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}

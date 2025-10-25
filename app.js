@@ -10,7 +10,14 @@ const screens = { shop: $("#screen-shop"), map: $("#screen-map"), profile: $("#s
 function show(tab){
   Object.entries(screens).forEach(([k,el])=> el?.classList.toggle("hidden", k!==tab));
   $(".tabbar button").forEach(b=> b.setAttribute("aria-selected", b.dataset.tab===tab ? "true":"false"));
-  document.body.setAttribute("data-tab", tab); // важно для отключения кликов карты
+  document.body.setAttribute("data-tab", tab);
+
+  // Жёстко управляем видимостью контейнера карты
+  const mw = document.getElementById("map-wrap");
+  if (mw){
+    if (tab === "map"){ mw.style.display = "grid"; }
+    else { mw.style.display = "none"; }
+  }
 }
 $(".tabbar button").forEach(b => b.addEventListener("click", ()=> show(b.dataset.tab)));
 show("profile"); // профиль по умолчанию
@@ -83,6 +90,7 @@ $("#btnWithdrawBottom")?.addEventListener("click", withdrawHandler);
 
   tg?.onEvent?.("themeChanged", ()=>{});
 })();
+
 
 
 
