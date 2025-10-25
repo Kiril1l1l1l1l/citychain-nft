@@ -91,7 +91,27 @@
       </div>
     </section>
     <!-- MARK:SCREENS END -->
-  </main>
+      <!-- screen: REGION (generated) -->
+    <section id="screen-region" class="hidden region-view">
+      <div class="region-bg" id="regionBg"></div>
+      <div class="region-content">
+        <div class="region-topbar">
+          <button class="btn" id="btnRegionBack">Назад</button>
+          <div class="region-title" id="regionTitle">Регион</div>
+          <div style="width:84px"></div>
+        </div>
+
+        <div class="region-actions">
+          <button class="btn" id="btnRegionFilters" disabled>Фильтры (скоро)</button>
+          <button class="btn" id="btnRegionSort" disabled>Сортировка (скоро)</button>
+        </div>
+
+        <div class="offers" id="offersList">
+          <!-- предложения региона появятся здесь -->
+        </div>
+      </div>
+    </section>
+</main>
 
   <nav class="tabbar">
     <button data-tab="shop" aria-selected="false">Магазин</button>
@@ -102,3 +122,4 @@
   <script src="app.js"></script>
 </body>
 </html>
+

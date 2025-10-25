@@ -6,14 +6,19 @@
   const $$ = s => Array.from(document.querySelectorAll(s));
 
   /* MARK:ROUTER START */
-  const screens = { shop: $("#screen-shop"), map: $("#screen-map"), profile: $("#screen-profile") };
-  function show(tab){
-    Object.entries(screens).forEach(([k,el])=> el?.classList.toggle("hidden", k!==tab));
-    $$(".tabbar button").forEach(b=> b.setAttribute("aria-selected", b.dataset.tab===tab ? "true":"false"));
-  }
-  $$(".tabbar button").forEach(b=> b.addEventListener("click", ()=> show(b.dataset.tab)));
-  show("profile");
-  /* MARK:ROUTER END */
+const screens = {
+  shop: $("#screen-shop"),
+  map: $("#screen-map"),
+  profile: $("#screen-profile"),
+  region: $("#screen-region")
+};
+function show(tab){
+  Object.entries(screens).forEach(([k,el])=> el?.classList.toggle("hidden", k!==tab));
+  $(".tabbar button").forEach(b=> b.setAttribute("aria-selected", b.dataset.tab===tab ? "true":"false"));
+}
+$(".tabbar button").forEach(b => b.addEventListener("click", ()=> show(b.dataset.tab)));
+show("profile"); // по умолчанию профиль
+/* MARK:ROUTER END */
 
   /* MARK:USERDATA START */
   const user = tg?.initDataUnsafe?.user || {};
@@ -61,3 +66,5 @@
   document.getElementById("btnSellAll")?.addEventListener("click", ()=> alert("Продажа всех предметов: позже."));
   /* MARK:INVENTORY END */
 })();
+
+
