@@ -35,8 +35,12 @@
         <!-- MARK:PROFILE_HEADER START -->
 <div class="card user-header">
   <img id="userAvatar" class="user-avatar" src="static/avatar-placeholder.png" alt="Avatar">
+
   <div class="user-meta">
-    <div class="name" id="userName">Пользователь</div>
+    <div class="name-row">
+      <div class="name" id="userName">Пользователь</div>
+      <button class="btn tiny edit-nick" id="btnEditNick" title="Изменить ник">Изменить</button>
+    </div>
     <div class="muted" id="userId">ID: —</div>
   </div>
 
@@ -122,6 +126,7 @@
   <script src="app.js"></script>
 </body>
 </html>
+
 
 
 

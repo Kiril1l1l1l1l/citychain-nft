@@ -10,19 +10,37 @@ const screens = { shop: $("#screen-shop"), map: $("#screen-map"), profile: $("#s
 function show(tab){
   Object.entries(screens).forEach(([k,el])=> el?.classList.toggle("hidden", k!==tab));
   $(".tabbar button").forEach(b=> b.setAttribute("aria-selected", b.dataset.tab===tab ? "true":"false"));
+  document.body.setAttribute("data-tab", tab);           // для CSS-правила pointer-events
 }
 $(".tabbar button").forEach(b => b.addEventListener("click", ()=> show(b.dataset.tab)));
-show("profile");
+show("profile"); // профиль по умолчанию
 /* MARK:ROUTER END */
 
   /* MARK:USERDATA START */
-  const user = tg?.initDataUnsafe?.user || {};
-  const name = [user.first_name, user.last_name].filter(Boolean).join(" ") || "Пользователь";
-  const id   = user.id ? String(user.id) : "—";
-  $("#userName").textContent = name;
-  $("#userId").textContent   = `ID: ${id}`;
-  if (user.photo_url) $("#userAvatar").src = user.photo_url;
-  /* MARK:USERDATA END */
+const user = tg?.initDataUnsafe?.user || {};
+const baseName = [user.first_name, user.last_name].filter(Boolean).join(" ") || "Пользователь";
+const id   = user.id ? String(user.id) : "—";
+
+const NICK_KEY = "ccnft_nick";
+function renderNick(){
+  const saved = (localStorage.getItem(NICK_KEY) || "").trim();
+  const finalName = (saved ? saved : baseName).slice(0, 20);
+  $("#userName").textContent = finalName || "Пользователь";
+}
+$("#userId").textContent = `ID: ${id}`;
+if (user.photo_url) $("#userAvatar").src = user.photo_url;
+renderNick();
+
+$("#btnEditNick")?.addEventListener("click", ()=>{
+  const current = $("#userName").textContent || "";
+  const input = prompt("Введите новый ник (до 20 символов):", current);
+  if (input === null) return;
+  const trimmed = input.trim().slice(0,20);
+  if (!trimmed) { alert("Ник не может быть пустым"); return; }
+  localStorage.setItem(NICK_KEY, trimmed);
+  renderNick();
+});
+/* MARK:USERDATA END */
 
   /* MARK:BALANCE START */
 const BALANCE_KEY = "ccnft_balance";
@@ -65,6 +83,8 @@ $("#btnWithdrawBottom")?.addEventListener("click", withdrawHandler);
 
   tg?.onEvent?.("themeChanged", ()=>{});
 })();
+
+
 
 
 
