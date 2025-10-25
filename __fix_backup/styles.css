@@ -140,8 +140,3 @@ body[data-tab="map"] #map-wrap{display:grid}
 }
 body[data-tab="map"] #map-wrap{display:grid}
 #map{width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
-/* FIX: карта не перекрывает интерфейс, показывается только на вкладке "Карта" */
-#screen-map{position:relative!important}
-#map-wrap{position:relative!important;width:100%;height:calc(100vh - var(--header-h) - var(--tabbar-h));display:none;place-items:center;background:var(--card2);z-index:0}
-body[data-tab="map"] #map-wrap{display:grid!important}
-#map{width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
