@@ -32,3 +32,59 @@ body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 system-ui,-ap
 .tabbar button{appearance:none;border:0;background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center;font:inherit;padding:8px 0;cursor:pointer}
 .tabbar button[aria-selected=true]{color:var(--text);font-weight:600}
 .hidden{display:none!important}
+/* === PROFILE BEAUTIFY PATCH === */
+
+/* Верхний блок профиля */
+.user-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  background: var(--card2);
+  border-radius: 16px;
+  border: 1px solid var(--line);
+}
+.user-meta .name {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.user-meta .muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+.balance-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.balance-inline .value {
+  font-size: 22px;
+  font-weight: 800;
+}
+.btn.tiny.primary {
+  padding: 4px 9px;
+  font-size: 14px;
+  border-radius: 10px;
+}
+
+/* Блок рефералки */
+.card:nth-of-type(4) {
+  padding: 16px 14px;
+}
+.card:nth-of-type(4) .row {
+  margin-top: 8px;
+}
+.card:nth-of-type(4) .btn.primary {
+  padding: 10px 20px;
+  font-weight: 600;
+}
+
+/* Кнопка "Вывод" снизу — центрируем */
+#btnWithdrawBottom {
+  width: 100%;
+  justify-content: center;
+  padding: 12px;
+  font-weight: 600;
+  border-radius: 14px;
+}
