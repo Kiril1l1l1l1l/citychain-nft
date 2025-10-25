@@ -7,15 +7,12 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Шапка -->
   <header class="app-header">
     <div class="header-title">Metropolis</div>
-    <!-- убрали все «верхние» цифры/бейджи/инпуты -->
   </header>
 
-  <!-- Экраны -->
   <main class="app-main">
-    <!-- Магазин (пока заглушка) -->
+    <!-- Магазин (заглушка) -->
     <section id="screen-shop" class="hidden">
       <div class="card" style="text-align:center;padding:24px">Магазин появится позже</div>
     </section>
@@ -30,60 +27,92 @@
     <!-- Профиль -->
     <section id="screen-profile" class="hidden">
       <div class="profile">
-        <div class="card">
+
+        <!-- USER HEADER: аватар + имя/ID + баланс справа -->
+        <div class="card user-header">
           <div class="user">
-            <img src="static/avatar-placeholder.png" alt="Avatar">
-            <div>
-              <div class="name">Кирилл</div>
-              <div class="muted">ID: 0001</div>
+            <img id="userAvatar" src="static/avatar-placeholder.png" alt="Avatar">
+            <div class="user-meta">
+              <div class="name" id="userName">Пользователь</div>
+              <div class="muted" id="userId">ID: —</div>
             </div>
           </div>
-        </div>
 
-        <div class="card">
-          <div class="row">
-            <button class="btn primary">Пополнить</button>
-            <button class="btn">Вывод</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="row" style="margin-bottom:8px">
-            <div class="muted">Инвентарь (0)</div>
-            <button class="btn link">Продать все</button>
-          </div>
-          <div class="inventory-grid">
-            <div class="inventory-cell placeholder"></div>
-            <div class="inventory-cell placeholder"></div>
-            <div class="inventory-cell placeholder"></div>
-            <div class="inventory-cell placeholder"></div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="row" style="margin-bottom:8px">
-            <div>Зарабатывайте 10% от депозитов ваших друзей</div>
-            <button class="btn link">Условия</button>
-          </div>
-          <div class="row">
-            <button class="btn primary">Пригласить</button>
-            <button class="btn copy">Скопировать</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="row">
-            <div class="muted">Баланс</div>
+          <div class="balance-wrap">
             <div class="balance">
-              <span class="value">0.00</span>
+              <span class="value" id="balanceValue">0.00</span>
               <span class="ticker">♦</span>
             </div>
-          </div>
-          <div class="row">
-            <div class="muted">Рефералов: 0</div>
-            <div></div>
+            <button class="btn tiny primary" id="btnAddFunds" title="Пополнить баланс">+</button>
           </div>
         </div>
+
+        <!-- Действия: пополнить/вывод -->
+        <div class="card">
+          <div class="row">
+            <button class="btn primary" id="btnTopUp">Пополнить</button>
+            <button class="btn" id="btnWithdrawTop">Вывод</button>
+          </div>
+        </div>
+
+        <!-- Инвентарь -->
+        <div class="card">
+          <div class="row row-compact">
+            <div class="muted">Инвентарь (<span id="invCount">0</span>)</div>
+            <button class="btn link" id="btnSellAll">Продать все</button>
+          </div>
+          <div class="inventory-grid" id="inventoryGrid">
+            <div class="inventory-cell placeholder"></div>
+            <div class="inventory-cell placeholder"></div>
+            <div class="inventory-cell placeholder"></div>
+            <div class="inventory-cell placeholder"></div>
+          </div>
+        </div>
+
+        <!-- Рефералка -->
+        <div class="card">
+          <div class="row row-compact">
+            <div>Зарабатывайте 10% от депозитов ваших друзей</div>
+            <button class="btn link" id="btnTerms">Условия</button>
+          </div>
+          <div class="row">
+            <button class="btn primary" id="btnInvite">Пригласить</button>
+            <button class="btn copy" id="btnCopyRef">Скопировать</button>
+          </div>
+        </div>
+
+        <!-- Статистика -->
+        <div class="card">
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-label">Покупок</div>
+              <div class="stat-value" id="statPurchases">0</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Городов</div>
+              <div class="stat-value" id="statCities">0</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Друзей</div>
+              <div class="stat-value" id="statRefs">0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Баланс/Вывод внизу -->
+        <div class="card">
+          <div class="row">
+            <div>
+              <div class="muted">Баланс</div>
+              <div class="balance">
+                <span class="value" id="balanceValueBottom">0.00</span>
+                <span class="ticker">♦</span>
+              </div>
+            </div>
+            <button class="btn" id="btnWithdrawBottom">Вывод средств</button>
+          </div>
+        </div>
+
       </div>
     </section>
   </main>
