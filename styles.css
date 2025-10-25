@@ -24,19 +24,27 @@ body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 system-ui,-ap
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px}
 .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .row-compact{margin-bottom:8px}
-.user{display:flex;align-items:center;gap:12px}
-.user img{width:64px;height:64px;border-radius:50%;border:1px solid var(--line);background:#0b0e12}
+
+.user-header{
+  display:flex; align-items:center; gap:12px;
+}
+.user-avatar{
+  width:64px; height:64px; border-radius:50%; border:1px solid var(--line); background:#0b0e12;
+}
+.user-meta{display:flex;flex-direction:column; margin-right:auto;}
 .name{font-weight:700}
 .muted{color:var(--muted)}
-.user-header{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px}
-.user-meta{display:flex;flex-direction:column}
+
 .balance{display:flex;align-items:baseline;gap:6px}
 .balance .value{font-size:22px;font-weight:800}
-.balance-wrap{display:flex;align-items:center;gap:8px}
+.balance-inline{display:flex;align-items:center;gap:8px}
+
 .btn{appearance:none;border:1px solid var(--line);background:transparent;color:var(--text);padding:10px 14px;border-radius:12px;cursor:pointer}
 .btn.primary{background:var(--primary);color:var(--primary-text);border-color:transparent}
 .btn.link{border-color:transparent}
 .btn.tiny{padding:6px 10px;border-radius:10px}
+
+/* inventory & stats (без изменений по сути) */
 .inventory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .inventory-cell{height:64px;border:1px dashed var(--line);border-radius:12px}
 .placeholder{background:rgba(255,255,255,.02)}
@@ -53,3 +61,4 @@ body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 system-ui,-ap
 
 .top-number,.top-badge,.balance-input,.text-field-above-balance{display:none!important}
 .hidden{display:none!important}
+
