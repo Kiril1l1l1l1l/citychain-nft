@@ -130,3 +130,13 @@ body[data-tab!="map"] #map-wrap{ pointer-events:none !important; visibility:hidd
 }
 body[data-tab="map"] #map-wrap{display:grid}
 #map{width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
+/* FIX router/map overlay */
+.hidden{display:none!important}
+#screen-map{position:relative}
+#map-wrap{
+  position:relative; /* было fixed/absolute — убираем перекрытие */
+  width:100%; height:calc(100vh - var(--header-h) - var(--tabbar-h));
+  display:none; place-items:center; background:var(--card2); z-index:0;
+}
+body[data-tab="map"] #map-wrap{display:grid}
+#map{width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
