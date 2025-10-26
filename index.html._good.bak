@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>CityChainNFT</title>
-  <link rel="stylesheet" href="styles.css?v=20251026135609">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="app-header">
@@ -119,22 +119,8 @@
     <button data-tab="profile" aria-selected="true">Профиль</button>
   </nav>
 
-  <script src="app.js?v=20251026135609"></script>
-<div id="regionModal" class="region-modal" aria-hidden="true">
-  <div class="region-backdrop" id="regionBackdrop"></div>
-  <div class="region-sheet">
-    <div class="region-hero" id="regionHero"></div>
-    <div class="region-body">
-      <div class="region-top">
-        <div class="region-title" id="regionTitle">Регион</div>
-        <button class="region-close" id="regionClose">Закрыть</button>
-      </div>
-      <div id="regionInfo" class="muted">Список домов и квартир добавим позже.</div>
-    </div>
-  </div>
-</div>
+  <script src="app.js"></script>
 </body>
 </html>
-
 
 
