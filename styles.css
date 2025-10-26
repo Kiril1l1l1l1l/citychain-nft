@@ -185,3 +185,32 @@ body[data-tab="map"] #map-wrap{display:grid!important}
 .region-title{font-weight:800; font-size:18px}
 .region-close{padding:6px 10px; border-radius:10px; border:1px solid rgba(255,255,255,.15); background:rgba(255,255,255,.08); color:#fff; cursor:pointer}
 .region-close:hover{background:rgba(255,255,255,.14)}
+/* --- CC PATCH: map visibility & region modal --- */
+
+/* карта показывается только на табе Карта */
+body:not([data-tab="map"]) #map-wrap { display:none; }
+body[data-tab="map"] #map-wrap { display:block; }
+
+/* хот-споты невидимые, без серых рамок */
+.map-hotspot{
+  background:transparent !important;
+  border:none !important;
+  outline:none !important;
+  box-shadow:none !important;
+}
+
+/* экран/модалка региона (совместимо с двумя вариантами id) */
+#region-modal, #screen-region{
+  position:fixed;
+  inset:var(--header-h) 0 var(--tabbar-h) 0;
+  z-index:100;
+}
+#region-modal.hidden, #screen-region.hidden{ display:none; }
+#region-modal.open,   #screen-region.open{  display:block; }
+
+/* фон региона (совместимо с #regionBg и #region-bg) */
+#regionBg, #region-bg, .region-bg{
+  position:absolute; inset:0;
+  background-size:cover; background-position:center;
+  filter:brightness(.7);
+}

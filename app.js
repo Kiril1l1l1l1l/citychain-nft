@@ -160,3 +160,71 @@
   }, true);
 
 })();
+/* === CC PATCH START === */
+(function(){
+  const $ = s => document.querySelector(s);
+
+  // 2.1 Регионы с фонами из static/regions/*.png
+  // Если в коде есть старый REGIONS — не мешает; здесь берём приоритет
+  window.CC_REGIONS = [
+    { id:"kiranomiya",     name:"Kiranomiya",     bg:"static/regions/kiranomiya.png",     rect:[50,23,20,18] },
+    { id:"nihon",          name:"Nihon",          bg:"static/regions/nihon.png",          rect:[23,40,22,18] },
+    { id:"noroburg",       name:"Noroburg",       bg:"static/regions/noroburg.png",       rect:[77,38,22,18] },
+    { id:"russet-skyline", name:"Russet Skyline", bg:"static/regions/russet-skyline.png", rect:[50,55,26,20] },
+    { id:"san-maris",      name:"San Maris",      bg:"static/regions/san-maris.png",      rect:[18,58,20,16] },
+    { id:"solmara",        name:"Solmara",        bg:"static/regions/solmara.png",        rect:[83,58,20,16] },
+    { id:"nordhaven",      name:"Nordhaven",      bg:"static/regions/nordhaven.png",      rect:[26,76,26,18] },
+    { id:"valparyn",       name:"Valparyn",       bg:"static/regions/valparyn.png",       rect:[73,76,26,18] }
+  ];
+
+  // 2.2 Универсальные ссылки на модалку и её фон (兼容 двух версий разметки)
+  const modal = $('#screen-region') || $('#region-modal');
+  const bgEl  = $('#regionBg') || $('#region-bg') || $('.region-bg');
+  const hotLayer = document.querySelector('#map-wrap .map-hotlayer');
+
+  function openRegionModal(r){
+    try{
+      if(bgEl){ bgEl.style.backgroundImage = "url('" + r.bg + "')"; }
+      if(modal){ modal.classList.remove('hidden'); modal.classList.add('open'); }
+      document.body.setAttribute('data-tab','map'); // остаёмся в "Карта"
+    }catch(e){ console.error('openRegionModal', e); }
+  }
+  function closeRegionModal(){
+    try{
+      if(modal){ modal.classList.add('hidden'); modal.classList.remove('open'); }
+    }catch(e){ console.error('closeRegionModal', e); }
+  }
+  // экспорт в window, чтобы старые обработчики могли вызывать
+  window.openRegionModal = openRegionModal;
+  window.closeRegionModal = closeRegionModal;
+
+  // 2.3 Авто-закрытие модалки и хот-слоя при смене таба (любой роутер)
+  function syncByTab(){
+    const isMap = document.body.getAttribute('data-tab') === 'map';
+    if(!isMap) closeRegionModal();
+    const layer = document.querySelector('#map-wrap .map-hotlayer');
+    if(layer) layer.style.display = isMap ? 'block' : 'none';
+    const mapImg = document.getElementById('map');
+    if(mapImg) mapImg.style.pointerEvents = isMap ? 'none' : 'none'; // карта клики не ловит
+  }
+  new MutationObserver(syncByTab).observe(document.body, {attributes:true, attributeFilter:['data-tab']});
+  document.addEventListener('DOMContentLoaded', syncByTab);
+  syncByTab();
+
+  // 2.4 Если есть кнопка "Назад" в модалке — закрываем
+  const backBtn = $('#btnRegionBack');
+  if(backBtn) backBtn.addEventListener('click', closeRegionModal);
+
+  // 2.5 Переназначим клики хот-спотов на наш openRegionModal (если слой уже смонтирован)
+  try{
+    (document.querySelectorAll('#map-wrap .map-hotspot') || []).forEach((b, i)=>{
+      b.onclick = (ev)=>{
+        ev.preventDefault();
+        const list = window.CC_REGIONS || [];
+        const r = list[i] || list.find(x=>x); // по индексу
+        if(r) openRegionModal(r);
+      };
+    });
+  }catch(e){ console.error('bind hotspots', e); }
+})();
+ /* === CC PATCH END === */
