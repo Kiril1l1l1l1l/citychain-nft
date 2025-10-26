@@ -214,3 +214,25 @@ body[data-tab="map"] #map-wrap { display:block; }
   background-size:cover; background-position:center;
   filter:brightness(.7);
 }
+/* CC FIX: карта только на табе "Карта" */
+body:not([data-tab="map"]) #map-wrap{display:none}
+body[data-tab="map"] #map-wrap{display:block}
+
+/* Хот-споты полностью невидимы: */
+.map-hotlayer{position:absolute;inset:0;z-index:5;pointer-events:none}
+.map-hotspot{
+  position:absolute;pointer-events:auto;
+  background:transparent!important;border:none!important;outline:0!important;
+  box-shadow:none!important;filter:none!important;
+  cursor:pointer;
+}
+/* без подсветок/фокуса при наведении */
+.map-hotspot:focus,.map-hotspot:hover,.map-hotspot:active{background:transparent!important;outline:0!important;box-shadow:none!important}
+
+/* Модалка региона (совместимо с двумя id) */
+#region-modal,#screen-region{position:fixed;inset:var(--header-h) 0 var(--tabbar-h) 0;z-index:100}
+#region-modal.hidden,#screen-region.hidden{display:none}
+#region-modal.open,#screen-region.open{display:block}
+
+/* Фон региона */
+#regionBg,#region-bg,.region-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.7)}

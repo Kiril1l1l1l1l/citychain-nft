@@ -228,3 +228,96 @@
   }catch(e){ console.error('bind hotspots', e); }
 })();
  /* === CC PATCH END === */
+/* === CC PATCH (tabs + hotspots + region bg) === */
+(function(){
+  const $ = s=>document.querySelector(s);
+
+  // 1) Регионы: ставим якоря "чуть ниже названия" (центр X/Y, ширина/высота в %)
+  const REG_CENTERS = [
+    { id:"kiranomiya",     name:"Kiranomiya",     bg:"static/regions/kiranomiya.png",     rect:[50,19,18,10] },
+    { id:"nihon",          name:"Nihon",          bg:"static/regions/nihon.png",          rect:[23,31,18,10] },
+    { id:"noroburg",       name:"Noroburg",       bg:"static/regions/noroburg.png",       rect:[78,31,18,10] },
+    { id:"russet-skyline", name:"Russet Skyline", bg:"static/regions/russet-skyline.png", rect:[50,46,22,12] },
+    { id:"san-maris",      name:"San Maris",      bg:"static/regions/san-maris.png",      rect:[18,52,18,10] },
+    { id:"solmara",        name:"Solmara",        bg:"static/regions/solmara.png",        rect:[83,52,18,10] },
+    { id:"nordhaven",      name:"Nordhaven",      bg:"static/regions/nordhaven.png",      rect:[26,69,24,12] },
+    { id:"valparyn",       name:"Valparyn",       bg:"static/regions/valparyn.png",       rect:[73,69,24,12] }
+  ];
+  // отдаём приоритет этим координатам
+  window.CC_REGIONS = REG_CENTERS;
+
+  // 2) Модалка региона и фон (совместимо с разной версткой)
+  const modal = $('#screen-region') || $('#region-modal');
+  const bgEl  = $('#regionBg') || $('#region-bg') || $('.region-bg');
+
+  function openRegionModal(r){
+    if(bgEl) bgEl.style.backgroundImage = "url('"+r.bg+"')";
+    if(modal){ modal.classList.remove('hidden'); modal.classList.add('open'); }
+    document.body.setAttribute('data-tab','map'); // остаёмся в "Карта"
+  }
+  function closeRegionModal(){
+    if(modal){ modal.classList.add('hidden'); modal.classList.remove('open'); }
+  }
+  window.openRegionModal = openRegionModal;
+  window.closeRegionModal = closeRegionModal;
+
+  // 3) Хот-слой — кнопки невидимые, без tooltip’ов
+  function mountHotspots(){
+    const wrap = document.getElementById('map-wrap');
+    if(!wrap) return;
+    wrap.querySelector('.map-hotlayer')?.remove();
+    const layer = document.createElement('div');
+    layer.className = 'map-hotlayer';
+    wrap.appendChild(layer);
+
+    const list = window.CC_REGIONS || [];
+    list.forEach((r, i)=>{
+      const b = document.createElement('button');
+      b.className = 'map-hotspot';
+      // без браузерного tooltip’а:
+      b.removeAttribute('title');
+      b.setAttribute('aria-label', r.name);
+
+      const [cx,cy,w,h] = r.rect;
+      b.style.left   = (cx - w/2) + '%';
+      b.style.top    = (cy - h/2) + '%';
+      b.style.width  = w + '%';
+      b.style.height = h + '%';
+
+      b.addEventListener('click', (ev)=>{ ev.preventDefault(); openRegionModal(r); });
+      layer.appendChild(b);
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', mountHotspots);
+  else mountHotspots();
+
+  // 4) Смена вкладок: всегда закрываем модалку; хот-слой виден только на "Карта"
+  function syncByTab(){
+    const isMap = document.body.getAttribute('data-tab') === 'map';
+    if(!isMap) closeRegionModal();
+    const layer = document.querySelector('#map-wrap .map-hotlayer');
+    if(layer) layer.style.display = isMap ? 'block':'none';
+  }
+  new MutationObserver(syncByTab).observe(document.body,{attributes:true,attributeFilter:['data-tab']});
+  document.addEventListener('DOMContentLoaded', syncByTab);
+  syncByTab();
+
+  // 5) Перехват кликов по таббару: закрыть модалку и переключить таб
+  function setTab(tab){
+    document.body.setAttribute('data-tab', tab);
+  }
+  document.addEventListener('click', (e)=>{
+    const t = e.target.closest('button, a, div, span');
+    if(!t) return;
+
+    // универсальные селекторы/эвристики под твой нижний таббар
+    const text = (t.textContent||'').trim().toLowerCase();
+    if(text === 'магазин'){ closeRegionModal(); setTab('shop'); }
+    if(text === 'карта'){   closeRegionModal(); setTab('map');  }
+    if(text === 'профиль'){ closeRegionModal(); setTab('profile'); }
+  });
+
+  // 6) Кнопка "Назад" в модалке
+  const back = document.getElementById('btnRegionBack');
+  if(back) back.addEventListener('click', closeRegionModal);
+})();
