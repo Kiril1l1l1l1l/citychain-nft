@@ -454,3 +454,22 @@
     }
   }).observe(document.body,{attributes:true,attributeFilter:["data-tab"]});
 })();
+(function(){
+  // закрывать экран региона при любой смене вкладки
+  function closeRegion(){
+    document.getElementById("screen-region")?.classList.add("hidden");
+  }
+  const hook = btn=>{
+    if(!btn) return;
+    btn.addEventListener("click", ()=>{
+      closeRegion();
+      const t = btn.getAttribute("data-tab") || btn.id?.replace("tab-","");
+      if(t) document.body.setAttribute("data-tab", t);
+    });
+  };
+  hook(document.querySelector('[data-tab="map"], #tab-map'));
+  hook(document.querySelector('[data-tab="profile"], #tab-profile'));
+  hook(document.querySelector('[data-tab="shop"], #tab-shop, [data-tab="store"]'));
+  new MutationObserver(()=>{ if(document.body.getAttribute("data-tab")!=="map") closeRegion(); })
+    .observe(document.body,{attributes:true,attributeFilter:["data-tab"]});
+})();

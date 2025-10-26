@@ -264,3 +264,32 @@ body[data-tab="map"] #map-wrap{display:block}
 
 /* map never blocks UI */
 #map{ pointer-events:none; z-index:0; }
+/* ===== TABBAR FIX (always visible & clickable) ===== */
+:root{ --tabbar-h:72px; }
+.tabbar,
+.bottom-nav,
+.tabs,
+footer,
+.navbar,
+.tg-bottom{
+  position:fixed; left:0; right:0; bottom:0;
+  z-index:10000; pointer-events:auto;
+}
+
+/* регион не перекрывает таббар */
+.region-view{ position:fixed; inset:var(--header-h,0) 0 var(--tabbar-h,72px) 0; z-index:500; }
+.region-content{ position:relative; z-index:1; padding-bottom:calc(var(--tabbar-h,72px) + 8px); }
+.region-bg{ position:absolute; inset:0; background-size:cover; background-position:center; opacity:.9; }
+
+/* хот-слой не заходит на таббар и не ловит клики кроме самих кнопок */
+#map-wrap{ position:relative; }
+.map-hotlayer{
+  position:absolute; left:0; right:0; top:0;
+  bottom:var(--tabbar-h,72px);
+  z-index:200; pointer-events:none;
+}
+.map-hotspot{ pointer-events:auto; background:transparent; border:none; }
+
+/* сама карта не блокирует клики поверх */
+#map{ pointer-events:none; z-index:0; }
+/* ===== /TABBAR FIX ===== */
