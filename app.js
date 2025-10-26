@@ -36,14 +36,14 @@
 
   // регионы (rect: x%, y%, w%, h% по центру)
   const REGIONS = [
-  { id:"kiranomiya",     name:"Kiranomiya",     bg:"static/regions/kiranomiya.png",     rect:[50,22.5,20,17] },
-  { id:"nihon",          name:"Nihon",          bg:"static/regions/nihon.png",          rect:[23,38.5,22,17] },
-  { id:"noroburg",       name:"Noroburg",       bg:"static/regions/noroburg.png",       rect:[76.5,34.5,22,17] },
-  { id:"russet-skyline", name:"Russet Skyline", bg:"static/regions/russet-skyline.png", rect:[50,56.5,26,19] },
-  { id:"san-maris",      name:"San Maris",      bg:"static/regions/san-maris.png",      rect:[20.5,58,20,15] },
-  { id:"solmara",        name:"Solmara",        bg:"static/regions/solmara.png",        rect:[79.5,58,20,15] },
-  { id:"nordhaven",      name:"Nordhaven",      bg:"static/regions/nordhaven.png",      rect:[27.5,79,25,17] },
-  { id:"valparyn",       name:"Valparyn",       bg:"static/regions/valparyn.png",       rect:[72.5,79,25,17] }
+  { id:"kiranomiya",     name:"Kiranomiya",     bg:"static/regions/kiranomiya.png",     rect:[50,23,20,16] },
+  { id:"nihon",          name:"Nihon",          bg:"static/regions/nihon.png",          rect:[23,40,20,15] },
+  { id:"noroburg",       name:"Noroburg",       bg:"static/regions/noroburg.png",       rect:[77,36,20,15] },
+  { id:"russet-skyline", name:"Russet Skyline", bg:"static/regions/russet-skyline.png", rect:[50,55,25,17] },
+  { id:"san-maris",      name:"San Maris",      bg:"static/regions/san-maris.png",      rect:[20,59,20,14] },
+  { id:"solmara",        name:"Solmara",        bg:"static/regions/solmara.png",        rect:[80,59,20,14] },
+  { id:"nordhaven",      name:"Nordhaven",      bg:"static/regions/nordhaven.png",      rect:[27,77,24,15] },
+  { id:"valparyn",       name:"Valparyn",       bg:"static/regions/valparyn.png",       rect:[73,77,24,15] }
 ];
 
   // хот-слой поверх карты (только когда открыта вкладка Карта)
@@ -94,14 +94,14 @@
   // один остров = одна кликабельная область
   // rect: [centerX%, centerY%, width%, height%]
   const REGIONS = [
-  { id:"kiranomiya",     name:"Kiranomiya",     bg:"static/regions/kiranomiya.png",     rect:[50,22.5,20,17] },
-  { id:"nihon",          name:"Nihon",          bg:"static/regions/nihon.png",          rect:[23,38.5,22,17] },
-  { id:"noroburg",       name:"Noroburg",       bg:"static/regions/noroburg.png",       rect:[76.5,34.5,22,17] },
-  { id:"russet-skyline", name:"Russet Skyline", bg:"static/regions/russet-skyline.png", rect:[50,56.5,26,19] },
-  { id:"san-maris",      name:"San Maris",      bg:"static/regions/san-maris.png",      rect:[20.5,58,20,15] },
-  { id:"solmara",        name:"Solmara",        bg:"static/regions/solmara.png",        rect:[79.5,58,20,15] },
-  { id:"nordhaven",      name:"Nordhaven",      bg:"static/regions/nordhaven.png",      rect:[27.5,79,25,17] },
-  { id:"valparyn",       name:"Valparyn",       bg:"static/regions/valparyn.png",       rect:[72.5,79,25,17] }
+  { id:"kiranomiya",     name:"Kiranomiya",     bg:"static/regions/kiranomiya.png",     rect:[50,23,20,16] },
+  { id:"nihon",          name:"Nihon",          bg:"static/regions/nihon.png",          rect:[23,40,20,15] },
+  { id:"noroburg",       name:"Noroburg",       bg:"static/regions/noroburg.png",       rect:[77,36,20,15] },
+  { id:"russet-skyline", name:"Russet Skyline", bg:"static/regions/russet-skyline.png", rect:[50,55,25,17] },
+  { id:"san-maris",      name:"San Maris",      bg:"static/regions/san-maris.png",      rect:[20,59,20,14] },
+  { id:"solmara",        name:"Solmara",        bg:"static/regions/solmara.png",        rect:[80,59,20,14] },
+  { id:"nordhaven",      name:"Nordhaven",      bg:"static/regions/nordhaven.png",      rect:[27,77,24,15] },
+  { id:"valparyn",       name:"Valparyn",       bg:"static/regions/valparyn.png",       rect:[73,77,24,15] }
 ];
 
   // Слой хот-спотов только если есть карта
@@ -383,3 +383,50 @@
 })();
 // CC-HOTSPOTS-END
 
+
+(function(){
+  const $ = s => document.querySelector(s);
+
+  function mountHotspots(){
+    const wrap = document.getElementById("map-wrap");
+    if(!wrap) return;
+    wrap.querySelector(".map-hotlayer")?.remove();
+    const layer = document.createElement("div");
+    layer.className = "map-hotlayer";
+    wrap.appendChild(layer);
+    (typeof REGIONS!=="undefined"?REGIONS:[]).forEach(r=>{
+      const b=document.createElement("button");
+      b.className="map-hotspot";
+      const [cx,cy,w,h]=r.rect;
+      b.style.left=(cx-w/2)+"%";
+      b.style.top=(cy-h/2)+"%";
+      b.style.width=w+"%";
+      b.style.height=h+"%";
+      b.addEventListener("click",()=>openRegionModal(r));
+      layer.appendChild(b);
+    });
+  }
+
+  window.openRegionModal=function(r){
+    const scr=$("#screen-region");
+    if(!scr)return;
+    $("#regionTitle").textContent=r.name;
+    const bg=$("#regionBg");
+    if(bg)bg.style.backgroundImage="url('"+r.bg+"?v="+Date.now()+"')";
+    scr.classList.remove("hidden");
+    document.body.setAttribute("data-tab","map");
+  };
+
+  document.getElementById("btnRegionBack")?.addEventListener("click",()=>{
+    document.getElementById("screen-region")?.classList.add("hidden");
+  });
+
+  new MutationObserver(()=>{
+    if(document.body.getAttribute("data-tab")!=="map")
+      document.getElementById("screen-region")?.classList.add("hidden");
+  }).observe(document.body,{attributes:true,attributeFilter:["data-tab"]});
+
+  if(document.readyState==="loading")
+    document.addEventListener("DOMContentLoaded",mountHotspots);
+  else mountHotspots();
+})();
