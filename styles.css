@@ -249,3 +249,18 @@ body[data-tab="map"] #map-wrap{display:block}
 .map-hotlayer{position:absolute;inset:0;z-index:5;pointer-events:none;}
 .map-hotspot{position:absolute;pointer-events:auto;background:transparent;border:none;}
 #regionBg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:1;}
+/* keep tabbar always visible & clickable */
+.tabbar{ position:fixed; left:0; right:0; bottom:0; z-index:30; }
+
+/* region screen sits between header and tabbar */
+.region-view{ position:fixed; inset:var(--header-h) 0 var(--tabbar-h) 0; z-index:15; }
+.region-bg{ position:absolute; inset:0; background-size:cover; background-position:center; opacity:.9; }
+.region-content{ position:relative; z-index:1; }
+
+/* hotspots only over the map, below tabbar */
+#map-wrap{ position:relative; }
+.map-hotlayer{ position:absolute; inset:0; z-index:5; pointer-events:none; }
+.map-hotspot{ pointer-events:auto; background:transparent; border:none; }
+
+/* map never blocks UI */
+#map{ pointer-events:none; z-index:0; }
