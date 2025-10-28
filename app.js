@@ -55,3 +55,40 @@
 })();
 
 
+//
+// ===== PATCH: rebuild hotspots on load (no regex) =====
+(function(){
+  const wrap = document.querySelector('#map-wrap');
+  if(!wrap) return;
+
+  // Локальный список координат (из твоего макета с красными точками)
+  const REG = [
+    { id:'kiranomiya',     name:'Kiranomiya',     x:50.9, y:35.8 },
+    { id:'noroburg',       name:'Noroburg',       x:77.6, y:37.8 },
+    { id:'russet-skyline', name:'Russet Skyline', x:49.5, y:59.4 },
+    { id:'solmara',        name:'Solmara',        x:80.4, y:63.0 },
+    { id:'san-maris',      name:'San Maris',      x:21.8, y:63.0 },
+    { id:'nordhaven',      name:'Nordhaven',      x:24.3, y:81.0 },
+    { id:'valparyn',       name:'Valparyn',       x:69.5, y:83.0 },
+    { id:'nihon',          name:'Nihon',          x:19.8, y:40.0 }
+  ];
+
+  function rebuild(){
+    // удалить старые точки (если были)
+    wrap.querySelectorAll('.hotspot').forEach(n => n.remove());
+    // создать заново
+    REG.forEach(r=>{
+      const b = document.createElement('button');
+      b.className = 'hotspot';
+      b.style.left = r.x + '%';
+      b.style.top  = r.y + '%';
+      b.setAttribute('aria-label', r.name || r.id);
+      // пока оставим алерт — для проверки клика; потом уберём
+      b.addEventListener('click', ()=> alert('REGION CLICK: ' + (r.name || r.id)));
+      wrap.appendChild(b);
+    });
+  }
+
+  window.rebuildHotspots = rebuild; // на всякий случай — пригодится для ручной перерисовки
+  rebuild();
+})();
