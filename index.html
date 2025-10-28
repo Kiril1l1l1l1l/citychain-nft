@@ -30,9 +30,9 @@
 
     <!-- Нижний таббар -->
     <nav class="bottombar">
-      <button id="tab-btn-shop" class="tabbtn" data-tab="shop">Магазин</button>
-      <button id="tab-btn-map" class="tabbtn" data-tab="map">Карта</button>
-      <button id="tab-btn-profile" class="tabbtn" data-tab="profile">Профиль</button>
+      <button id="tab-btn-shop" class="tabbtn" data-tab="shop" onclick="switchTabInline('shop')">Магазин</button>
+      <button id="tab-btn-map" class="tabbtn" data-tab="map" onclick="switchTabInline('map')">Карта</button>
+      <button id="tab-btn-profile" class="tabbtn" data-tab="profile" onclick="switchTabInline('profile')">Профиль</button>
     </nav>
   </div>
 
@@ -51,7 +51,7 @@
             <option value="class">Класс</option>
             <option value="type">Тип</option>
           </select>
-          <button class="btn" id="btn-back">Назад</button>
+          <button class="btn" id="btn-back" onclick="closeRegionInline()">Назад</button>
         </div>
       </div>
       <div class="list" id="region-list"></div>
@@ -98,6 +98,26 @@
     }, 300);
   })();
   </script>
+  <script>
+    // inline fallback на случай если внешние обработчики не подцепились
+    function switchTabInline(name){
+      try{
+        document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+        var pane = document.getElementById('tab-' + name) || document.querySelector('[data-tab-pane="'+name+'"]');
+        if(pane) pane.classList.add('active');
+        closeRegionInline();
+      }catch(e){}
+    }
+    function closeRegionInline(){
+      var ov = document.getElementById('region-overlay');
+      if(!ov) return;
+      ov.classList.remove('active');
+      ov.setAttribute('aria-hidden','true');
+      var bg = ov.querySelector('.bg');
+      if(bg) bg.style.backgroundImage = '';
+    }
+  </script>
 </body>
 </html>
+
 

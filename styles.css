@@ -77,3 +77,11 @@ body{margin:0; background:var(--bg); color:var(--text); font:14px/1.45 system-ui
 /* Misc */
 .stub{padding:16px; color:var(--muted)}
 
+/* --- overlay hard cover & clickability --- */
+.region-overlay{
+  z-index: 5000 !important;
+  background: #000; /* чтобы карта точно не просвечивала */
+}
+.region-overlay .bg{ position:absolute; inset:0; background:center/cover no-repeat; }
+.region-overlay .bg::after{ content:""; position:absolute; inset:0; background:rgba(0,0,0,.38); }
+.region-overlay .panel{ position:relative; z-index:1; }
