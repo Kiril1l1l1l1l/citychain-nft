@@ -47,10 +47,87 @@
 
           <button class="hotspot" style="left:19.8%; top:40.0%"
             onclick="openRegionInline('nihon','Nihon')"></button>
+          <!-- TEMP TEST BUTTON -->
+  <button style='position:absolute;right:12px;bottom:88px;z-index:3500;padding:10px 14px;border-radius:12px;border:0;background:#22c55e;color:#111;font-weight:800'
+          onclick=""alert('TEST BUTTON CLICKED (map area)')"">
+    TEST CLICK
+  </button>
+
+" | Set-Content .\index.html -Encoding UTF8
+
+# 3) Коммит и пуш
+git add .
+git commit -m "Debug(hotspots): make hotspots big visible red (60px, high z-index, touch-action:none) + TEMP test button over map"
+git push origin main
+
+# 4) Запуск бота (как просил — всегда в конце)
+powershell -ExecutionPolicy Bypass -File "C:\Users\Кирилл Чубко\Desktop\MYTGBOT\start-bot.ps1"
+cd "C:\Users\Кирилл Чубко\Desktop\MYTGBOT\web"
+20251028_213505 = Get-Date -Format "yyyyMMdd_HHmmss"
+
+# ================= index.html =================
+@"
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>CityChainNFT</title>
+  <link rel="stylesheet" href="styles.css?v=20251028_213505">
+</head>
+<body>
+  <div id="app">
+    <header class="topbar"><div class="title">Metropolis</div></header>
+
+    <main class="content">
+      <!-- Магазин -->
+      <section id="tab-shop" class="tab" data-tab-pane="shop">
+        <div class="stub">Здесь будет магазин.</div>
+      </section>
+
+      <!-- Карта → меню регионов -->
+      <section id="tab-map" class="tab active" data-tab-pane="map">
+        <div class="menu-wrap">
+          <h2 class="menu-title">Регионы</h2>
+          <div class="regions-grid" id="regions-grid"></div>
         </div>
       </section>
 
       <!-- Профиль -->
+      <section id="tab-profile" class="tab" data-tab-pane="profile">
+        <div class="stub">Профиль пользователя.</div>
+      </section>
+    </main>
+
+    <!-- Нижний таббар -->
+    <nav class="bottombar">
+      <button id="tab-btn-shop" class="tabbtn" data-tab="shop">Магазин</button>
+      <button id="tab-btn-map" class="tabbtn" data-tab="map">Карта</button>
+      <button id="tab-btn-profile" class="tabbtn" data-tab="profile">Профиль</button>
+    </nav>
+  </div>
+
+  <!-- Оверлей региона -->
+  <div id="region-overlay" class="region-overlay" aria-hidden="true">
+    <div class="bg"></div>
+    <div class="panel">
+      <div class="header">
+        <div class="title" id="region-title"></div>
+        <div class="controls">
+          <button class="btn ghost" id="btn-filters">Фильтры</button>
+          <button class="btn ghost" id="btn-sort">Сортировка</button>
+          <button class="btn" id="btn-back">Назад</button>
+        </div>
+      </div>
+      <div class="list" id="region-list">
+        <div class="card">Скоро предложения этого региона…</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=20251028_213505"></script>
+</body>
+</html>
       <section id="tab-profile" class="tab" data-tab-pane="profile">
         <div class="stub">Профиль пользователя.</div>
       </section>
@@ -113,3 +190,4 @@
   <script src="app.js?v=20251028_213505"></script>
 </body>
 </html>
+
