@@ -59,5 +59,45 @@
   </div>
 
   <script src="app.js?v=20251028_220608"></script>
+  <script>
+  // INLINE_FALLBACK_REGIONS: если сетка пустая через 300мс — рисуем меню инлайном
+  (function(){
+    var r = [
+      {id:'kiranomiya',name:'Kiranomiya',bg:'kiranomiya.png'},
+      {id:'noroburg',name:'Noroburg',bg:'noroburg.png'},
+      {id:'russet-skyline',name:'Russet Skyline',bg:'russet-skyline.png'},
+      {id:'san-maris',name:'San Maris',bg:'san-maris.png'},
+      {id:'solmara',name:'Solmara',bg:'solmara.png'},
+      {id:'valparyn',name:'Valparyn',bg:'valparyn.png'},
+      {id:'nordhaven',name:'Nordhaven',bg:'nordhaven.png'},
+      {id:'nihon',name:'Nihon',bg:'nihon.png'}
+    ];
+    setTimeout(function(){
+      var grid = document.getElementById('regions-grid');
+      if(!grid) return;
+      if(grid.children.length > 0) return;
+      r.forEach(function(x){
+        var b = document.createElement('button');
+        b.className = 'region-btn';
+        b.innerHTML = '<div class="name">'+x.name+'</div><small>Открыть</small>';
+        b.onclick = function(){
+          document.getElementById('region-title').textContent = x.name;
+          document.querySelector('#region-overlay .bg').style.backgroundImage = 'url("static/regions/'+x.bg+'?v='+Date.now()+'")';
+          document.getElementById('region-overlay').classList.add('active');
+          document.getElementById('region-overlay').setAttribute('aria-hidden','false');
+          // три одинаковых карточки (инлайн)
+          var list = document.getElementById('region-list'); list.innerHTML='';
+          for(var i=0;i<3;i++){
+            var c = document.createElement('div'); c.className='card';
+            c.innerHTML='<div><div class="title">House</div><div class="meta"><span>Класс: A</span><span>Площадь: 120 m²</span></div></div><div class="actions"><div class="price">$ 100,000</div><div class="status">Available</div><button class="btn" disabled>Buy (скоро)</button></div>';
+            list.appendChild(c);
+          }
+        };
+        grid.appendChild(b);
+      });
+    }, 300);
+  })();
+  </script>
 </body>
 </html>
+

@@ -20,7 +20,7 @@ body{margin:0; background:var(--bg); color:var(--text); font:14px/1.45 system-ui
 .menu-title{margin:8px 0 16px; font-size:18px; color:var(--muted); font-weight:700}
 
 .regions-grid{
-  display:grid; gap:14px;
+  display:grid; gap:16px;
   grid-template-columns: repeat(2, minmax(0,1fr));
 }
 @media (min-width:560px){ .regions-grid{grid-template-columns: repeat(3, minmax(0,1fr));} }
@@ -28,13 +28,13 @@ body{margin:0; background:var(--bg); color:var(--text); font:14px/1.45 system-ui
 
 .region-btn{
   display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
-  gap:8px; padding:22px 14px; border-radius:16px; cursor:pointer;
+  gap:8px; padding:28px 16px; border-radius:18px; cursor:pointer;
   background:linear-gradient(180deg,#1a2230,#121820);
   border:1px solid var(--line); box-shadow:0 1px 0 rgba(255,255,255,.03) inset, 0 6px 24px rgba(0,0,0,.25);
   font-weight:800; transition:transform .08s ease;
 }
 .region-btn:active{ transform:scale(.98); }
-.region-btn .name{font-size:15px}
+.region-btn .name{font-size:16px}
 .region-btn small{color:var(--muted); font-weight:600}
 
 /* ===== Overlay ===== */
@@ -76,3 +76,4 @@ body{margin:0; background:var(--bg); color:var(--text); font:14px/1.45 system-ui
 
 /* Misc */
 .stub{padding:16px; color:var(--muted)}
+
