@@ -74,3 +74,14 @@ body{
 #map-image{position:relative; z-index:1; pointer-events:none;}
 .hotspot{position:absolute; z-index:5; pointer-events:auto;}
 .bottombar{position:relative; z-index:10;}
+/* --- patch(clicks): overlay & stacking order --- */
+.region-overlay{display:none; pointer-events:none;}          /* неактивный слой НЕ ловит клики */
+.region-overlay.active{display:block; pointer-events:auto;}  /* активный — ловит */
+.region-overlay .bg{pointer-events:none;}                    /* фон оверлея прозрачен для кликов к панели */
+
+#app{position:relative; z-index:0;}
+.content{position:relative; z-index:1;}
+#map-wrap{position:relative; z-index:1;}
+#map-image{pointer-events:none;}    /* карта не перехватывает клики */
+.hotspot{z-index:5; pointer-events:auto;}
+.bottombar{position:relative; z-index:100; pointer-events:auto;}  /* таббар всегда кликабелен */

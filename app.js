@@ -24,7 +24,7 @@
   if(mapWrap){ mapWrap.style.minHeight = 'calc(100vh - 100px)'; }
 
   // Оверлей региона
-  const overlay = ensureOverlay();
+  const overlay = ensureOverlay(); closeRegion();
 
   // Рендер невидимых хот-спотов (без title, только aria-label)
   if(mapWrap && !mapWrap.dataset.hotspotsReady){
@@ -59,7 +59,13 @@
     mapImg.src = base + '?v=' + TS;
   }
 
-  function showTab(name){
+    // Прямые обработчики на нижние кнопки (bulletproof)
+  const btnShop = document.getElementById("tab-btn-shop");
+  const btnMap = document.getElementById("tab-btn-map");
+  const btnProfile = document.getElementById("tab-btn-profile");
+  if(btnShop)   btnShop.addEventListener("click",   (e)=>{ e.preventDefault(); showTab("shop"); });
+  if(btnMap)    btnMap.addEventListener("click",    (e)=>{ e.preventDefault(); showTab("map"); });
+  if(btnProfile)btnProfile.addEventListener("click",(e)=>{ e.preventDefault(); showTab("profile"); });function showTab(name){
     closeRegion(); // при смене вкладки — закрываем регион
     qa('.tab').forEach(t=>t.classList.remove('active'));
     const target = q(#tab-) || q([data-tab-pane=""]);
@@ -109,4 +115,5 @@
   // Экспорт для отладки
   window.CityChainNFT = { REGIONS, openRegion, closeRegion, showTab };
 })();
+
 
