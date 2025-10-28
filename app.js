@@ -24,7 +24,7 @@
   if(mapWrap){ mapWrap.style.minHeight = 'calc(100vh - 100px)'; }
 
   // Оверлей региона
-  const overlay = ensureOverlay(); closeRegion();
+  const overlay = ensureOverlay(); closeRegion(); closeRegion();
 
   // Рендер невидимых хот-спотов (без title, только aria-label)
   if(mapWrap && !mapWrap.dataset.hotspotsReady){
@@ -115,5 +115,6 @@
   // Экспорт для отладки
   window.CityChainNFT = { REGIONS, openRegion, closeRegion, showTab };
 })();
+
 
 

@@ -1,51 +1,54 @@
-﻿/* --- CityChainNFT base styles --- */
+﻿/* ===== CityChainNFT — base theme ===== */
 :root{
-  --bg:#0f1114;
-  --text:#e7e9ee;
-  --muted:#9aa3aa;
-  --primary:#2c7df0;
-  --card:#182028;
-  --bar:#12171d;
-  --line:#1f2630;
+  --bg:#0f1114; --text:#e7e9ee; --muted:#9aa3aa;
+  --primary:#2c7df0; --card:#182028; --bar:#12171d; --line:#1f2630;
 }
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
   margin:0; background:var(--bg); color:var(--text);
-  font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;
+  font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
 }
-#app{min-height:100%; display:flex; flex-direction:column}
+#app{min-height:100%; display:flex; flex-direction:column; position:relative; z-index:0}
 
+/* ===== Top bar ===== */
 .topbar{
   height:44px; display:flex; align-items:center; padding:0 12px;
   background:var(--bar); border-bottom:1px solid var(--line);
 }
 .topbar .title{font-weight:700}
 
-.content{flex:1; min-height:0} /* чтобы main растягивался */
+/* ===== Tabs container ===== */
+.content{flex:1; min-height:0; position:relative; z-index:5}
 .tab{display:none; height:100%}
 .tab.active{display:block}
 
-/* Карта */
+/* ===== Map ===== */
 #tab-map,#map-wrap{height:100%}
-#map-wrap{position:relative; width:100%}
+#map-wrap{position:relative; width:100%; z-index:10}
 #map-image{
   display:block; width:100%; height:auto; object-fit:contain;
-  user-select:none; pointer-events:none;
+  user-select:none; pointer-events:none;                 /* картинка не ловит клики */
+  position:relative; z-index:10;
 }
-
-/* Хот-споты — невидимые, только курсор pointer */
+/* Невидимые кликабельные хот-споты СВЕРХУ ВСЕХ внутри контента */
 .hotspot{
   position:absolute; width:44px; height:44px; transform:translate(-50%,-50%);
   background:transparent; border:none; padding:0; margin:0; cursor:pointer;
+  z-index:9999; pointer-events:auto;
 }
 .hotspot:focus{outline:none}
 .hotspot::after{content:""; position:absolute; inset:0; background:transparent}
 
-/* Оверлей региона */
-.region-overlay{position:fixed; inset:0; display:none; z-index:50}
-.region-overlay.active{display:block}
-.region-overlay .bg{position:absolute; inset:0; background-position:center; background-size:cover}
+/* ===== Region overlay ===== */
+.region-overlay{
+  position:fixed; inset:0; z-index:-1; display:block;    /* в неактивном состоянии уводим в -1 */
+  pointer-events:none;                                    /* и не даём ловить клики */
+}
+.region-overlay.active{
+  z-index:1000; pointer-events:auto;                      /* активный — над всем контентом */
+}
+.region-overlay .bg{position:absolute; inset:0; background-position:center; background-size:cover; pointer-events:none}
 .region-overlay .bg::after{content:""; position:absolute; inset:0; background:rgba(0,0,0,.35)}
 .region-overlay .panel{
   position:relative; z-index:1; height:100%;
@@ -59,29 +62,14 @@ body{
 .btn.ghost{background:rgba(255,255,255,.1)}
 .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px}
 
-/* Нижний таббар */
+/* ===== Bottom tab bar — ВСЕГДА КЛИКАБЕЛЕН И СВЕРХУ ===== */
 .bottombar{
   height:56px; display:flex; justify-content:space-around; align-items:center;
   background:var(--bar); border-top:1px solid var(--line);
+  position:relative; z-index:2000; pointer-events:auto;  /* выше любых контентных слоёв */
 }
 .tabbtn{background:transparent; border:none; color:var(--text); padding:6px 10px; border-radius:10px; cursor:pointer}
 .tabbtn:focus{outline:none}
 
-/* Заглушки для контента */
+/* ===== Stubs ===== */
 .stub{padding:16px; color:var(--muted)}
-/* --- patch: clickable hotspots and bottom tabs --- */
-#map-wrap{position:relative; z-index:0;}
-#map-image{position:relative; z-index:1; pointer-events:none;}
-.hotspot{position:absolute; z-index:5; pointer-events:auto;}
-.bottombar{position:relative; z-index:10;}
-/* --- patch(clicks): overlay & stacking order --- */
-.region-overlay{display:none; pointer-events:none;}          /* неактивный слой НЕ ловит клики */
-.region-overlay.active{display:block; pointer-events:auto;}  /* активный — ловит */
-.region-overlay .bg{pointer-events:none;}                    /* фон оверлея прозрачен для кликов к панели */
-
-#app{position:relative; z-index:0;}
-.content{position:relative; z-index:1;}
-#map-wrap{position:relative; z-index:1;}
-#map-image{pointer-events:none;}    /* карта не перехватывает клики */
-.hotspot{z-index:5; pointer-events:auto;}
-.bottombar{position:relative; z-index:100; pointer-events:auto;}  /* таббар всегда кликабелен */
