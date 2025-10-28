@@ -1,379 +1,71 @@
-﻿:root{
-  --bg:#0f1114;--text:#e7e9ee;--muted:#9aa3aa;--primary:#2c7df0;--primary-text:#0e1520;
-  --card:#182028;--card2:#12171d;--line:rgba(255,255,255,.08);
-  --header-h:56px;--tabbar-h:64px;
+﻿/* --- CityChainNFT base styles --- */
+:root{
+  --bg:#0f1114;
+  --text:#e7e9ee;
+  --muted:#9aa3aa;
+  --primary:#2c7df0;
+  --card:#182028;
+  --bar:#12171d;
+  --line:#1f2630;
 }
-*{box-sizing:border-box}html,body{height:100%}
-body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-
-.app-header{position:fixed;top:0;left:0;right:0;height:var(--header-h);display:flex;align-items:center;padding:0 16px;z-index:10;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,0));backdrop-filter:blur(6px)}
-.header-title{font-weight:700}
-.app-main{position:fixed;top:var(--header-h);bottom:var(--tabbar-h);left:0;right:0;overflow:auto}
-
-#map-wrap{position:fixed;top:var(--header-h);bottom:var(--tabbar-h);left:0;right:0;display:grid;place-items:center;background:var(--card2)}
-#map{width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
-
-.profile{display:grid;gap:12px;padding:12px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px}
-.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.row-compact{margin-bottom:8px}
-.muted{color:var(--muted)}
-
-.user-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 18px;background:var(--card2);border:1px solid var(--line);border-radius:16px
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;
 }
-.user-meta{display:flex;flex-direction:column;margin-right:auto}
-.user-meta .name{font-size:18px;font-weight:700;margin:0}
+#app{min-height:100%; display:flex; flex-direction:column}
 
-.balance-inline{display:flex;align-items:center;gap:10px}
-.balance-inline .value{font-size:22px;font-weight:800}
-.balance .ticker{display:none!important}
-.btn{appearance:none;border:1px solid var(--line);background:transparent;color:var(--text);padding:10px 14px;border-radius:12px;cursor:pointer}
-.btn.primary{background:var(--primary);color:var(--primary-text);border-color:transparent}
-.btn.tiny{padding:4px 9px;border-radius:10px}
-.btn.fullwidth{width:100%;justify-content:center;padding:12px;font-weight:600;border-radius:14px}
+.topbar{
+  height:44px; display:flex; align-items:center; padding:0 12px;
+  background:var(--bar); border-bottom:1px solid var(--line);
+}
+.topbar .title{font-weight:700}
 
-.inventory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.inventory-cell{height:64px;border:1px dashed var(--line);border-radius:12px}
-.placeholder{background:rgba(255,255,255,.02)}
+.content{flex:1; min-height:0} /* чтобы main растягивался */
+.tab{display:none; height:100%}
+.tab.active{display:block}
 
-.referral-card{padding:16px 14px}
-.ref-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.ref-text{flex:1;min-width:220px}
-
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.stat{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
-.stat-label{color:var(--muted)}
-.stat-value{font-weight:800}
-
-.tabbar{position:fixed;left:0;right:0;bottom:0;height:var(--tabbar-h);display:grid;grid-auto-flow:column;grid-auto-columns:1fr;border-top:1px solid var(--line);background:rgba(0,0,0,.35);backdrop-filter:blur(8px);z-index:10}
-.tabbar button{appearance:none;border:0;background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center;font:inherit;padding:8px 0;cursor:pointer}
-.tabbar button[aria-selected=true]{color:var(--text);font-weight:600}
-.hidden{display:none!important}
-/* === Referral block: bigger & cleaner === */
-.referral-card{
-  padding: 20px 16px;
-  min-height: 110px;
-}
-.ref-row{
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 12px;
-  align-items: center;
-}
-.ref-text{
-  font-size: 14px;
-  line-height: 1.45;
-}
-.ref-actions{
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-.referral-card .row{
-  margin-top: 12px; /* отступ между текстом и кнопкой "Пригласить" */
-}
-#btnInvite{
-  width: 100%;
-  padding: 12px;
-  font-weight: 600;
-  border-radius: 12px;
+/* Карта */
+#tab-map,#map-wrap{height:100%}
+#map-wrap{position:relative; width:100%}
+#map-image{
+  display:block; width:100%; height:auto; object-fit:contain;
+  user-select:none; pointer-events:none;
 }
 
-/* Узкие экраны — складываем в одну колонку */
-@media (max-width: 380px){
-  .ref-row{
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-  .ref-actions{ justify-content: flex-start; }
-}
-/* === clickable map hotspots === */
-#map-wrap{ position:fixed; top:var(--header-h); bottom:var(--tabbar-h); left:0; right:0; display:grid; place-items:center; background:var(--card2) }
-#map{ width:100%; height:100%; object-fit:contain; user-select:none; -webkit-user-drag:none }
-.map-hotspot{
-  position:absolute; border:2px solid rgba(255,255,255,.25); background:rgba(255,255,255,.06);
-  border-radius:12px; cursor:pointer; transition:transform .12s ease, background .12s ease, border-color .12s ease;
-  backdrop-filter: blur(1px);
-}
-.map-hotspot:hover{ transform:scale(1.03); background:rgba(255,255,255,.09); border-color:rgba(255,255,255,.35) }
-
-/* === region screen === */
-.region-view{ position:fixed; inset:var(--header-h) 0 var(--tabbar-h) 0; z-index:5; overflow:auto }
-.region-bg{ position:absolute; inset:0; background-size:cover; background-position:center; filter:brightness(.68); }
-.region-content{ position:relative; z-index:1; padding:12px; display:grid; gap:12px }
-.region-topbar{ display:grid; grid-template-columns:84px 1fr 84px; align-items:center; gap:8px }
-.region-title{ text-align:center; font-weight:800; letter-spacing:.3px }
-.region-actions{ display:flex; gap:8px; flex-wrap:wrap }
-.offers{ display:grid; grid-template-columns:1fr; gap:10px }
-.offer-card{
-  background:rgba(0,0,0,.35); border:1px solid var(--line); border-radius:14px; padding:12px;
-  display:grid; grid-template-columns:72px 1fr auto; gap:10px; align-items:center; backdrop-filter:blur(8px)
-}
-.offer-thumb{ width:72px; height:54px; border-radius:10px; background:rgba(255,255,255,.08); object-fit:cover }
-.offer-title{ font-weight:700 }
-.offer-meta{ color:var(--muted); font-size:13px }
-/* FIX: map layering & clicks */
-#screen-map{ position:relative !important; }
-#screen-map.hidden{ display:none !important; }
-#map-wrap{ position:absolute !important; inset:0 !important; z-index:0 !important; }
-body[data-tab!="map"] #map-wrap{ pointer-events:none !important; visibility:hidden !important; }
-/* FIX router/map overlay */
-.hidden{display:none!important}
-#screen-map{position:relative}
-#map-wrap{
-  position:relative; /* было fixed/absolute — убираем перекрытие */
-  width:100%; height:calc(100vh - var(--header-h) - var(--tabbar-h));
-  display:none; place-items:center; background:var(--card2); z-index:0;
-}
-body[data-tab="map"] #map-wrap{display:grid}
-#map{width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
-/* FIX router/map overlay */
-.hidden{display:none!important}
-#screen-map{position:relative}
-#map-wrap{
-  position:relative; /* было fixed/absolute — убираем перекрытие */
-  width:100%; height:calc(100vh - var(--header-h) - var(--tabbar-h));
-  display:none; place-items:center; background:var(--card2); z-index:0;
-}
-body[data-tab="map"] #map-wrap{display:grid}
-#map{width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
-/* FIX: карта не перекрывает интерфейс, показывается только на вкладке "Карта" */
-#screen-map{position:relative!important}
-#map-wrap{position:relative!important;width:100%;height:calc(100vh - var(--header-h) - var(--tabbar-h));display:none;place-items:center;background:var(--card2);z-index:0}
-body[data-tab="map"] #map-wrap{display:grid!important}
-#map{width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
-/* hotspots */
-.map-hotlayer{position:absolute;inset:0;pointer-events:none}
-.map-hotspot{position:absolute;pointer-events:auto;border:2px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);border-radius:12px;cursor:pointer;transition:.12s;backdrop-filter:blur(1px)}
-.map-hotspot:hover{transform:scale(1.03);background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.35)}
-/* region screen */
-.region-view{position:fixed;inset:var(--header-h) 0 var(--tabbar-h) 0;z-index:5;overflow:auto}
-.region-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.68)}
-.region-content{position:relative;z-index:1;padding:12px;display:grid;gap:12px}
-.region-topbar{display:grid;grid-template-columns:84px 1fr 84px;align-items:center}
-.region-title{text-align:center;font-weight:800}
-.offers{display:grid;gap:10px}
-.offer-card{background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;grid-template-columns:72px 1fr auto;gap:10px;align-items:center;backdrop-filter:blur(8px)}
-.offer-thumb{width:72px;height:54px;border-radius:10px;background:rgba(255,255,255,.08);object-fit:cover}
-.offer-title{font-weight:700}
-.offer-meta{color:var(--muted);font-size:13px}
-/* --- HOTSPOTS (invisible) --- */
-.map-hotlayer{position:absolute; inset:0; pointer-events:none}
-.map-hotspot{
-  position:absolute; pointer-events:auto; background:transparent; border:0; border-radius:14px; cursor:pointer;
-  /* для отладки: outline:1px dashed rgba(255,255,255,.15); */
-}
-
-/* --- REGION MODAL --- */
-.region-modal{position:fixed; inset:0; display:none; z-index:50}
-.region-modal.open{display:block}
-.region-backdrop{position:absolute; inset:0; background:rgba(0,0,0,.55); backdrop-filter:blur(2px)}
-.region-sheet{
-  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
-  width:min(920px,92vw); max-height:84vh; overflow:auto;
-  background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.12); border-radius:14px;
-}
-.region-hero{
-  height:200px; background-size:cover; background-position:center;
-  border-radius:14px 14px 0 0; filter:brightness(.82)
-}
-.region-body{padding:12px}
-.region-top{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 0}
-.region-title{font-weight:800; font-size:18px}
-.region-close{padding:6px 10px; border-radius:10px; border:1px solid rgba(255,255,255,.15); background:rgba(255,255,255,.08); color:#fff; cursor:pointer}
-.region-close:hover{background:rgba(255,255,255,.14)}
-/* --- CC PATCH: map visibility & region modal --- */
-
-/* карта показывается только на табе Карта */
-body:not([data-tab="map"]) #map-wrap { display:none; }
-body[data-tab="map"] #map-wrap { display:block; }
-
-/* хот-споты невидимые, без серых рамок */
-.map-hotspot{
-  background:transparent !important;
-  border:none !important;
-  outline:none !important;
-  box-shadow:none !important;
-}
-
-/* экран/модалка региона (совместимо с двумя вариантами id) */
-#region-modal, #screen-region{
-  position:fixed;
-  inset:var(--header-h) 0 var(--tabbar-h) 0;
-  z-index:100;
-}
-#region-modal.hidden, #screen-region.hidden{ display:none; }
-#region-modal.open,   #screen-region.open{  display:block; }
-
-/* фон региона (совместимо с #regionBg и #region-bg) */
-#regionBg, #region-bg, .region-bg{
-  position:absolute; inset:0;
-  background-size:cover; background-position:center;
-  filter:brightness(.7);
-}
-/* CC FIX: карта только на табе "Карта" */
-body:not([data-tab="map"]) #map-wrap{display:none}
-body[data-tab="map"] #map-wrap{display:block}
-
-/* Хот-споты полностью невидимы: */
-.map-hotlayer{position:absolute;inset:0;z-index:5;pointer-events:none}
-.map-hotspot{
-  position:absolute;pointer-events:auto;
-  background:transparent!important;border:none!important;outline:0!important;
-  box-shadow:none!important;filter:none!important;
-  cursor:pointer;
-}
-/* без подсветок/фокуса при наведении */
-.map-hotspot:focus,.map-hotspot:hover,.map-hotspot:active{background:transparent!important;outline:0!important;box-shadow:none!important}
-
-/* Модалка региона (совместимо с двумя id) */
-#region-modal,#screen-region{position:fixed;inset:var(--header-h) 0 var(--tabbar-h) 0;z-index:100}
-#region-modal.hidden,#screen-region.hidden{display:none}
-#region-modal.open,#screen-region.open{display:block}
-
-/* Фон региона */
-#regionBg,#region-bg,.region-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.7)}
-
-/* CC-HOTSPOTS-CSS */
-#map{ pointer-events:none; z-index:0; }
-#map-wrap{ position:relative; }
-.map-hotlayer{ position:absolute; inset:0; z-index:5; pointer-events:none; }
-.map-hotspot{ position:absolute; pointer-events:auto; background:transparent; border:none; }
-.region-view{ position:fixed; inset:var(--header-h) 0 var(--tabbar-h) 0; z-index:6; overflow:auto; }
-.region-bg{ position:absolute; inset:0; background-size:cover; background-position:center; filter:none; opacity:1; }
-#map{pointer-events:none;z-index:0;}
-#map-wrap{position:relative;}
-.map-hotlayer{position:absolute;inset:0;z-index:5;pointer-events:none;}
-.map-hotspot{position:absolute;pointer-events:auto;background:transparent;border:none;}
-#regionBg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:1;}
-/* keep tabbar always visible & clickable */
-.tabbar{ position:fixed; left:0; right:0; bottom:0; z-index:30; }
-
-/* region screen sits between header and tabbar */
-.region-view{ position:fixed; inset:var(--header-h) 0 var(--tabbar-h) 0; z-index:15; }
-.region-bg{ position:absolute; inset:0; background-size:cover; background-position:center; opacity:.9; }
-.region-content{ position:relative; z-index:1; }
-
-/* hotspots only over the map, below tabbar */
-#map-wrap{ position:relative; }
-.map-hotlayer{ position:absolute; inset:0; z-index:5; pointer-events:none; }
-.map-hotspot{ pointer-events:auto; background:transparent; border:none; }
-
-/* map never blocks UI */
-#map{ pointer-events:none; z-index:0; }
-/* ===== TABBAR FIX (always visible & clickable) ===== */
-:root{ --tabbar-h:72px; }
-.tabbar,
-.bottom-nav,
-.tabs,
-footer,
-.navbar,
-.tg-bottom{
-  position:fixed; left:0; right:0; bottom:0;
-  z-index:10000; pointer-events:auto;
-}
-
-/* регион не перекрывает таббар */
-.region-view{ position:fixed; inset:var(--header-h,0) 0 var(--tabbar-h,72px) 0; z-index:500; }
-.region-content{ position:relative; z-index:1; padding-bottom:calc(var(--tabbar-h,72px) + 8px); }
-.region-bg{ position:absolute; inset:0; background-size:cover; background-position:center; opacity:.9; }
-
-/* хот-слой не заходит на таббар и не ловит клики кроме самих кнопок */
-#map-wrap{ position:relative; }
-.map-hotlayer{
-  position:absolute; left:0; right:0; top:0;
-  bottom:var(--tabbar-h,72px);
-  z-index:200; pointer-events:none;
-}
-.map-hotspot{ pointer-events:auto; background:transparent; border:none; }
-
-/* сама карта не блокирует клики поверх */
-#map{ pointer-events:none; z-index:0; }
-/* ===== /TABBAR FIX ===== */
-/* ===== TABBAR FIX (always visible & clickable) ===== */
-:root{ --tabbar-h:72px; }
-.tabbar,
-.bottom-nav,
-.tabs,
-footer,
-.navbar,
-.tg-bottom{
-  position:fixed; left:0; right:0; bottom:0;
-  z-index:10000; pointer-events:auto;
-}
-
-/* регион не перекрывает таббар */
-.region-view{ position:fixed; inset:var(--header-h,0) 0 var(--tabbar-h,72px) 0; z-index:500; }
-.region-content{ position:relative; z-index:1; padding-bottom:calc(var(--tabbar-h,72px) + 8px); }
-.region-bg{ position:absolute; inset:0; background-size:cover; background-position:center; opacity:.9; }
-
-/* хот-слой не заходит на таббар и не ловит клики кроме самих кнопок */
-#map-wrap{ position:relative; }
-.map-hotlayer{
-  position:absolute; left:0; right:0; top:0;
-  bottom:var(--tabbar-h,72px);
-  z-index:200; pointer-events:none;
-}
-.map-hotspot{ pointer-events:auto; background:transparent; border:none; }
-
-/* сама карта не блокирует клики поверх */
-#map{ pointer-events:none; z-index:0; }
-/* ===== /TABBAR FIX ===== */
-/* keep tabbar always visible & clickable */
-.tabbar{ position:fixed; left:0; right:0; bottom:0; z-index:30; }
-
-/* region screen sits between header and tabbar */
-.region-view{ position:fixed; inset:var(--header-h) 0 var(--tabbar-h) 0; z-index:15; }
-.region-bg{ position:absolute; inset:0; background-size:cover; background-position:center; opacity:.9; }
-.region-content{ position:relative; z-index:1; }
-
-/* hotspots only over the map, below tabbar */
-#map-wrap{ position:relative; }
-.map-hotlayer{ position:absolute; inset:0; z-index:5; pointer-events:none; }
-.map-hotspot{ pointer-events:auto; background:transparent; border:none; }
-
-/* map never blocks UI */
-#map{ pointer-events:none; z-index:0; }
-/* --- CityChainNFT patch: hotspots + region overlay --- */
-#map-wrap{position:relative; width:100%; height:100%;}
-#map-image{display:block; width:100%; height:auto; object-fit:contain; user-select:none; pointer-events:none;}
+/* Хот-споты — невидимые, только курсор pointer */
 .hotspot{
   position:absolute; width:44px; height:44px; transform:translate(-50%,-50%);
-  background:transparent; border:none; outline:none; padding:0; margin:0; cursor:pointer;
+  background:transparent; border:none; padding:0; margin:0; cursor:pointer;
 }
-.hotspot:focus{outline:none;}
-/* никаких серых прямоугольников/подсказок */
-.hotspot::after{content:""; position:absolute; inset:0; background:transparent;}
+.hotspot:focus{outline:none}
+.hotspot::after{content:""; position:absolute; inset:0; background:transparent}
 
-.region-overlay{
-  position:fixed; inset:0; z-index:50; display:none;
-}
-.region-overlay.active{display:block;}
-.region-overlay .bg{
-  position:absolute; inset:0; background-position:center; background-size:cover;
-}
-.region-overlay .bg::after{
-  content:""; position:absolute; inset:0; background:rgba(0,0,0,.35); /* 35% затемнение */
-}
+/* Оверлей региона */
+.region-overlay{position:fixed; inset:0; display:none; z-index:50}
+.region-overlay.active{display:block}
+.region-overlay .bg{position:absolute; inset:0; background-position:center; background-size:cover}
+.region-overlay .bg::after{content:""; position:absolute; inset:0; background:rgba(0,0,0,.35)}
 .region-overlay .panel{
-  position:relative; z-index:1; padding:16px; max-width:1200px; margin:0 auto;
-  color:#e7e9ee; height:100%; display:flex; flex-direction:column; gap:16px;
+  position:relative; z-index:1; height:100%;
+  display:flex; flex-direction:column; gap:12px;
+  padding:16px; max-width:1200px; margin:0 auto; color:var(--text);
 }
-.region-overlay .header{
-  display:flex; align-items:center; justify-content:space-between; gap:12px;
+.region-overlay .header{display:flex; align-items:center; justify-content:space-between; gap:12px}
+.region-overlay .title{font-size:20px; font-weight:700}
+.region-overlay .controls{display:flex; gap:8px; flex-wrap:wrap}
+.btn{background:var(--primary); color:#fff; border:none; border-radius:12px; padding:10px 14px; cursor:pointer}
+.btn.ghost{background:rgba(255,255,255,.1)}
+.card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px}
+
+/* Нижний таббар */
+.bottombar{
+  height:56px; display:flex; justify-content:space-around; align-items:center;
+  background:var(--bar); border-top:1px solid var(--line);
 }
-.region-overlay .title{font-size:22px; font-weight:700;}
-.region-overlay .controls{display:flex; gap:8px; flex-wrap:wrap;}
-.region-overlay .btn{
-  background:#2c7df0; color:white; border:none; padding:10px 14px; border-radius:12px; cursor:pointer;
-}
-.region-overlay .btn.ghost{background:rgba(255,255,255,.1)}
-/* карта во вкладке "Карта" должна быть видна без оверлея */
-.tab{display:none;}
-.tab.active{display:block;}
-/* patch:min-height for map tab to avoid black/empty area */
-html,body{height:100%;}
-#tab-map,#map-wrap{min-height:calc(100vh - 88px);}
+.tabbtn{background:transparent; border:none; color:var(--text); padding:6px 10px; border-radius:10px; cursor:pointer}
+.tabbtn:focus{outline:none}
+
+/* Заглушки для контента */
+.stub{padding:16px; color:var(--muted)}
