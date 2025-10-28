@@ -5,14 +5,14 @@
 
   // 2) Карта регионов (координаты — проценты от контейнера)
   const REGIONS = [
-    { id:'kiranomiya',     name:'Kiranomiya',     x:67.6, y:62.2 },
-    { id:'noroburg',       name:'Noroburg',       x:41.8, y:39.9 },
-    { id:'russet-skyline', name:'Russet Skyline', x:57.9, y:28.6 },
-    { id:'san-maris',      name:'San Maris',      x:21.3, y:66.4 },
-    { id:'solmara',        name:'Solmara',        x:74.5, y:78.8 },
-    { id:'valparyn',       name:'Valparyn',       x:33.7, y:71.2 },
-    { id:'nordhaven',      name:'Nordhaven',      x:15.8, y:28.9 },
-    { id:'nihon',          name:'Nihon',          x:82.4, y:34.2 }
+    { id:'kiranomiya',     name:'Kiranomiya',     x:50.9, y:35.8 },
+    { id:'noroburg',       name:'Noroburg',       x:77.6, y:37.8 },
+    { id:'russet-skyline', name:'Russet Skyline', x:49.5, y:59.4 },
+    { id:'san-maris',      name:'San Maris',      x:21.8, y:63.0 },
+    { id:'solmara',        name:'Solmara',        x:80.4, y:63.0 },
+    { id:'valparyn',       name:'Valparyn',       x:69.5, y:83.0 },
+    { id:'nordhaven',      name:'Nordhaven',      x:24.3, y:81.0 },
+    { id:'nihon',          name:'Nihon',          x:19.8, y:40.0 }
   ];
 
   const q = s => document.querySelector(s);
@@ -53,3 +53,4 @@
   mark.textContent = 'app.js OK';
   document.body.appendChild(mark);
 })();
+

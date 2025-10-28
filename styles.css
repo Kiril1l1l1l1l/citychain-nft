@@ -53,3 +53,10 @@ body{margin:0; background:var(--bg); color:var(--text); font:14px/1.4 system-ui,
 /* Отступ под фикс-таббар */
 .content{padding-bottom:56px}
 .stub{padding:16px; color:var(--muted)}
+/* --- hotspots visual check (temporary) --- */
+.hotspot{
+  background:rgba(255,0,0,.28) !important;
+  border:2px solid #ff4a4a !important;
+  border-radius:50% !important;
+  width:44px !important; height:44px !important;
+}
