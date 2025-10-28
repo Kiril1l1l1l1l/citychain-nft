@@ -83,3 +83,28 @@ body{
   z-index:2147483647 !important; pointer-events:auto !important;
 }
 .content{padding-bottom:56px !important;} /* чтобы контент не прятался под фикс-таббаром */
+ /* ===== DEBUG PATCH 20251028_200136 ===== */
+ body.debug-on{ outline: 4px solid #ff2bd1; }
+ #debug-banner{
+   position:fixed; left:0; right:0; top:0; height:32px; z-index:2147483647;
+   display:flex; align-items:center; justify-content:center;
+   background:#ff2bd1; color:#0f1114; font-weight:800; letter-spacing:.5px;
+   text-transform:uppercase;
+ }
+ .bottombar{
+   position:fixed !important; left:0; right:0; bottom:0; height:56px;
+   background:#ff2bd1 !important; color:#0f1114 !important;
+   z-index:2147483647 !important;
+ }
+ .content{ padding-bottom:56px !important; }
+
+ /* ВРЕМЕННО: показываем хот-споты зелёными кружками, чтобы видеть кликабельные зоны */
+ .debug-on .hotspot{
+   background:rgba(0,255,0,.25) !important;
+   border:2px dashed #00ff00 !important;
+   border-radius:50% !important;
+   z-index:2147483646 !important;
+ }
+
+ /* Перестраховка: карта не перехватывает клики */
+ #map-image{ pointer-events:none !important; }

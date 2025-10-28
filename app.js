@@ -119,3 +119,48 @@
 
 
 
+ // ===== DEBUG MODULE 20251028_200136 =====
+ (function(){
+   const TS = '20251028_200136';
+   // Включаем debug-режим
+   document.body.classList.add('debug-on');
+
+   // Баннер
+   const b = document.createElement('div');
+   b.id = 'debug-banner';
+   b.textContent = 'DEBUG BUILD ' + TS + ' — если ты это видишь, деплой работает';
+   document.body.appendChild(b);
+
+   // Громкие консольные метки
+   console.log('%c[CityChainNFT][DEBUG] build time:', 'background:#ff2bd1;color:#111;padding:2px 6px;border-radius:4px', TS);
+
+   // Алерты на нижние кнопки (для проверки кликов)
+   const bindTab = (id, name) => {
+     const el = document.getElementById(id);
+     if(el && !el.__dbg){
+       el.__dbg = true;
+       el.addEventListener('click', ()=> alert('TAB CLICK: ' + name));
+     }
+   };
+   bindTab('tab-btn-shop','shop');
+   bindTab('tab-btn-map','map');
+   bindTab('tab-btn-profile','profile');
+
+   // Алерт на клик по региону (оборачиваем openRegion)
+   if(window.CityChainNFT && typeof window.CityChainNFT.openRegion === 'function'){
+     const origOpen = window.CityChainNFT.openRegion;
+     window.CityChainNFT.openRegion = function(r){
+       alert('REGION CLICK: ' + (r?.name || r));
+       return origOpen.apply(this, arguments);
+     };
+   } else {
+     // На случай ранней загрузки — повесим глобальный делегатор по хот-спотам
+     window.addEventListener('click', (e)=>{
+       const h = e.target.closest('.hotspot');
+       if(h && !h.__dbg){
+         h.__dbg = true;
+         alert('REGION CLICK (delegated)');
+       }
+     }, true);
+   }
+ })();
