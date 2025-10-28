@@ -492,3 +492,27 @@
   new MutationObserver(()=>{ if(document.body.getAttribute("data-tab")!=="map") closeRegion(); })
     .observe(document.body,{attributes:true,attributeFilter:["data-tab"]});
 })();
+(function(){
+  function closeRegion(){ document.getElementById("screen-region")?.classList.add("hidden"); }
+
+  // если в разметке есть кнопки таббара, привяжемся к ним
+  const tabMap     = document.querySelector('[data-tab="map"], #tab-map');
+  const tabProfile = document.querySelector('[data-tab="profile"], #tab-profile');
+  const tabShop    = document.querySelector('[data-tab="shop"], #tab-shop, [data-tab="store"]');
+
+  [tabMap,tabProfile,tabShop].forEach(btn=>{
+    btn && btn.addEventListener('click',()=>{
+      closeRegion();
+      // принудительно выставим нужную вкладку
+      const t = btn.getAttribute('data-tab') || btn.id?.replace('tab-','');
+      if(t) document.body.setAttribute('data-tab', t==='store'?'shop':t);
+    });
+  });
+
+  // подстраховка: любое внешнее изменение вкладки — тоже закрываем
+  new MutationObserver(()=>{
+    if(document.body.getAttribute('data-tab')!=="map"){
+      closeRegion();
+    }
+  }).observe(document.body,{attributes:true,attributeFilter:["data-tab"]});
+})();
