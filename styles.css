@@ -374,3 +374,6 @@ footer,
 /* карта во вкладке "Карта" должна быть видна без оверлея */
 .tab{display:none;}
 .tab.active{display:block;}
+/* patch:min-height for map tab to avoid black/empty area */
+html,body{height:100%;}
+#tab-map,#map-wrap{min-height:calc(100vh - 88px);}

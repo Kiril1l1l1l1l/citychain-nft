@@ -44,14 +44,17 @@
   }
 
   // Навигация: при переходе на другие вкладки — закрываем регион-оверлей.
-  qa("[data-tab], .bottom-tab button, .nav-tab").forEach(el=>{
-    el.addEventListener("click", (ev)=>{
-      const to = el.getAttribute("data-tab") || el.dataset.tabTarget || el.id?.replace("tab-btn-","");
-      if(to){ showTab(to); }
-    });
   });
 
-  function showTab(name){
+    // Делегированная навигация по вкладкам + автозакрытие оверлея
+  document.addEventListener("click", (e)=>{
+    const el = e.target.closest("[data-tab],[data-tab-target],.bottom-tab button,.nav-tab");
+    if(!el) return;
+    const to = el.getAttribute("data-tab") || el.getAttribute("data-tab-target") || el.dataset?.tabTarget || (el.id||"").replace(/^tab-btn-/, "");
+    if(!to) return;
+    e.preventDefault();
+    showTab(to);
+  });function showTab(name){
     closeRegion();
     qa(".tab").forEach(t=>t.classList.remove("active"));
     const target = q(`#tab-${name}`) || q(`[data-tab-pane="${name}"]`);
@@ -98,10 +101,12 @@
   }
 
   function closeRegion(){
-    overlay.classList.remove("active");
-  }
+  overlay.classList.remove("active");
+  const bg = overlay.querySelector(".bg");
+  if(bg) bg.style.backgroundImage = "";
+}
 
   // Экспорт для отладки (не обязательно)
   window.CityChainNFT = { REGIONS, openRegion, closeRegion, showTab };
 
-})();
+}  // init fallback\n  overlay.classList.remove("active");\n  if(!document.querySelector(".tab.active")){\n    const t = document.querySelector("#tab-map,[data-tab-pane=\\"map\\"]");\n    if(t) t.classList.add("active");\n  }\n})();
