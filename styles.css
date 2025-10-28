@@ -80,3 +80,14 @@ body{margin:0; background:var(--bg); color:var(--text); font:14px/1.4 system-ui,
   background:rgba(255,0,0,.28); border:2px solid #ff4a4a;
   z-index:9999 !important; pointer-events:auto !important;
 }
+/* --- patch: make hotspots tap-proof in Telegram WebApp --- */
+#map-image{pointer-events:none !important;}
+#map-wrap{-webkit-tap-highlight-color:transparent;}
+.hotspot{
+  pointer-events:auto !important;
+  touch-action:none !important;         /* отключаем жесты браузера */
+  -ms-touch-action:none !important;
+  user-select:none !important;
+  -webkit-user-drag:none !important;
+  z-index:2147483646 !important;
+}

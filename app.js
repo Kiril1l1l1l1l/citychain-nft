@@ -92,3 +92,40 @@
   window.rebuildHotspots = rebuild; // на всякий случай — пригодится для ручной перерисовки
   rebuild();
 })();
+// ===== PATCH: robust hotspot listeners for Telegram WebApp =====
+(function(){
+  function wireHotspot(el, payload){
+    if(!el || el.__wired) return; el.__wired = true;
+
+    const fire = ()=>{
+      // тут вместо alert можно вызвать открытие региона, пока оставим alert для наглядности
+      alert('REGION CLICK: ' + (payload?.name || payload?.id || 'unknown'));
+    };
+
+    const stop = (e)=>{ try{ e.preventDefault(); e.stopImmediatePropagation(); e.stopPropagation(); }catch(_){} };
+
+    // pointer events (современные)
+    el.addEventListener('pointerdown', e=>{ stop(e); el.setPointerCapture?.(e.pointerId); }, true);
+    el.addEventListener('pointerup',   e=>{ stop(e); fire(); }, true);
+    el.addEventListener('click',       e=>{ stop(e); fire(); }, true);
+
+    // fallback для старых webview
+    el.addEventListener('touchstart',  e=>{ stop(e); }, {capture:true, passive:false});
+    el.addEventListener('touchend',    e=>{ stop(e); fire(); }, {capture:true, passive:false});
+    el.addEventListener('mousedown',   e=>{ stop(e); }, true);
+    el.addEventListener('mouseup',     e=>{ stop(e); fire(); }, true);
+  }
+
+  function rewireAll(){
+    document.querySelectorAll('.hotspot').forEach(h=>{
+      // попытаемся достать полезную инфу из aria-label
+      const name = h.getAttribute('aria-label') || '';
+      wireHotspot(h, {name});
+    });
+  }
+
+  // сразу и на будущие вставки
+  rewireAll();
+  const obs = new MutationObserver(()=>rewireAll());
+  obs.observe(document.getElementById('map-wrap') || document.body, {childList:true, subtree:true});
+})();
