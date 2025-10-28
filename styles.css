@@ -5,14 +5,12 @@
 }
 *{box-sizing:border-box}
 html,body{height:100%}
-body{margin:0; background:var(--bg); color:var(--text); font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial}
+body{margin:0; background:var(--bg); color:var(--text); font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial}
 #app{min-height:100%; display:flex; flex-direction:column}
 
-/* Top bar */
 .topbar{height:44px; display:flex; align-items:center; padding:0 12px; background:var(--bar); border-bottom:1px solid var(--line)}
 .topbar .title{font-weight:700}
 
-/* Tabs */
 .content{flex:1; min-height:0; position:relative; padding-bottom:56px}
 .tab{display:none; height:100%}
 .tab.active{display:block}
@@ -20,13 +18,23 @@ body{margin:0; background:var(--bg); color:var(--text); font:14px/1.4 system-ui,
 /* ===== Regions menu ===== */
 .menu-wrap{max-width:1000px; margin:0 auto; padding:16px}
 .menu-title{margin:8px 0 16px; font-size:18px; color:var(--muted); font-weight:700}
-.regions-grid{display:grid; gap:12px; grid-template-columns:repeat(2,minmax(0,1fr))}
-@media (min-width:768px){ .regions-grid{grid-template-columns:repeat(4,minmax(0,1fr))} }
+
+.regions-grid{
+  display:grid; gap:14px;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+}
+@media (min-width:560px){ .regions-grid{grid-template-columns: repeat(3, minmax(0,1fr));} }
+@media (min-width:860px){ .regions-grid{grid-template-columns: repeat(4, minmax(0,1fr));} }
+
 .region-btn{
   display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
-  gap:6px; padding:18px 12px; border-radius:14px; cursor:pointer; border:1px solid var(--line);
-  background:linear-gradient(180deg,#1b2330,#121820); color:var(--text); font-weight:800;
+  gap:8px; padding:22px 14px; border-radius:16px; cursor:pointer;
+  background:linear-gradient(180deg,#1a2230,#121820);
+  border:1px solid var(--line); box-shadow:0 1px 0 rgba(255,255,255,.03) inset, 0 6px 24px rgba(0,0,0,.25);
+  font-weight:800; transition:transform .08s ease;
 }
+.region-btn:active{ transform:scale(.98); }
+.region-btn .name{font-size:15px}
 .region-btn small{color:var(--muted); font-weight:600}
 
 /* ===== Overlay ===== */
@@ -38,14 +46,26 @@ body{margin:0; background:var(--bg); color:var(--text); font:14px/1.4 system-ui,
   position:relative; z-index:1; height:100%; display:flex; flex-direction:column; gap:12px;
   padding:16px; max-width:1100px; margin:0 auto; color:var(--text);
 }
-.region-overlay .header{display:flex; align-items:center; justify-content:space-between; gap:12px}
+.region-overlay .header{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
 .region-overlay .title{font-size:20px; font-weight:800}
 .region-overlay .controls{display:flex; gap:8px; flex-wrap:wrap}
 .btn{background:var(--primary); color:#fff; border:none; border-radius:12px; padding:10px 14px; cursor:pointer}
 .btn.ghost{background:rgba(255,255,255,.1)}
-.card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px}
+.select{background:#0e141b; color:var(--text); border:1px solid var(--line); border-radius:10px; padding:9px 10px;}
 
-/* Bottom bar */
+/* Cards */
+.list{display:grid; gap:12px; grid-template-columns: repeat(1, minmax(0,1fr))}
+@media (min-width:720px){ .list{grid-template-columns: repeat(2, minmax(0,1fr));} }
+.card{
+  background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px;
+  display:grid; grid-template-columns: 1fr auto; gap:8px; align-items:center;
+}
+.card .meta{display:flex; gap:10px; flex-wrap:wrap; color:var(--muted); font-weight:600}
+.card .price{font-weight:800}
+.card .status{font-weight:700}
+.card .actions .btn{padding:8px 12px; border-radius:10px}
+
+/* ===== Bottom bar ===== */
 .bottombar{
   height:56px; display:flex; justify-content:space-around; align-items:center;
   background:var(--bar); border-top:1px solid var(--line);

@@ -1,82 +1,115 @@
-﻿/* ===== CityChainNFT — Regions Menu with per-region backgrounds ===== */
+﻿/* ===== CityChainNFT — Regions Menu (with per-region background & 3 offers) ===== */
 (function(){
   const TS = Date.now();
 
-  // Вкладки
-  bindTab('tab-btn-shop','shop');
-  bindTab('tab-btn-map','map');
-  bindTab('tab-btn-profile','profile');
+  // Навигация табов: при переключении закрываем оверлей
+  ['shop','map','profile'].forEach(name=>{
+    const el = document.querySelector('#tab-btn-' + name);
+    if(el){
+      el.addEventListener('click', (e)=>{
+        e.preventDefault();
+        closeRegion();
+        document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+        (document.getElementById('tab-'+name) || document.querySelector('[data-tab-pane=\"'+name+'\"]'))
+          ?.classList.add('active');
+      });
+    }
+  });
 
-  function bindTab(id, name){
-    const el = document.getElementById(id);
-    if(!el) return;
-    el.addEventListener('click', (e)=>{
-      e.preventDefault();
-      closeRegion();
-      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-      (document.getElementById('tab-'+name) || document.querySelector('[data-tab-pane=\"'+name+'\"]'))?.classList.add('active');
-    });
-  }
-
-  // Регион → файл фона (использую ТВОИ имена файлов из static/regions/)
+  // Список регионов (id → файл фона в нижнем регистре)
   const REGIONS = [
-    { id:'kiranomiya',     name:'Kiranomiya',     bg:'FonKiranomiya.png' },
-    { id:'noroburg',       name:'Noroburg',       bg:'FonNorroburg.png' },
-    { id:'russet-skyline', name:'Russet Skyline', bg:'FonRussetSkyline.png' },
-    { id:'san-maris',      name:'San Maris',      bg:'FonSanMaris.png' },
-    { id:'solmara',        name:'Solmara',        bg:'FonSolmara.png' },
-    { id:'valparyn',       name:'Valparyn',       bg:'FonValparin.png' },
-    { id:'nordhaven',      name:'Nordhaven',      bg:'FonNordhavean.png' },
-    { id:'nihon',          name:'Nihon',          bg:'FonNihon.png' }
+    { id:'kiranomiya',     name:'Kiranomiya',     bg:'kiranomiya.png' },
+    { id:'noroburg',       name:'Noroburg',       bg:'noroburg.png' },
+    { id:'russet-skyline', name:'Russet Skyline', bg:'russet-skyline.png' },
+    { id:'san-maris',      name:'San Maris',      bg:'san-maris.png' },
+    { id:'solmara',        name:'Solmara',        bg:'solmara.png' },
+    { id:'valparyn',       name:'Valparyn',       bg:'valparyn.png' },
+    { id:'nordhaven',      name:'Nordhaven',      bg:'nordhaven.png' },
+    { id:'nihon',          name:'Nihon',          bg:'nihon.png' }
   ];
-  // NB: «Norroburg», «Nordhavean», «Valparin» — намеренно оставлены как на твоём скрине, чтобы точно совпали файлы.
 
-  // Рисуем меню
+  // Рендер меню: крупные, но аккуратные кнопки (адаптивная сетка)
   const grid = document.getElementById('regions-grid');
   if(grid){
     grid.innerHTML = '';
-    REGIONS.forEach(r=>{
+    REGIONS.forEach((r)=>{
       const btn = document.createElement('button');
       btn.className = 'region-btn';
-      btn.innerHTML = <div class="region-name"></div><small>Открыть</small>;
-      wireButton(btn, r);
+      btn.innerHTML = <div class=\"name\"></div><small>Открыть</small>;
+      btn.addEventListener('click', ()=> openRegion(r));
       grid.appendChild(btn);
     });
   }
 
-  // ===== Оверлей
+  // ===== Оверлей региона =====
   const overlay = document.getElementById('region-overlay');
   document.getElementById('btn-back')?.addEventListener('click', closeRegion);
 
   function openRegion(r){
-    const title = overlay.querySelector('#region-title');
-    const bg = overlay.querySelector('.bg');
-    if(title) title.textContent = r.name;
-    if(bg)    bg.style.backgroundImage = url("static/regions/?v=20251028_213505");
+    overlay.querySelector('#region-title').textContent = r.name;
+    overlay.querySelector('.bg').style.backgroundImage = url(\"static/regions/?v=20251028_220608\");
+    // 3 одинаковых предложения (заглушки)
+    const list = overlay.querySelector('#region-list');
+    list.innerHTML = '';
+    const offers = buildOffersStub(r);
+    offers.forEach(o=> list.appendChild(renderOffer(o)));
     overlay.classList.add('active');
     overlay.setAttribute('aria-hidden','false');
   }
+
   function closeRegion(){
     overlay.classList.remove('active');
     overlay.setAttribute('aria-hidden','true');
     const bg = overlay.querySelector('.bg');
     if(bg) bg.style.backgroundImage = '';
   }
-  window.CityChainNFT = { openRegion, closeRegion, REGIONS };
 
-  // Устойчивые клики (tap/click/pointer) по кнопкам меню
-  function wireButton(el, region){
-    if(!el || el.__wired) return; el.__wired = true;
-    const fire = ()=> openRegion(region);
-    const stop = e=>{ try{ e.preventDefault(); e.stopImmediatePropagation(); e.stopPropagation(); }catch(_){ } };
-
-    el.addEventListener('pointerdown', e=>{ stop(e); el.setPointerCapture?.(e.pointerId); }, true);
-    el.addEventListener('pointerup',   e=>{ stop(e); fire(); }, true);
-    el.addEventListener('click',       e=>{ stop(e); fire(); }, true);
-
-    el.addEventListener('touchstart',  e=>{ stop(e); }, {capture:true, passive:false});
-    el.addEventListener('touchend',    e=>{ stop(e); fire(); }, {capture:true, passive:false});
-    el.addEventListener('mousedown',   e=>{ stop(e); }, true);
-    el.addEventListener('mouseup',     e=>{ stop(e); fire(); }, true);
+  // Три одинаковых карточки (заглушка)
+  function buildOffersStub(region){
+    const price = formatPrice(calcBase(region.id));
+    const base = {
+      regionId: region.id,
+      type: 'House',
+      district: 'A',
+      area: 120,
+      priceText: price,
+      status: 'Available'
+    };
+    return [base, {...base}, {...base}];
   }
+
+  function renderOffer(o){
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.innerHTML = 
+      <div>
+        <div class=\"title\"></div>
+        <div class=\"meta\">
+          <span>Класс: </span>
+          <span>Площадь:  m²</span>
+        </div>
+      </div>
+      <div class=\"actions\">
+        <div class=\"price\"></div>
+        <div class=\"status\"></div>
+        <button class=\"btn\" disabled>Buy (скоро)</button>
+      </div>
+    ;
+    return el;
+  }
+
+  // Простейшая оценка цены (заглушка) — факторы региона
+  const REGION_FACTORS = {
+    'kiranomiya':1.30, 'russet-skyline':1.25, 'noroburg':1.15, 'san-maris':1.10,
+    'solmara':1.05, 'valparyn':1.00, 'nihon':1.00, 'nordhaven':0.95
+  };
+  function calcBase(regionId){
+    const base = 100_000; // базовая цена для заглушки
+    const mult = REGION_FACTORS[regionId] ?? 1.0;
+    return Math.round(base * mult);
+  }
+  function formatPrice(n){ return '$ ' + n.toLocaleString('en-US'); }
+
+  // Экспорт (для отладки)
+  window.CityChainNFT = { REGIONS, openRegion, closeRegion };
 })();

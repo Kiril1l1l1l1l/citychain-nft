@@ -3,89 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>[INLINE FALLBACK 20251028_213505] CityChainNFT</title>
-  <link rel="stylesheet" href="styles.css?v=20251028_213505">
-</head>
-<body>
-  <div id="banner">INLINE CLICK FALLBACK — если это видно, всё кликает без app.js</div>
-
-  <div id="app">
-    <header class="topbar"><div class="title">Metropolis</div></header>
-
-    <main class="content">
-      <!-- Магазин -->
-      <section id="tab-shop" class="tab" data-tab-pane="shop">
-        <div class="stub">Здесь будет магазин.</div>
-      </section>
-
-      <!-- Карта -->
-      <section id="tab-map" class="tab active" data-tab-pane="map">
-        <div id="map-wrap">
-          <img id="map-image" src="static/map.png?v=20251028_213505" alt="City map">
-
-          <!-- Хот-споты: абсолютные кнопки, проценты от контейнера -->
-          <button class="hotspot" style="left:50.9%; top:35.8%"
-            onclick="openRegionInline('kiranomiya','Kiranomiya')"></button>
-
-          <button class="hotspot" style="left:77.6%; top:37.8%"
-            onclick="openRegionInline('noroburg','Noroburg')"></button>
-
-          <button class="hotspot" style="left:49.5%; top:59.4%"
-            onclick="openRegionInline('russet-skyline','Russet Skyline')"></button>
-
-          <button class="hotspot" style="left:21.8%; top:63.0%"
-            onclick="openRegionInline('san-maris','San Maris')"></button>
-
-          <button class="hotspot" style="left:80.4%; top:63.0%"
-            onclick="openRegionInline('solmara','Solmara')"></button>
-
-          <button class="hotspot" style="left:69.5%; top:83.0%"
-            onclick="openRegionInline('valparyn','Valparyn')"></button>
-
-          <button class="hotspot" style="left:24.3%; top:81.0%"
-            onclick="openRegionInline('nordhaven','Nordhaven')"></button>
-
-          <button class="hotspot" style="left:19.8%; top:40.0%"
-            onclick="openRegionInline('nihon','Nihon')"></button>
-          <!-- TEMP TEST BUTTON -->
-  <button style='position:absolute;right:12px;bottom:88px;z-index:3500;padding:10px 14px;border-radius:12px;border:0;background:#22c55e;color:#111;font-weight:800'
-          onclick=""alert('TEST BUTTON CLICKED (map area)')"">
-    TEST CLICK
-  </button>
-
-" | Set-Content .\index.html -Encoding UTF8
-
-# 3) Коммит и пуш
-git add .
-git commit -m "Debug(hotspots): make hotspots big visible red (60px, high z-index, touch-action:none) + TEMP test button over map"
-git push origin main
-
-# 4) Запуск бота (как просил — всегда в конце)
-powershell -ExecutionPolicy Bypass -File "C:\Users\Кирилл Чубко\Desktop\MYTGBOT\start-bot.ps1"
-cd "C:\Users\Кирилл Чубко\Desktop\MYTGBOT\web"
-20251028_213505 = Get-Date -Format "yyyyMMdd_HHmmss"
-
-# ================= index.html =================
-@"
-<!doctype html>
-<html lang="ru">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>CityChainNFT</title>
-  <link rel="stylesheet" href="styles.css?v=20251028_213505">
+  <link rel="stylesheet" href="styles.css?v=20251028_220608">
 </head>
 <body>
   <div id="app">
     <header class="topbar"><div class="title">Metropolis</div></header>
 
     <main class="content">
-      <!-- Магазин -->
       <section id="tab-shop" class="tab" data-tab-pane="shop">
         <div class="stub">Здесь будет магазин.</div>
       </section>
 
-      <!-- Карта → меню регионов -->
+      <!-- КАРТА → МЕНЮ РЕГИОНОВ -->
       <section id="tab-map" class="tab active" data-tab-pane="map">
         <div class="menu-wrap">
           <h2 class="menu-title">Регионы</h2>
@@ -93,7 +23,6 @@ cd "C:\Users\Кирилл Чубко\Desktop\MYTGBOT\web"
         </div>
       </section>
 
-      <!-- Профиль -->
       <section id="tab-profile" class="tab" data-tab-pane="profile">
         <div class="stub">Профиль пользователя.</div>
       </section>
@@ -114,80 +43,21 @@ cd "C:\Users\Кирилл Чубко\Desktop\MYTGBOT\web"
       <div class="header">
         <div class="title" id="region-title"></div>
         <div class="controls">
-          <button class="btn ghost" id="btn-filters">Фильтры</button>
-          <button class="btn ghost" id="btn-sort">Сортировка</button>
+          <!-- скелет фильтров/сортировки -->
+          <button class="btn ghost" id="btn-filters" disabled>Фильтры (скоро)</button>
+          <select class="select" id="sort-select" disabled>
+            <option value="price-asc">Цена ↑</option>
+            <option value="price-desc">Цена ↓</option>
+            <option value="class">Класс</option>
+            <option value="type">Тип</option>
+          </select>
           <button class="btn" id="btn-back">Назад</button>
         </div>
       </div>
-      <div class="list" id="region-list">
-        <div class="card">Скоро предложения этого региона…</div>
-      </div>
+      <div class="list" id="region-list"></div>
     </div>
   </div>
 
-  <script src="app.js?v=20251028_213505"></script>
+  <script src="app.js?v=20251028_220608"></script>
 </body>
 </html>
-      <section id="tab-profile" class="tab" data-tab-pane="profile">
-        <div class="stub">Профиль пользователя.</div>
-      </section>
-    </main>
-
-    <!-- Нижний таббар: встроенные onclick -->
-    <nav class="bottombar">
-      <button class="tabbtn"
-        onclick="switchTabInline('shop')">Магазин</button>
-      <button class="tabbtn"
-        onclick="switchTabInline('map')">Карта</button>
-      <button class="tabbtn"
-        onclick="switchTabInline('profile')">Профиль</button>
-    </nav>
-  </div>
-
-  <!-- Оверлей региона -->
-  <div id="region-overlay" class="region-overlay" aria-hidden="true">
-    <div class="bg" id="region-bg"></div>
-    <div class="panel">
-      <div class="header">
-        <div class="title" id="region-title"></div>
-        <div class="controls">
-          <button class="btn ghost">Фильтры</button>
-          <button class="btn ghost">Сортировка</button>
-          <button class="btn" onclick="closeRegionInline()">Назад</button>
-        </div>
-      </div>
-      <div class="list">
-        <div class="card">Скоро предложения этого региона…</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Небольшой inline JS для переключения вкладок и открытия региона -->
-  <script>
-    function switchTabInline(name){
-      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-      (document.getElementById('tab-'+name) || document.querySelector('[data-tab-pane="'+name+'"]'))?.classList.add('active');
-      closeRegionInline();
-    }
-    function openRegionInline(id, name){
-      // alert для явной обратной связи
-      alert('OPEN REGION: ' + name);
-      const TS = '20251028_213505';
-      document.getElementById('region-title').textContent = name;
-      document.getElementById('region-bg').style.backgroundImage = 'url("static/regions/'+id+'.png?v='+TS+'")';
-      document.getElementById('region-overlay').classList.add('active');
-      document.getElementById('region-overlay').setAttribute('aria-hidden','false');
-    }
-    function closeRegionInline(){
-      const ov = document.getElementById('region-overlay');
-      ov.classList.remove('active');
-      ov.setAttribute('aria-hidden','true');
-      document.getElementById('region-bg').style.backgroundImage = '';
-    }
-  </script>
-
-  <!-- Внешний app.js оставляем подключенным, но он не требуется -->
-  <script src="app.js?v=20251028_213505"></script>
-</body>
-</html>
-
