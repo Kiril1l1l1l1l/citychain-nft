@@ -109,3 +109,4 @@
   // Экспорт для отладки
   window.CityChainNFT = { REGIONS, openRegion, closeRegion, showTab };
 })();
+

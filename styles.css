@@ -69,3 +69,8 @@ body{
 
 /* Заглушки для контента */
 .stub{padding:16px; color:var(--muted)}
+/* --- patch: clickable hotspots and bottom tabs --- */
+#map-wrap{position:relative; z-index:0;}
+#map-image{position:relative; z-index:1; pointer-events:none;}
+.hotspot{position:absolute; z-index:5; pointer-events:auto;}
+.bottombar{position:relative; z-index:10;}
