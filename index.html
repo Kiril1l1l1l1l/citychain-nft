@@ -3,48 +3,46 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>[DEBUG 20251028_200136] CityChainNFT</title>
-  <link rel="stylesheet" href="styles.css?v=20251028193734">
+  <title>[HARD DEBUG 20251028_200745] CityChainNFT</title>
+  <link rel="stylesheet" href="styles.css?v=20251028_200745">
 </head>
 <body>
-  <div id="app">
-    <!-- Верхняя шапка -->
-    <header class="topbar">
-      <div class="title">Metropolis</div>
-    </header>
+  <div id="debug-banner">HARD DEBUG BUILD 20251028_200745 — если это видно, HTML/CSS обновились</div>
 
-    <!-- Контент вкладок -->
+  <div id="app">
+    <header class="topbar"><div class="title">Metropolis</div></header>
+
     <main class="content">
-      <!-- Магазин -->
-      <section id="tab-shop" class="tab" data-tab-pane="shop" aria-labelledby="tab-btn-shop">
-        <div class="stub">Здесь будет магазин.</div>
+      <section id="tab-shop" class="tab" data-tab-pane="shop">
+        <div class="stub">[SHOP] Здесь будет магазин.</div>
       </section>
 
-      <!-- Карта -->
-      <section id="tab-map" class="tab active" data-tab-pane="map" aria-labelledby="tab-btn-map">
+      <section id="tab-map" class="tab active" data-tab-pane="map">
         <div id="map-wrap">
-          <img id="map-image" src="static/map.png?v=20251028193734" alt="City map">
-          <!-- хот-споты рендерятся скриптом -->
+          <img id="map-image" src="static/map.png?v=20251028_200745" alt="City map">
+          <!-- хот-споты рендерятся в app.js -->
         </div>
       </section>
 
-      <!-- Профиль -->
-      <section id="tab-profile" class="tab" data-tab-pane="profile" aria-labelledby="tab-btn-profile">
-        <div class="stub">Профиль пользователя.</div>
+      <section id="tab-profile" class="tab" data-tab-pane="profile">
+        <div class="stub">[PROFILE] Профиль пользователя.</div>
       </section>
     </main>
 
-    <!-- Нижний таббар -->
     <nav class="bottombar">
-      <button id="tab-btn-shop" class="tabbtn" data-tab="shop"> 🛒 Магазин </button>
-      <button id="tab-btn-map" class="tabbtn" data-tab="map"> 🗺️ Карта </button>
-      <button id="tab-btn-profile" class="tabbtn" data-tab="profile"> 👤 Профиль </button>
+      <button id="tab-btn-shop" class="tabbtn" data-tab="shop">🛒 Магазин</button>
+      <button id="tab-btn-map" class="tabbtn" data-tab="map">🗺️ Карта</button>
+      <button id="tab-btn-profile" class="tabbtn" data-tab="profile">👤 Профиль</button>
     </nav>
   </div>
 
-  <!-- Оверлей региона создаётся/управляется скриптом -->
+  <!-- инлайн-скрипт для проверки, что JS исполняется хотя бы тут -->
+  <script>
+    window.__INLINE_OK__ = true;
+    console.log('[INLINE] JS работает');
+  </script>
 
-  <script src="app.js?v=20251028193734"></script>
+  <script src="app.js?v=20251028_200745"></script>
+  <noscript>Для работы приложения нужен JavaScript.</noscript>
 </body>
 </html>
-
