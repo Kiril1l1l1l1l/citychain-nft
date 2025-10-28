@@ -1,52 +1,35 @@
 ﻿/* ===== Base ===== */
-:root{
-  --bg:#0f1114; --text:#e7e9ee; --muted:#9aa3aa;
-  --primary:#2c7df0; --card:#182028; --bar:#12171d; --line:#1f2630;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
+:root{ --bg:#0f1114; --text:#e7e9ee; --muted:#9aa3aa; --primary:#2c7df0; --card:#182028; --bar:#12171d; --line:#1f2630; }
+*{box-sizing:border-box} html,body{height:100%}
 body{margin:0; background:var(--bg); color:var(--text); font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial}
-#banner{position:fixed; top:0; left:0; right:0; height:36px; z-index:9999; display:flex; align-items:center; justify-content:center; background:#ff2bd1; color:#111; font-weight:900; letter-spacing:.4px; text-transform:uppercase}
+#banner{position:fixed; top:0; left:0; right:0; height:36px; z-index:2000; display:flex; align-items:center; justify-content:center; background:#ff2bd1; color:#111; font-weight:900; letter-spacing:.4px; text-transform:uppercase}
 #app{min-height:100%; display:flex; flex-direction:column; padding-top:36px}
 
 .topbar{height:44px; display:flex; align-items:center; padding:0 12px; background:var(--bar); border-bottom:1px solid var(--line)}
 .topbar .title{font-weight:700}
 .content{flex:1; min-height:0; position:relative; padding-bottom:56px}
-.tab{display:none; height:100%}
-.tab.active{display:block}
+.tab{display:none; height:100%} .tab.active{display:block}
 
-/* ===== Menu (вместо карты) ===== */
+/* ===== Regions menu ===== */
 .menu-wrap{max-width:980px; margin:0 auto; padding:16px}
 .menu-title{margin:8px 0 16px; font-size:18px; color:var(--muted); font-weight:700}
-.regions-grid{
-  display:grid;
-  grid-template-columns: repeat(2, minmax(0,1fr));
-  gap:12px;
-}
-@media (min-width:768px){
-  .regions-grid{ grid-template-columns: repeat(4, minmax(0,1fr)); }
-}
+.regions-grid{display:grid; gap:12px; grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:768px){ .regions-grid{grid-template-columns:repeat(4,minmax(0,1fr))} }
 .region-btn{
-  display:flex; align-items:center; justify-content:center; text-align:center;
-  padding:18px 12px; border-radius:14px; cursor:pointer; border:1px solid var(--line);
-  background:linear-gradient(180deg, #1b2330, #121820);
-  color:var(--text); font-weight:700;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+  gap:6px; padding:20px 12px; border-radius:14px; cursor:pointer;
+  border:1px solid var(--line); background:linear-gradient(180deg,#1b2330,#121820); color:var(--text); font-weight:800;
 }
-.region-btn:hover{outline:2px solid rgba(124,170,255,.35)}
-.region-btn small{display:block; color:var(--muted); font-weight:500; margin-top:6px}
+.region-btn small{color:var(--muted); font-weight:600}
 
 /* ===== Overlay ===== */
-.region-overlay{position:fixed; inset:0; display:none; z-index:1000}
+.region-overlay{position:fixed; inset:0; display:none; z-index:1500}
 .region-overlay.active{display:block}
-.region-overlay .bg{position:absolute; inset:0; background:center/cover no-repeat; pointer-events:none}
+.region-overlay .bg{position:absolute; inset:0; background:center/cover no-repeat}
 .region-overlay .bg::after{content:""; position:absolute; inset:0; background:rgba(0,0,0,.38)}
-.region-overlay .panel{
-  position:relative; z-index:1; height:100%; display:flex; flex-direction:column; gap:12px;
-  padding:16px; max-width:1100px; margin:0 auto; color:var(--text);
-}
+.region-overlay .panel{position:relative; z-index:1; height:100%; display:flex; flex-direction:column; gap:12px; padding:16px; max-width:1100px; margin:0 auto}
 .region-overlay .header{display:flex; align-items:center; justify-content:space-between; gap:12px}
 .region-overlay .title{font-size:20px; font-weight:800}
-.region-overlay .controls{display:flex; gap:8px; flex-wrap:wrap}
 .btn{background:var(--primary); color:#fff; border:none; border-radius:12px; padding:10px 14px; cursor:pointer}
 .btn.ghost{background:rgba(255,255,255,.1)}
 .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px}
@@ -55,7 +38,7 @@ body{margin:0; background:var(--bg); color:var(--text); font:14px/1.4 system-ui,
 .bottombar{
   height:56px; display:flex; justify-content:space-around; align-items:center;
   background:var(--bar); border-top:1px solid var(--line);
-  position:fixed; left:0; right:0; bottom:0; z-index:2000;
+  position:fixed; left:0; right:0; bottom:0; z-index:1900;
 }
 .tabbtn{background:transparent; border:none; color:var(--text); padding:8px 12px; border-radius:12px; cursor:pointer}
 .tabbtn:focus{outline:none}
