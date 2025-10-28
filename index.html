@@ -3,71 +3,63 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>[BUILD2 20251028_201130] CityChainNFT</title>
-  <style>
-    :root{--bg:#0f1114;--text:#e7e9ee;--bar:#12171d;--line:#1f2630}
-    *{box-sizing:border-box} html,body{height:100%}
-    body{margin:0;background:var(--bg);color:var(--text);font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial}
-    #banner{
-      position:fixed;left:0;right:0;top:0;height:48px;z-index:2147483647;
-      display:flex;align-items:center;justify-content:center;
-      background:#ff2bd1;color:#111;font-weight:900;letter-spacing:.6px;text-transform:uppercase
-    }
-    #app{min-height:100%;display:flex;flex-direction:column;padding-top:48px}
-    .topbar{height:44px;display:flex;align-items:center;padding:0 12px;background:var(--bar);border-bottom:1px solid var(--line)}
-    .content{flex:1;min-height:0;position:relative;padding-bottom:64px}
-    .tab{display:none;height:100%}.tab.active{display:block}
-    #map-wrap{position:relative;width:100%;height:100%}
-    #map-image{display:block;width:100%;height:auto;object-fit:contain;user-select:none;pointer-events:none}
-    .bottombar{
-      height:64px;display:flex;justify-content:space-around;align-items:center;
-      position:fixed;left:0;right:0;bottom:0;z-index:2147483647;
-      background:#ff2bd1;color:#111;border-top:2px solid #ff8ee0
-    }
-    .tabbtn{background:transparent;border:none;color:#111;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer}
-    .stub{padding:16px;opacity:.7}
-  </style>
+  <title>[MENU DEBUG 20251028_211629] CityChainNFT</title>
+  <link rel="stylesheet" href="styles.css?v=20251028_211629">
 </head>
 <body>
-  <div id="banner">BUILD #2 — 20251028_201130 — ЕСЛИ ЭТО ВИДНО, ТОЧНО ОБНОВИЛОСЬ</div>
+  <div id="banner">MENU DEBUG — карта временно отключена</div>
 
   <div id="app">
     <header class="topbar"><div class="title">Metropolis</div></header>
 
     <main class="content">
+      <!-- Магазин -->
       <section id="tab-shop" class="tab" data-tab-pane="shop">
         <div class="stub">[SHOP] Здесь будет магазин.</div>
       </section>
 
+      <!-- Карта: ЗАМЕНА на список кнопок регионов -->
       <section id="tab-map" class="tab active" data-tab-pane="map">
-        <div id="map-wrap">
-          <img id="map-image" src="static/map.png?v=20251028_201130" alt="City map">
+        <div class="menu-wrap">
+          <h2 class="menu-title">Регионы</h2>
+          <div class="regions-grid" id="regions-grid">
+            <!-- кнопки генерятся в app.js -->
+          </div>
         </div>
       </section>
 
+      <!-- Профиль -->
       <section id="tab-profile" class="tab" data-tab-pane="profile">
         <div class="stub">[PROFILE] Профиль пользователя.</div>
       </section>
     </main>
 
-    <!-- Нижние кнопки с ВСТРОЕННЫМИ onclick (работают даже без app.js) -->
+    <!-- Нижний таббар -->
     <nav class="bottombar">
-      <button id="tab-btn-shop" class="tabbtn"
-              onclick="alert('TAB CLICK: shop');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('tab-shop').classList.add('active');return false;">
-        🛒 Магазин
-      </button>
-      <button id="tab-btn-map" class="tabbtn"
-              onclick="alert('TAB CLICK: map');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('tab-map').classList.add('active');return false;">
-        🗺️ Карта
-      </button>
-      <button id="tab-btn-profile" class="tabbtn"
-              onclick="alert('TAB CLICK: profile');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('tab-profile').classList.add('active');return false;">
-        👤 Профиль
-      </button>
+      <button id="tab-btn-shop" class="tabbtn" data-tab="shop">🛒 Магазин</button>
+      <button id="tab-btn-map" class="tabbtn" data-tab="map">🗺️ Карта</button>
+      <button id="tab-btn-profile" class="tabbtn" data-tab="profile">👤 Профиль</button>
     </nav>
   </div>
 
-  <!-- app.js оставляем подключённым, но всё уже кликабельно и без него -->
-  <script src="app.js?v=20251028_201130"></script>
+  <!-- Оверлей региона -->
+  <div id="region-overlay" class="region-overlay">
+    <div class="bg"></div>
+    <div class="panel">
+      <div class="header">
+        <div class="title" id="region-title"></div>
+        <div class="controls">
+          <button class="btn ghost" id="btn-filters">Фильтры</button>
+          <button class="btn ghost" id="btn-sort">Сортировка</button>
+          <button class="btn" id="btn-back">Назад</button>
+        </div>
+      </div>
+      <div class="list" id="region-list">
+        <div class="card">Скоро предложения этого региона…</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=20251028_211629"></script>
 </body>
 </html>
