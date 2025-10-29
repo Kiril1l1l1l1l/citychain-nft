@@ -99,3 +99,8 @@ body{margin:0; background:var(--bg); color:var(--text); font:14px/1.45 system-ui
 .region-overlay{ background:#000 !important; }
 .region-overlay .bg{ background-position:center; background-size:cover; background-repeat:no-repeat; }
 .region-overlay .bg::after{ content:""; position:absolute; inset:0; background:rgba(0,0,0,.40); }
+/* PATCH_HIDE_REGION_BG_START */
+.region-overlay{ background:#000 !important; z-index:5000 !important; }
+.region-overlay .bg{ display:none !important; }     /* временно отключаем картинку */
+.region-overlay .panel{ position:relative; z-index:1; }
+/* PATCH_HIDE_REGION_BG_END */
