@@ -95,3 +95,7 @@ body{margin:0; background:var(--bg); color:var(--text); font:14px/1.45 system-ui
 .region-overlay .bg{ position:absolute; inset:0; background:center/cover no-repeat !important; }
 .region-overlay .bg::after{ content:""; position:absolute; inset:0; background:rgba(0,0,0,.38); }
 .region-overlay .panel{ position:relative; z-index:1; }
+/* ensure bg shows full and darkened */
+.region-overlay{ background:#000 !important; }
+.region-overlay .bg{ background-position:center; background-size:cover; background-repeat:no-repeat; }
+.region-overlay .bg::after{ content:""; position:absolute; inset:0; background:rgba(0,0,0,.40); }
