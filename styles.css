@@ -230,3 +230,49 @@ body{margin:0; background:var(--bg); color:var(--text); font:14px/1.45 system-ui
 
 /* нижние кнопки всегда сверху */
 .tabbar,.bottombar{ position:fixed; left:0; right:0; bottom:0; z-index:6000; }
+/* === LAYOUT FIX FOR REGION OVERLAY === */
+:root{
+  --tabbar-h: 56px;       /* высота нижних кнопок */
+  --header-h: 48px;       /* если есть шапка приложения */
+}
+
+/* таббар всегда поверх */
+.tabbar,.bottombar{
+  position: fixed; left:0; right:0; bottom:0; height: var(--tabbar-h);
+  z-index: 7000;
+}
+
+/* оверлей занимает окно между шапкой и таббаром и сам скроллится */
+#region-overlay,
+.region-overlay{
+  position: fixed;
+  left: 0; right: 0;
+  top: var(--header-h);
+  bottom: var(--tabbar-h);
+  background: transparent !important;   /* фон берём из .bg */
+  backdrop-filter: blur(4px);
+  overflow: auto;
+  z-index: 6000;                         /* ниже таббара */
+}
+
+/* фон региона под контентом + затемнение */
+.region-overlay .bg{
+  position: absolute; inset: 0; z-index: 1;
+  background: center / cover no-repeat;
+}
+.region-overlay .bg::after{
+  content:""; position:absolute; inset:0; background: rgba(0,0,0,.42);
+}
+
+/* контент над фоном, отступы, чтобы ничего не прилипало */
+.region-overlay .content{
+  position: relative; z-index: 2;
+  padding: 12px;
+  min-height: 100%;
+}
+
+/* карточки как раньше; сам оверлей не красим в чёрный */
+.region-card{ background: #12171d; border-radius: 14px; }
+
+/* когда открыт оверлей — страница под ним не скроллится */
+html.no-scroll, body.no-scroll{ overflow: hidden !important; }
