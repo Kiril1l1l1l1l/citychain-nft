@@ -49,23 +49,43 @@
   var overlay = qs('#region-overlay');
 
   function openRegion(r){
-  var overlay = document.getElementById("region-overlay");
-  var title   = overlay.querySelector("#region-title");
-  var bgEl    = overlay.querySelector(".bg");
-  var list    = overlay.querySelector("#region-list");
+  const overlay = document.getElementById("region-overlay");
+  const title   = overlay.querySelector("#region-title");
+  const bgEl    = overlay.querySelector(".bg");
+  const list    = overlay.querySelector("#region-list");
+
   title.textContent = r.name;
 
-  // точные пути, как у тебя в /static/regions
-  var bgMap = {
-    "kiranomiya":"static/regions/FonKiranomiya.png",
-    "noroburg":"static/regions/FonNorroburg.png",
-    "russet-skyline":"static/regions/FonRussetSkyline.png",
-    "san-maris":"static/regions/FonSanMaris.png",
-    "solmara":"static/regions/FonSolmara.png",
-    "valparyn":"static/regions/FonValparin.png",
-    "nordhaven":"static/regions/FonNordhavean.png",
-    "nihon":"static/regions/FonNihon.png"
+  // Абсолютный базовый путь под GitHub Pages
+  const base = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
+  const bgMap = {
+    "kiranomiya":     base + "FonKiranomiya.png",
+    "noroburg":       base + "FonNorroburg.png",
+    "russet-skyline": base + "FonRussetSkyline.png",
+    "san-maris":      base + "FonSanMaris.png",
+    "solmara":        base + "FonSolmara.png",
+    "valparyn":       base + "FonValparin.png",
+    "nordhaven":      base + "FonNordhavean.png",
+    "nihon":          base + "FonNihon.png"
   };
+
+  const url = bgMap[r.id] ? (bgMap[r.id] + "?v=" + Date.now()) : "";
+
+  if (bgEl){
+    bgEl.style.display = "block";
+    bgEl.style.backgroundImage  = url ? "url('" + url + "')" : "none";
+    bgEl.style.backgroundSize   = "cover";
+    bgEl.style.backgroundPosition = "center";
+  }
+
+  list.innerHTML = "";
+  (buildOffersStub(r) || []).forEach(function(o){
+    list.appendChild(renderOffer(o));
+  });
+
+  overlay.classList.add("active");
+  overlay.setAttribute("aria-hidden","false");
+};
   var url = bgMap[r.id] ? (bgMap[r.id] + "?v=" + Date.now()) : "";
 
   // CSS-фон
@@ -161,6 +181,7 @@
   // Экспорт (для отладки)
   window.CityChainNFT = { openRegion:openRegion, closeRegion:closeRegion, REGIONS:REGIONS };
 })();
+
 
 
 
