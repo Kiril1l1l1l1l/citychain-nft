@@ -216,3 +216,17 @@ body{margin:0; background:var(--bg); color:var(--text); font:14px/1.45 system-ui
 /* ensure bottom tabbar is above overlay */
 .tabbar, .bottombar { position: fixed; left:0; right:0; bottom:0; z-index:6000; }
 .region-overlay { z-index:5000; padding-bottom:64px; }
+/* === REGION OVERLAY LAYERS FIX === */
+#region-overlay{ position:relative; }
+.region-overlay{ background: transparent !important; z-index:5000; padding-bottom:64px; }
+.region-overlay .bg{
+  position:absolute; inset:0; z-index:1;
+  background-position:center; background-size:cover; background-repeat:no-repeat;
+}
+.region-overlay .bg::after{
+  content:""; position:absolute; inset:0; background:rgba(0,0,0,.42);
+}
+.region-overlay .content{ position:relative; z-index:2; }
+
+/* нижние кнопки всегда сверху */
+.tabbar,.bottombar{ position:fixed; left:0; right:0; bottom:0; z-index:6000; }

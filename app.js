@@ -51,12 +51,19 @@
   function openRegion(r){
   const overlay = document.getElementById("region-overlay");
   const title   = overlay.querySelector("#region-title");
-  const bgEl    = overlay.querySelector(".bg");
+  let   bgEl    = overlay.querySelector(".bg");
   const list    = overlay.querySelector("#region-list");
+
+  // гарантия, что .bg есть и он первым слоем
+  if(!bgEl){
+    bgEl = document.createElement("div");
+    bgEl.className = "bg";
+    overlay.insertBefore(bgEl, overlay.firstChild);
+  }
 
   title.textContent = r.name;
 
-  // Абсолютный базовый путь под GitHub Pages
+  // Абсолютные пути для GitHub Pages
   const base = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
   const bgMap = {
     "kiranomiya":     base + "FonKiranomiya.png",
@@ -68,6 +75,18 @@
     "nordhaven":      base + "FonNordhavean.png",
     "nihon":          base + "FonNihon.png"
   };
+  const url = bgMap[r.id] ? (bgMap[r.id] + "?v=" + Date.now()) : "";
+
+  // CSS background
+  bgEl.style.backgroundImage = url ? "url('" + url + "')" : "none";
+
+  // Контент (как было)
+  list.innerHTML = "";
+  (buildOffersStub(r) || []).forEach(function(o){ list.appendChild(renderOffer(o)); });
+
+  overlay.classList.add("active");
+  overlay.setAttribute("aria-hidden","false");
+};
 
   const url = bgMap[r.id] ? (bgMap[r.id] + "?v=" + Date.now()) : "";
 
@@ -181,6 +200,7 @@
   // Экспорт (для отладки)
   window.CityChainNFT = { openRegion:openRegion, closeRegion:closeRegion, REGIONS:REGIONS };
 })();
+
 
 
 
