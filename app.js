@@ -53,13 +53,55 @@
   const title   = overlay.querySelector("#region-title");
   let   bgEl    = overlay.querySelector(".bg");
   const list    = overlay.querySelector("#region-list");
+  if(!bgEl){ bgEl = document.createElement("div"); bgEl.className = "bg"; overlay.insertBefore(bgEl, overlay.firstChild); }
 
-  // гарантия, что .bg есть и он первым слоем
-  if(!bgEl){
-    bgEl = document.createElement("div");
-    bgEl.className = "bg";
-    overlay.insertBefore(bgEl, overlay.firstChild);
+  title.textContent = r.name;
+
+  // База для статики: локалка / GH Pages (авто)
+  const pagesBase = (location.pathname.includes("/citychain-nft/") ? "/citychain-nft/" : "/");
+  const base = location.origin + pagesBase + "static/regions/";
+
+  // 1) приоритет — реальные имена из твоей папки (Fon*.png)
+  // 2) если не нашли — пробуем разумные варианты по id
+  const fallbackById = {
+    "kiranomiya":     ["FonKiranomiya.png","Kiranomiya.png","kiranomiya.png"],
+    "noroburg":       ["FonNorroburg.png","Noroburg.png","noroburg.png"],
+    "russet-skyline": ["FonRussetSkyline.png","RussetSkyline.png","russet-skyline.png"],
+    "san-maris":      ["FonSanMaris.png","SanMaris.png","san-maris.png"],
+    "solmara":        ["FonSolmara.png","Solmara.png","solmara.png"],
+    "valparyn":       ["FonValparin.png","Valparyn.png","valparyn.png","Valparin.png"],
+    "nordhaven":      ["FonNordhavean.png","Nordhaven.png","nordhaven.png","Nordhavean.png"],
+    "nihon":          ["FonNihon.png","Nihon.png","nihon.png"]
+  };
+  const candidates = (fallbackById[r.id] || []).map(name => base + name);
+
+  // Последовательно пробуем варианты, пока какой-то не загрузится
+  function setBgByCandidates(list){
+    if(!list || !list.length){ bgEl.style.backgroundImage = "none"; return; }
+    const url = list[0] + "?v=" + Date.now();
+    const probe = new Image();
+    probe.onload = function(){
+      bgEl.style.backgroundImage = "url('" + url + "')";
+      bgEl.style.backgroundPosition = "center";
+      bgEl.style.backgroundSize = "cover";
+      bgEl.style.backgroundRepeat = "no-repeat";
+    };
+    probe.onerror = function(){ setBgByCandidates(list.slice(1)); };
+    probe.src = url;
   }
+  setBgByCandidates(candidates);
+
+  // Контент офферов (как было)
+  list.innerHTML = "";
+  (buildOffersStub(r) || []).forEach(function(o){ list.appendChild(renderOffer(o)); });
+
+  overlay.classList.add("active");
+  overlay.setAttribute("aria-hidden","false");
+
+  // блокируем прокрутку фона страницы (чтоб не «уезжала»)
+  document.documentElement.classList.add("no-scroll");
+  document.body.classList.add("no-scroll");
+}
 
   title.textContent = r.name;
 
@@ -200,6 +242,7 @@
   // Экспорт (для отладки)
   window.CityChainNFT = { openRegion:openRegion, closeRegion:closeRegion, REGIONS:REGIONS };
 })();
+
 
 
 
