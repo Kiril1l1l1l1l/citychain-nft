@@ -49,15 +49,37 @@
   var overlay = qs('#region-overlay');
 
   function openRegion(r){
-    var title = qs('#region-title', overlay);
-    var bg    = qs('.bg', overlay);
-    if(title) title.textContent = r.name;
-    if(bg)    bg.style.backgroundImage = 'url("static/regions/'+r.bg+'?v='+TS+'")';
+  var overlay = document.getElementById("region-overlay");
+  var title   = overlay.querySelector("#region-title");
+  var bgEl    = overlay.querySelector(".bg");
+  var list    = overlay.querySelector("#region-list");
 
-    var list = qs('#region-list', overlay);
-    if(list){
-      list.innerHTML = '';
-      buildOffersStub(r).forEach(function(o){ list.appendChild(renderOffer(o)); });
+  title.textContent = r.name;
+
+  // Точное соответствие id → файл (как в твоей папке)
+  var bgMap = {
+    "kiranomiya":"static/regions/FonKiranomiya.png",
+    "noroburg":"static/regions/FonNorroburg.png",
+    "russet-skyline":"static/regions/FonRussetSkyline.png",
+    "san-maris":"static/regions/FonSanMaris.png",
+    "solmara":"static/regions/FonSolmara.png",
+    "valparyn":"static/regions/FonValparin.png",
+    "nordhaven":"static/regions/FonNordhavean.png",
+    "nihon":"static/regions/FonNihon.png"
+  };
+
+  var url = bgMap[r.id] ? (bgMap[r.id] + "?v=" + Date.now()) : "";
+  if(bgEl){
+    bgEl.style.display = "block";
+    bgEl.style.backgroundImage = url ? "url('" + url + "')" : "none";
+  }
+
+  list.innerHTML = "";
+  (buildOffersStub(r) || []).forEach(function(o){ list.appendChild(renderOffer(o)); });
+
+  overlay.classList.add("active");
+  overlay.setAttribute("aria-hidden","false");
+});
     }
     overlay.classList.add('active');
     overlay.setAttribute('aria-hidden','false');
@@ -115,6 +137,7 @@
   // Экспорт (для отладки)
   window.CityChainNFT = { openRegion:openRegion, closeRegion:closeRegion, REGIONS:REGIONS };
 })();
+
 
 
 

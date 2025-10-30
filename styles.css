@@ -99,8 +99,108 @@ body{margin:0; background:var(--bg); color:var(--text); font:14px/1.45 system-ui
 .region-overlay{ background:#000 !important; }
 .region-overlay .bg{ background-position:center; background-size:cover; background-repeat:no-repeat; }
 .region-overlay .bg::after{ content:""; position:absolute; inset:0; background:rgba(0,0,0,.40); }
-/* PATCH_HIDE_REGION_BG_START */
-.region-overlay{ background:#000 !important; z-index:5000 !important; }
-.region-overlay .bg{ display:none !important; }     /* временно отключаем картинку */
-.region-overlay .panel{ position:relative; z-index:1; }
-/* PATCH_HIDE_REGION_BG_END */
+
+
+/* === BG HARD DEBUG === */
+.region-overlay .bg{ display:block !important; background:center/cover no-repeat !important; }
+.bg-debug{ background:rgba(0,0,0,.35); border:1px dashed #3a4858; border-radius:10px; padding:10px; margin:6px 0; }
+.bg-debug h4{ margin:0 0 8px; font-size:12px; color:#9aa3aa; }
+.bg-row{ display:flex; gap:10px; flex-wrap:wrap; }
+.bg-cell{ width:140px; font-size:11px; color:#9aa3aa; }
+.bg-cell a{ color:#7aa2ff; text-decoration:none }
+.bg-cell img{ width:140px; height:90px; object-fit:cover; display:block; border-radius:8px; border:1px solid #2a3442; }
+/* === BG HARD DEBUG === */
+.region-overlay .bg{ display:block !important; background:center/cover no-repeat !important; }
+.bg-debug{ background:rgba(0,0,0,.35); border:1px dashed #3a4858; border-radius:10px; padding:10px; margin:6px 0; }
+.bg-debug h4{ margin:0 0 8px; font-size:12px; color:#9aa3aa; }
+.bg-row{ display:flex; gap:10px; flex-wrap:wrap; }
+.bg-cell{ width:140px; font-size:11px; color:#9aa3aa; }
+.bg-cell a{ color:#7aa2ff; text-decoration:none }
+.bg-cell img{ width:140px; height:90px; object-fit:cover; display:block; border-radius:8px; border:1px solid #2a3442; }
+/* === BG HARD DEBUG === */
+.region-overlay .bg{ display:block !important; background:center/cover no-repeat !important; }
+.bg-debug{ background:rgba(0,0,0,.35); border:1px dashed #3a4858; border-radius:10px; padding:10px; margin:6px 0; }
+.bg-debug h4{ margin:0 0 8px; font-size:12px; color:#9aa3aa; }
+.bg-row{ display:flex; gap:10px; flex-wrap:wrap; }
+.bg-cell{ width:140px; font-size:11px; color:#9aa3aa; }
+.bg-cell a{ color:#7aa2ff; text-decoration:none }
+.bg-cell img{ width:140px; height:90px; object-fit:cover; display:block; border-radius:8px; border:1px solid #2a3442; }
+/* HARD SHOW BG (TEMP) */
+.region-overlay{ background:#000 !important; z-index:6000 !important; }
+.region-overlay .bg{ display:block !important; opacity:1 !important; background:center/cover no-repeat !important; }
+/* === RESTORE REGION OVERLAY STYLE === */
+.region-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(6px);
+  display: none;
+  flex-direction: column;
+  overflow-y: auto;
+  z-index: 4000; /* ниже таббара */
+}
+.region-overlay.active { display: flex; }
+
+.region-overlay .bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.4;
+}
+
+.region-overlay .content {
+  position: relative;
+  z-index: 2;
+  padding: 10px;
+}
+
+/* чтобы нижние кнопки всегда видны */
+.tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5000;
+}
+/* === RESTORE REGION OVERLAY STYLE === */
+.region-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(6px);
+  display: none;
+  flex-direction: column;
+  overflow-y: auto;
+  z-index: 4000; /* ниже таббара */
+}
+.region-overlay.active { display: flex; }
+
+.region-overlay .bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.4;
+}
+
+.region-overlay .content {
+  position: relative;
+  z-index: 2;
+  padding: 10px;
+}
+
+/* чтобы нижние кнопки всегда видны */
+.tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5000;
+}
+/* PATCH: keep bottom bar above overlay and add safe space */
+.bottombar{ position:fixed; left:0; right:0; bottom:0; z-index:5000; }
+.region-overlay{ z-index:4000; padding-bottom:64px; }
+.region-overlay .bg{ display:block !important; background-position:center; background-size:cover; background-repeat:no-repeat; opacity:.4; }
