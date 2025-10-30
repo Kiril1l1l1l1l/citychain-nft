@@ -57,6 +57,40 @@
 
   title.textContent = r.name;
 
+  // База для GH Pages / локалки: без location.origin
+  const pagesBase = (location.pathname.indexOf("/citychain-nft/") !== -1) ? "/citychain-nft/" : "";
+  const base = pagesBase + "static/regions/";  // => /citychain-nft/static/regions/ ... или static/regions/ на локали
+
+  // Карта имён ровно как у тебя в папке (чувствительно к регистру!)
+  const map = {
+    "kiranomiya":     "FonKiranomiya.png",
+    "noroburg":       "FonNorroburg.png",
+    "russet-skyline": "FonRussetSkyline.png",
+    "san-maris":      "FonSanMaris.png",
+    "solmara":        "FonSolmara.png",
+    "valparyn":       "FonValparin.png",
+    "nordhaven":      "FonNordhavean.png",
+    "nihon":          "FonNihon.png"
+  };
+
+  // Ставим фон напрямую (без прелоадера) — если файла нет, фон просто не покажется
+  const url = (map[r.id] ? (base + map[r.id] + "?v=" + Date.now()) : "");
+  bgEl.style.background = url ? "center / cover no-repeat url('" + url + "')" : "none";
+
+  // Офферы (как было)
+  list.innerHTML = "";
+  (buildOffersStub(r) || []).forEach(function(o){ list.appendChild(renderOffer(o)); });
+
+  overlay.classList.add("active");
+  overlay.setAttribute("aria-hidden","false");
+
+  // Блокируем прокрутку страницы под оверлеем
+  document.documentElement.classList.add("no-scroll");
+  document.body.classList.add("no-scroll");
+}
+
+  title.textContent = r.name;
+
   // База для статики: локалка / GH Pages (авто)
   const pagesBase = (location.pathname.includes("/citychain-nft/") ? "/citychain-nft/" : "/");
   const base = location.origin + pagesBase + "static/regions/";
@@ -242,6 +276,7 @@
   // Экспорт (для отладки)
   window.CityChainNFT = { openRegion:openRegion, closeRegion:closeRegion, REGIONS:REGIONS };
 })();
+
 
 
 
