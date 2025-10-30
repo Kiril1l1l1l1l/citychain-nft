@@ -53,10 +53,9 @@
   var title   = overlay.querySelector("#region-title");
   var bgEl    = overlay.querySelector(".bg");
   var list    = overlay.querySelector("#region-list");
-
   title.textContent = r.name;
 
-  // Точное соответствие id → файл (как в твоей папке)
+  // точные пути, как у тебя в /static/regions
   var bgMap = {
     "kiranomiya":"static/regions/FonKiranomiya.png",
     "noroburg":"static/regions/FonNorroburg.png",
@@ -67,6 +66,31 @@
     "nordhaven":"static/regions/FonNordhavean.png",
     "nihon":"static/regions/FonNihon.png"
   };
+  var url = bgMap[r.id] ? (bgMap[r.id] + "?v=" + Date.now()) : "";
+
+  // CSS-фон
+  if(bgEl){
+    bgEl.style.backgroundImage = url ? "url('" + url + "')" : "none";
+  }
+  // <img> fallback (на случай, если background не отрисуется)
+  var img = document.getElementById("region-bg-img");
+  if(!img){
+    img = document.createElement("img");
+    img.id = "region-bg-img";
+    img.alt = "";
+    img.className = "region-bg-img";
+    bgEl && bgEl.appendChild(img);
+  }
+  img.src = url || "";
+  img.style.display = url ? "block" : "none";
+
+  // офферы (как были)
+  list.innerHTML = "";
+  (buildOffersStub(r) || []).forEach(function(o){ list.appendChild(renderOffer(o)); });
+
+  overlay.classList.add("active");
+  overlay.setAttribute("aria-hidden","false");
+};
 
   var url = bgMap[r.id] ? (bgMap[r.id] + "?v=" + Date.now()) : "";
   if(bgEl){
@@ -137,6 +161,7 @@
   // Экспорт (для отладки)
   window.CityChainNFT = { openRegion:openRegion, closeRegion:closeRegion, REGIONS:REGIONS };
 })();
+
 
 
 

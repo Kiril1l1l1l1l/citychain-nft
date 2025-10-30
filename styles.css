@@ -204,3 +204,12 @@ body{margin:0; background:var(--bg); color:var(--text); font:14px/1.45 system-ui
 .bottombar{ position:fixed; left:0; right:0; bottom:0; z-index:5000; }
 .region-overlay{ z-index:4000; padding-bottom:64px; }
 .region-overlay .bg{ display:block !important; background-position:center; background-size:cover; background-repeat:no-repeat; opacity:.4; }
+/* FIX: keep bottom bar visible above overlay */
+.bottombar{ position:fixed; left:0; right:0; bottom:0; z-index:6000; }
+
+/* overlay sits below bar and leaves room to scroll above it */
+.region-overlay{ z-index:5000; padding-bottom:64px; }
+
+/* bg layer + <img> fallback */
+.region-overlay .bg{ position:absolute; inset:0; background-position:center; background-size:cover; background-repeat:no-repeat; }
+.region-bg-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.40; pointer-events:none; }
