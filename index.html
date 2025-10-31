@@ -75,7 +75,7 @@
     </div>
   </div>
 
-  <script src="app.js?v=20251031222116"></script>></script>></script>
+  <script src="app.js?v=20251031222506"></script>></script>></script>
   <script>
   // INLINE_FALLBACK_REGIONS: если сетка пустая через 300мс — рисуем меню инлайном
   (function(){
@@ -198,6 +198,7 @@
 
 
 
+
 <script id="ccnft-force-onlybg-final">
 (function(){
   const BASE = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
@@ -212,65 +213,48 @@
     nihon:"FonNihon.png"
   };
 
-  // бейдж — легко понять, что override подхватился
-  (function(){
-    var b=document.getElementById("ccnft-js-badge");
-    if(!b){
-      b=document.createElement("div");
-      b.id="ccnft-js-badge";
-      b.textContent="CCNFT JS override active";
-      b.style.cssText="position:fixed;right:8px;top:8px;z-index:99999;background:#22a;color:#fff;padding:4px 8px;border-radius:8px;font:12px system-ui";
-      document.body.appendChild(b);
-    }
-  })();
-
   function ensureBg(ov){
-    var bg=ov.querySelector(".bg");
-    if(!bg){ bg=document.createElement("div"); bg.className="bg"; ov.prepend(bg); }
+    let bg=ov.querySelector(".bg");
+    if(!bg){
+      bg=document.createElement("div");
+      bg.className="bg";
+      ov.prepend(bg);
+    }
     return bg;
   }
 
   function install(){
-    window.openRegion = function ONLY_BG_FORCED(r){
-      var ov=document.getElementById("region-overlay"); if(!ov) return;
-      var bg=ensureBg(ov);
-      var id=r && r.id; var file=FILES[id] || "FonValparin.png";
-      var url=BASE + file + "?v=" + Date.now();
-      console.warn("[CCNFT] ONLY-BG ->", id, url);
+    window.openRegion=function(r){
+      const ov=document.getElementById("region-overlay");
+      if(!ov) return console.warn("[CCNFT] overlay not found");
+      const bg=ensureBg(ov);
+      const id=r?.id;
+      const file=FILES[id] || "FonValparin.png";
+      const url=BASE + file + "?v=" + Date.now();
 
-      bg.style.backgroundImage  = "url('"+url+"')";
-      bg.style.backgroundSize   = "cover";
-      bg.style.backgroundPosition = "center";
-      bg.style.backgroundRepeat = "no-repeat";
-
+      console.log("[CCNFT] only-bg region:", id, "=>", url);
       ov.setAttribute("data-only-bg","1");
+
+      bg.style.backgroundImage="url('"+url+"')";
+      bg.style.backgroundSize="cover";
+      bg.style.backgroundPosition="center";
+      bg.style.backgroundRepeat="no-repeat";
+      bg.style.opacity="1";
+
+      ov.querySelectorAll("*:not(.bg)").forEach(el=>{
+        el.style.display="none";
+      });
+
       ov.classList.add("active");
-      ov.setAttribute("aria-hidden","false");
-      document.documentElement.classList.add("no-scroll");
-      document.body.classList.add("no-scroll");
     };
   }
 
   install();
-  // если кто-то перезапишет openRegion — вернём нашу версию
-  setInterval(function(){
-    if(!window.openRegion || String(window.openRegion).indexOf("ONLY_BG_FORCED")===-1){
-      install();
-    }
-  },1200);
-
-  window.closeRegion = function(){
-    var ov=document.getElementById("region-overlay"); if(!ov) return;
-    ov.classList.remove("active");
-    ov.removeAttribute("data-only-bg");
-    ov.setAttribute("aria-hidden","true");
-    document.documentElement.classList.remove("no-scroll");
-    document.body.classList.remove("no-scroll");
-  };
 })();
 </script>
 </body>
 </html>
+
 
 
 
