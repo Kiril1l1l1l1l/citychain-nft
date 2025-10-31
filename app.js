@@ -447,3 +447,26 @@ function closeRegion(){
   document.documentElement.classList.remove("no-scroll");
   document.body.classList.remove("no-scroll");
 }
+
+/*__ccnft_overlay_guard__*/
+(function(){
+  const ov = document.getElementById('region-overlay');
+  function hideOverlay(){
+    if(!ov) return;
+    ov.classList?.remove('open');
+    ov.setAttribute('aria-hidden','true');
+    // на случай инлайновых стилей
+    ov.style.display = '';
+  }
+  // экспортируем на всякий случай
+  window.__hideRegionOverlay = hideOverlay;
+
+  // закрывать при клике по таббару
+  document.addEventListener('click', (e)=>{
+    const btn = e.target && e.target.closest && e.target.closest('#tabbar [data-tab]');
+    if(btn){ hideOverlay(); }
+  });
+
+  // закрывать при смене hash-роута
+  window.addEventListener('hashchange', hideOverlay);
+})();
