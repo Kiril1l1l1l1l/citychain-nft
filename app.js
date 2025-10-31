@@ -504,3 +504,4 @@ function closeRegion(){
     menu.style.backgroundImage = url(\FonValparin.png);
   });
 })();
+

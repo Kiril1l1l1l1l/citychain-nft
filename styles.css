@@ -372,3 +372,22 @@ html.no-scroll, body.no-scroll{ overflow:hidden !important; }
   pointer-events:none;
 }
 .menu-regions > *{position:relative;z-index:1}
+
+/*__ccnft_bg_fix_v2__*/
+#tabbar{position:fixed;left:0;right:0;bottom:0;z-index:1000}
+#region-overlay{position:relative;z-index:900}
+#region-overlay .bg{
+  position:absolute; inset:0;
+  background-size:cover; background-position:center;
+  filter:none; opacity:1;
+}
+#region-overlay .bg::after{
+  content:''; position:absolute; inset:0; background:rgba(0,0,0,.45);
+}
+.menu-regions{
+  position:relative; min-height:calc(100vh - 120px);
+  background-size:cover; background-position:center;
+}
+.menu-regions::after{
+  content:''; position:absolute; inset:0; background:rgba(0,0,0,.35); pointer-events:none;
+}
