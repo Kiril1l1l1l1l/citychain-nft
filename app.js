@@ -523,3 +523,48 @@ function closeRegion(){
 
 
 
+
+/*__ccnft_openRegion_force__*/
+(function(){
+  const BASE = 'https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/';
+  const FILE = {
+    kiranomiya:'FonKiranomiya.png', noroburg:'FonNorroburg.png',
+    'russet-skyline':'FonRussetSkyline.png', 'san-maris':'FonSanMaris.png',
+    solmara:'FonSolmara.png', valparyn:'FonValparin.png',
+    nordhaven:'FonNordhavean.png', nihon:'FonNihon.png'
+  };
+  window.openRegion = function(r){
+    const overlay = document.getElementById('region-overlay');
+    if(!overlay) return;
+
+    // ensure .bg
+    let bg = overlay.querySelector('.bg');
+    if(!bg){
+      bg = document.createElement('div');
+      bg.className = 'bg';
+      overlay.prepend(bg);
+    }
+
+    // URL и лог
+    const file = FILE[r && r.id] || 'FonValparin.png';
+    const url = BASE + file + '?v=' + Date.now();
+    console.log('[CityChainNFT] BG ->', url);
+
+    // CSS background + <img> fallback
+    bg.style.backgroundImage = 'url(' + url + ')';
+    let img = bg.querySelector('#region-bg-img');
+    if(!img){
+      img = document.createElement('img');
+      img.id = 'region-bg-img';
+      img.className = 'region-bg-img';
+      bg.appendChild(img);
+    }
+    img.src = url;
+
+    // показать overlay
+    overlay.classList.add('active');
+    overlay.setAttribute('aria-hidden','false');
+    document.documentElement.classList.add('no-scroll');
+    document.body.classList.add('no-scroll');
+  };
+})();
