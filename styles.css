@@ -466,3 +466,30 @@ html.no-scroll, body.no-scroll{ overflow:hidden !important; }
 /* Оверлей: режим только фон — прячем панель */
 #region-overlay[data-only-bg="1"] .panel,
 #region-overlay[data-only-bg="1"] .content{ display:none !important; }
+/*__ccnft_overlay_only_bg__*/
+:root{ --tabbar-h:56px; --header-h:44px; }
+
+/* overlay occupies the viewport between header and bottom bar */
+#region-overlay{
+  position:fixed; left:0; right:0; top:var(--header-h); bottom:var(--tabbar-h);
+  display:none; overflow:auto; background:transparent !important; z-index:6000;
+}
+#region-overlay.active{ display:block; }
+
+/* background layer */
+#region-overlay .bg{
+  position:absolute; inset:0;
+  background-position:center; background-size:cover; background-repeat:no-repeat;
+}
+#region-overlay .bg::after{ content:""; position:absolute; inset:0; background:rgba(0,0,0,.35); }
+
+/* ONLY-BG mode: hide everything inside overlay UI */
+#region-overlay[data-only-bg="1"] .panel,
+#region-overlay[data-only-bg="1"] .content,
+#region-overlay[data-only-bg="1"] .header,
+#region-overlay[data-only-bg="1"] .controls,
+#region-overlay[data-only-bg="1"] .list,
+#region-overlay[data-only-bg="1"] .card{ display:none !important; }
+
+/* bottom bar must stay above overlay */
+.bottombar,.tabbar{ position:fixed; left:0; right:0; bottom:0; z-index:7000; }

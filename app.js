@@ -624,3 +624,51 @@ function closeRegion(){
 
   try{ mountTiles(); }catch(e){ console.error('mountTiles failed', e); }
 })();
+/*__ccnft_openRegion_only_bg__*/
+(function(){
+  const BASE = 'https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/';
+  const FILES = {
+    kiranomiya:'FonKiranomiya.png',
+    noroburg:'FonNorroburg.png',
+    'russet-skyline':'FonRussetSkyline.png',
+    'san-maris':'FonSanMaris.png',
+    solmara:'FonSolmara.png',
+    valparyn:'FonValparin.png',
+    nordhaven:'FonNordhavean.png',
+    nihon:'FonNihon.png'
+  };
+
+  window.openRegion = function(r){
+    const overlay = document.getElementById('region-overlay');
+    if(!overlay) return;
+
+    // ensure .bg layer
+    let bg = overlay.querySelector('.bg');
+    if(!bg){ bg = document.createElement('div'); bg.className='bg'; overlay.prepend(bg); }
+
+    const file = FILES[r && r.id] || 'FonValparin.png';
+    const url  = BASE + file + '?v=' + Date.now();
+    console.log('[CityChainNFT] ONLY-BG ->', r && r.id, url);
+
+    bg.style.backgroundImage = 'url(' + url + ')';
+
+    // enable only-bg mode
+    overlay.setAttribute('data-only-bg','1');
+    overlay.classList.add('active');
+    overlay.setAttribute('aria-hidden','false');
+
+    document.documentElement.classList.add('no-scroll');
+    document.body.classList.add('no-scroll');
+  };
+
+  // keep closeRegion turning the mode off
+  window.closeRegion = function(){
+    const overlay = document.getElementById('region-overlay');
+    if(!overlay) return;
+    overlay.classList.remove('active');
+    overlay.removeAttribute('data-only-bg');
+    overlay.setAttribute('aria-hidden','true');
+    document.documentElement.classList.remove('no-scroll');
+    document.body.classList.remove('no-scroll');
+  };
+})();
