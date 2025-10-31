@@ -470,3 +470,37 @@ function closeRegion(){
   // закрывать при смене hash-роута
   window.addEventListener('hashchange', hideOverlay);
 })();
+
+/*__ccnft_menu_bg__*/
+(function(){
+  const base = 'https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/';
+  const menu = document.querySelector('#tab-map, #screen-map, .menu-regions');
+  if(!menu) return;
+  menu.style.background = url(\FonValparin.png); // фон по умолчанию
+  menu.style.backgroundSize = 'cover';
+  menu.style.backgroundPosition = 'center';
+  menu.style.transition = 'background-image .4s ease';
+
+  const regionMap = {
+    kiranomiya: 'FonKiranomiya.png',
+    noroburg: 'FonNorroburg.png',
+    'russet-skyline': 'FonRussetSkyline.png',
+    'san-maris': 'FonSanMaris.png',
+    solmara: 'FonSolmara.png',
+    valparyn: 'FonValparin.png',
+    nordhaven: 'FonNordhavean.png',
+    nihon: 'FonNihon.png'
+  };
+
+  menu.addEventListener('mouseover', e=>{
+    const btn = e.target.closest('[data-region]');
+    if(!btn) return;
+    const id = btn.getAttribute('data-region');
+    if(regionMap[id]){
+      menu.style.backgroundImage = url(\\);
+    }
+  });
+  menu.addEventListener('mouseleave', ()=>{
+    menu.style.backgroundImage = url(\FonValparin.png);
+  });
+})();

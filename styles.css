@@ -358,3 +358,17 @@ html.no-scroll, body.no-scroll{ overflow:hidden !important; }
 #tabbar{position:fixed;left:0;right:0;bottom:0;z-index:1000}
 #region-overlay{position:relative;z-index:900}
 #region-overlay .bg{position:absolute;inset:0;background:rgba(0,0,0,.45)}
+
+/*__ccnft_menu_bg_css__*/
+.menu-regions{
+  position:relative;
+  overflow:hidden;
+}
+.menu-regions::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  pointer-events:none;
+}
+.menu-regions > *{position:relative;z-index:1}
