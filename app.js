@@ -568,3 +568,59 @@ function closeRegion(){
     document.body.classList.add('no-scroll');
   };
 })();
+/*__ccnft_pure_image_menu_js__*/
+(function(){
+  const BASE = 'https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/';
+  const REGIONS = [
+    { id:'kiranomiya',     name:'Kiranomiya',     file:'FonKiranomiya.png' },
+    { id:'noroburg',       name:'Noroburg',       file:'FonNorroburg.png' },
+    { id:'russet-skyline', name:'Russet Skyline', file:'FonRussetSkyline.png' },
+    { id:'san-maris',      name:'San Maris',      file:'FonSanMaris.png' },
+    { id:'solmara',        name:'Solmara',        file:'FonSolmara.png' },
+    { id:'valparyn',       name:'Valparyn',       file:'FonValparin.png' },
+    { id:'nordhaven',      name:'Nordhaven',      file:'FonNordhavean.png' },
+    { id:'nihon',          name:'Nihon',          file:'FonNihon.png' }
+  ];
+
+  function mountTiles(){
+    const grid = document.querySelector('#regions-grid') || document.querySelector('.regions-grid');
+    if(!grid) return;
+    grid.innerHTML = '';
+    REGIONS.forEach(function(r){
+      const tile = document.createElement('button');
+      tile.className = 'region-tile';
+      tile.setAttribute('data-region', r.id);
+      tile.setAttribute('aria-label', r.name);
+      tile.style.backgroundImage = 'url(' + BASE + r.file + '?v=' + Date.now() + ')';
+      tile.addEventListener('click', function(){ openRegion({id:r.id, name:r.name}); });
+      grid.appendChild(tile);
+    });
+  }
+
+  // Override: открыть оверлей с ТОЛЬКО фоном
+  window.openRegion = function(r){
+    const overlay = document.getElementById('region-overlay');
+    if(!overlay) return;
+    let bg = overlay.querySelector('.bg');
+    if(!bg){ bg = document.createElement('div'); bg.className='bg'; overlay.prepend(bg); }
+
+    const map = {
+      kiranomiya:'FonKiranomiya.png', noroburg:'FonNorroburg.png',
+      'russet-skyline':'FonRussetSkyline.png', 'san-maris':'FonSanMaris.png',
+      solmara:'FonSolmara.png', valparyn:'FonValparin.png',
+      nordhaven:'FonNordhavean.png', nihon:'FonNihon.png'
+    };
+    const file = map[r && r.id] || 'FonValparin.png';
+    const url  = BASE + file + '?v=' + Date.now();
+    console.log('[CityChainNFT] only-bg ->', url);
+
+    bg.style.backgroundImage = 'url(' + url + ')';
+    overlay.setAttribute('data-only-bg','1');
+    overlay.classList.add('active');
+    overlay.setAttribute('aria-hidden','false');
+    document.documentElement.classList.add('no-scroll');
+    document.body.classList.add('no-scroll');
+  };
+
+  try{ mountTiles(); }catch(e){ console.error('mountTiles failed', e); }
+})();

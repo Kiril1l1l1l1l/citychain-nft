@@ -437,3 +437,32 @@ html.no-scroll, body.no-scroll{ overflow:hidden !important; }
 .region-bg-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.4; pointer-events:none; }
 .menu-regions{ position:relative; background-size:cover; background-position:center; }
 .menu-regions::after{ content:''; position:absolute; inset:0; background:rgba(0,0,0,.30); pointer-events:none; }
+
+/*__ccnft_pure_image_menu_css__*/
+/* Скрыть все прежние подписи/тексты в меню */
+.menu-wrap .menu-title,
+.regions-grid .region-btn > *,
+.regions-grid .region-btn .name { display:none !important; }
+
+/* Сетка тайлов */
+.regions-grid{ display:grid; gap:12px; grid-template-columns:repeat(2,minmax(0,1fr)); }
+@media (min-width:560px){ .regions-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media (min-width:860px){ .regions-grid{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
+
+/* Чистый тайл-картинка */
+.region-tile{
+  position:relative; display:block; width:100%;
+  padding-top:62.5%; /* 16:10 */
+  border-radius:16px; border:1px solid rgba(255,255,255,.08);
+  background:#0d131a center/cover no-repeat;
+  box-shadow:0 6px 24px rgba(0,0,0,.28);
+  cursor:pointer; overflow:hidden;
+}
+.region-tile::after{ /* лёгкое затемнение, чтобы было видно */
+  content:''; position:absolute; inset:0; background:rgba(0,0,0,.25);
+}
+.region-tile:focus-visible{ outline:2px solid #2c7df0; outline-offset:2px; }
+
+/* Оверлей: режим только фон — прячем панель */
+#region-overlay[data-only-bg="1"] .panel,
+#region-overlay[data-only-bg="1"] .content{ display:none !important; }
