@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>CityChainNFT</title>
-  <link rel="stylesheet" href="styles.css?v=20251031220114">
+  <link rel="stylesheet" href="styles.css?v=20251031220644">
 <style id="ccnft-onlybg-style">
 /* FORCE ONLY-BG (inline) */
 :root{ --tabbar-h:56px; --header-h:44px; }
@@ -75,7 +75,7 @@
     </div>
   </div>
 
-  <script src="app.js?v=20251031220114"></script>></script>></script>
+  <script src="app.js?v=20251031220644"></script>></script>></script>
   <script>
   // INLINE_FALLBACK_REGIONS: если сетка пустая через 300мс — рисуем меню инлайном
   (function(){
@@ -195,8 +195,91 @@
   }
 })();
 </script>
+<script id="ccnft-force-onlybg-final">
+(function(){
+  // Путь к картинкам регионов на GH Pages
+  const BASE = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
+  const FILES = {
+    kiranomiya:"FonKiranomiya.png",
+    noroburg:"FonNorroburg.png",
+    "russet-skyline":"FonRussetSkyline.png",
+    "san-maris":"FonSanMaris.png",
+    solmara:"FonSolmara.png",
+    valparyn:"FonValparin.png",
+    nordhaven:"FonNordhavean.png",
+    nihon:"FonNihon.png"
+  };
+
+  // Мини-бейдж, чтобы было видно, что инлайновый JS работает
+  (function badge(){
+    var b = document.getElementById("ccnft-js-badge");
+    if(!b){
+      b = document.createElement("div");
+      b.id = "ccnft-js-badge";
+      b.textContent = "CCNFT JS override active";
+      b.style.cssText = "position:fixed;right:8px;top:8px;z-index:99999;background:#22a;"+
+                        "color:#fff;padding:4px 8px;border-radius:8px;font:12px system-ui";
+      document.body.appendChild(b);
+    }
+  })();
+
+  function ensureBg(overlay){
+    let bg = overlay.querySelector(".bg");
+    if(!bg){ bg = document.createElement("div"); bg.className="bg"; overlay.prepend(bg); }
+    return bg;
+  }
+
+  function forceOnlyBg(){
+    // Ставим СВОЮ реализацию openRegion и помечаем её маркером
+    window.openRegion = function ONLY_BG_FORCED(r){
+      const ov = document.getElementById("region-overlay");
+      if(!ov) return;
+      const bg = ensureBg(ov);
+      const file = FILES[r && r.id] || "FonValparin.png";
+      const url  = BASE + file + "?v=" + Date.now();
+      console.warn("[CCNFT] ONLY-BG ->", r && r.id, url);
+      bg.style.backgroundImage = "url('" + url + "')";
+
+      ov.setAttribute("data-only-bg","1");
+      ov.classList.add("active");
+      ov.setAttribute("aria-hidden","false");
+      document.documentElement.classList.add("no-scroll");
+      document.body.classList.add("no-scroll");
+    };
+  }
+
+  // Поставить override сейчас…
+  forceOnlyBg();
+  // …и переустанавливать, если кто-то вдруг перезапишет
+  setInterval(function(){
+    if (!window.openRegion || String(window.openRegion).indexOf("ONLY_BG_FORCED") === -1){
+      forceOnlyBg();
+    }
+  }, 1200);
+
+  // На всякий случай: делегируем клики по меню регионов
+  document.addEventListener("click", function(e){
+    const btn = e.target && e.target.closest && e.target.closest("[data-region]");
+    if(!btn) return;
+    const id = btn.getAttribute("data-region");
+    if(id){ window.openRegion({id, name:id}); }
+  });
+
+  // Правильное закрытие: снимаем only-bg
+  window.closeRegion = function(){
+    const ov = document.getElementById("region-overlay");
+    if(!ov) return;
+    ov.classList.remove("active");
+    ov.removeAttribute("data-only-bg");
+    ov.setAttribute("aria-hidden","true");
+    document.documentElement.classList.remove("no-scroll");
+    document.body.classList.remove("no-scroll");
+  };
+})();
+</script>
 </body>
 </html>
+
 
 
 
