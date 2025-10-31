@@ -39,6 +39,7 @@
     REGIONS.forEach(function(r){
       var btn = document.createElement('button');
       btn.className = 'region-btn';
+      btn.setAttribute('data-region', r.id);
       btn.innerHTML = '<div class="name">'+r.name+'</div><small>Открыть</small>';
       btn.addEventListener('click', function(){ openRegion(r); });
       grid.appendChild(btn);
@@ -474,9 +475,11 @@ function closeRegion(){
 /*__ccnft_menu_bg__*/
 (function(){
   const base = 'https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/';
-  const menu = document.querySelector('#tab-map, #screen-map, .menu-regions');
+  const menu = document.querySelector('.menu-regions') || document.querySelector('#tab-map, #screen-map');
   if(!menu) return;
-  menu.style.background = url(\FonValparin.png); // фон по умолчанию
+
+  // фон по умолчанию
+  menu.style.backgroundImage = 'url(' + base + 'FonValparin.png?v=' + Date.now() + ')';
   menu.style.backgroundSize = 'cover';
   menu.style.backgroundPosition = 'center';
   menu.style.transition = 'background-image .4s ease';
@@ -492,16 +495,30 @@ function closeRegion(){
     nihon: 'FonNihon.png'
   };
 
-  menu.addEventListener('mouseover', e=>{
-    const btn = e.target.closest('[data-region]');
+  // hover — подменяем фон
+  menu.addEventListener('mouseover', function(e){
+    const btn = e.target && e.target.closest && e.target.closest('[data-region]');
     if(!btn) return;
     const id = btn.getAttribute('data-region');
     if(regionMap[id]){
-      menu.style.backgroundImage = url(\\);
+      menu.style.backgroundImage = 'url(' + base + regionMap[id] + '?v=' + Date.now() + ')';
     }
   });
-  menu.addEventListener('mouseleave', ()=>{
-    menu.style.backgroundImage = url(\FonValparin.png);
+
+  // mouseleave — возвращаем дефолт
+  menu.addEventListener('mouseleave', function(){
+    menu.style.backgroundImage = 'url(' + base + 'FonValparin.png?v=' + Date.now() + ')';
+  });
+
+  // click — фиксируем выбранный фон (опционально)
+  menu.addEventListener('click', function(e){
+    const btn = e.target && e.target.closest && e.target.closest('[data-region]');
+    if(!btn) return;
+    const id = btn.getAttribute('data-region');
+    if(regionMap[id]){
+      menu.style.backgroundImage = 'url(' + base + regionMap[id] + '?v=' + Date.now() + ')';
+    }
   });
 })();
+
 
