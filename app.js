@@ -51,7 +51,36 @@
   function openRegion(r){
   const overlay = document.getElementById("region-overlay");
   let bgEl = overlay.querySelector(".bg");
-  if(!bgEl){ bgEl = document.createElement("div"); bgEl.className = "bg"; overlay.insertBefore(bgEl, overlay.firstChild); }
+  if(!bgEl){
+    bgEl = document.createElement("div");
+    bgEl.className = "bg";
+    overlay.insertBefore(bgEl, overlay.firstChild);
+  }
+
+  const base = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
+  const map = {
+    "kiranomiya":     "FonKiranomiya.png",
+    "noroburg":       "FonNorroburg.png",
+    "russet-skyline": "FonRussetSkyline.png",
+    "san-maris":      "FonSanMaris.png",
+    "solmara":        "FonSolmara.png",
+    "valparyn":       "FonValparin.png",
+    "nordhaven":      "FonNordhavean.png",
+    "nihon":          "FonNihon.png"
+  };
+
+  const file = map[r.id] || "";
+  const url  = file ? (base + file + "?v=" + Date.now()) : "";
+
+  bgEl.style.background = url ? "center / cover no-repeat url('" + url + "')" : "none";
+
+  overlay.setAttribute("data-only-bg","1");     // ВКЛ только фон
+  overlay.classList.add("active");
+  overlay.setAttribute("aria-hidden","false");
+
+  document.documentElement.classList.add("no-scroll");
+  document.body.classList.add("no-scroll");
+}
 
   const base = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
   const map = {
@@ -347,13 +376,7 @@
     overlay.setAttribute('aria-hidden','false');
   }
 
-  function closeRegion(){
-    if(!overlay) return;
-    overlay.classList.remove('active');
-    overlay.setAttribute('aria-hidden','true');
-    var bg = qs('.bg', overlay);
-    if(bg) bg.style.backgroundImage = '';
-  }
+  
 
   var back = qs('#btn-back', overlay);
   if(back){ back.addEventListener('click', function(){ closeRegion(); }); }
@@ -414,3 +437,13 @@
 
 
 
+
+function closeRegion(){
+  const overlay = document.getElementById("region-overlay");
+  if(!overlay) return;
+  overlay.classList.remove("active");
+  overlay.setAttribute("aria-hidden","true");
+  overlay.removeAttribute("data-only-bg");   // ВЫКЛ режим только фон
+  document.documentElement.classList.remove("no-scroll");
+  document.body.classList.remove("no-scroll");
+}
