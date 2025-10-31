@@ -520,3 +520,22 @@ html::before{
   position:fixed; left:8px; top:8px; z-index:99999;
   background:rgba(44,125,240,.9); color:#fff; padding:4px 8px; border-radius:8px; font:12px/1.2 system-ui;
 }
+/*__ccnft_onlybg_patch__*/
+#region-overlay[data-only-bg="1"] .region-header,
+#region-overlay[data-only-bg="1"] .region-content,
+#region-overlay[data-only-bg="1"] .offer-card,
+#region-overlay[data-only-bg="1"] .filter-bar,
+#region-overlay[data-only-bg="1"] button,
+#region-overlay[data-only-bg="1"] select {
+  display: none !important;
+}
+
+#region-overlay[data-only-bg="1"] .bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(0.8);
+  z-index: 0;
+}
