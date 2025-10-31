@@ -334,3 +334,14 @@ html.no-scroll, body.no-scroll{ overflow:hidden !important; }
 #region-overlay[data-only-bg="1"] #region-list{
   display:none !important;
 }
+/* === BG ONLY HARD MODE (test) === */
+#region-overlay[data-only-bg="1"] {
+  overflow: hidden !important;
+}
+/* скрываем все элементы внутри, кроме слоя .bg */
+#region-overlay[data-only-bg="1"] * { display: none !important; }
+#region-overlay[data-only-bg="1"] .bg { display: block !important; }
+/* чистая картинка без затемнения сверху */
+#region-overlay[data-only-bg="1"] .bg::after { display:none !important; }
+/* слой .bg точно растянут во весь экран */
+#region-overlay .bg { position:absolute; inset:0; background:center/cover no-repeat; }

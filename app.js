@@ -53,6 +53,33 @@
   let bgEl = overlay.querySelector(".bg");
   if(!bgEl){ bgEl = document.createElement("div"); bgEl.className = "bg"; overlay.insertBefore(bgEl, overlay.firstChild); }
 
+  const base = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
+  const map = {
+    "kiranomiya":     "FonKiranomiya.png",
+    "noroburg":       "FonNorroburg.png",
+    "russet-skyline": "FonRussetSkyline.png",
+    "san-maris":      "FonSanMaris.png",
+    "solmara":        "FonSolmara.png",
+    "valparyn":       "FonValparin.png",
+    "nordhaven":      "FonNordhavean.png",
+    "nihon":          "FonNihon.png"
+  };
+
+  const file = map[r.id] || "";
+  const url  = file ? (base + file + "?v=" + Date.now()) : "";
+
+  bgEl.style.background = url ? "center / cover no-repeat url('" + url + "')" : "none";
+
+  // включаем режим "показывать только фон"
+  overlay.setAttribute("data-only-bg","1");
+  overlay.classList.add("active");
+  overlay.setAttribute("aria-hidden","false");
+
+  // блокируем прокрутку под оверлеем
+  document.documentElement.classList.add("no-scroll");
+  document.body.classList.add("no-scroll");
+}
+
   // Абсолютная база GH Pages
   const base = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
 
@@ -372,6 +399,7 @@
   // Экспорт (для отладки)
   window.CityChainNFT = { openRegion:openRegion, closeRegion:closeRegion, REGIONS:REGIONS };
 })();
+
 
 
 
