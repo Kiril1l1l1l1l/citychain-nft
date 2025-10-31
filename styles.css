@@ -276,3 +276,61 @@ body{margin:0; background:var(--bg); color:var(--text); font:14px/1.45 system-ui
 
 /* когда открыт оверлей — страница под ним не скроллится */
 html.no-scroll, body.no-scroll{ overflow: hidden !important; }
+/* === FINAL REGION OVERLAY LAYERING (wins over previous duplicates) === */
+:root{
+  --tabbar-h:56px;
+  --header-h:48px;
+}
+
+/* таббар всегда сверху */
+.tabbar, .bottombar{
+  position:fixed; left:0; right:0; bottom:0; height:var(--tabbar-h);
+  z-index:7000 !important;
+}
+
+/* оверлей занимает окно и сам скроллится, фон берём из .bg */
+#region-overlay,
+.region-overlay{
+  position:fixed !important;
+  left:0; right:0;
+  top:var(--header-h);
+  bottom:var(--tabbar-h);
+  background:transparent !important;
+  overflow:auto;
+  z-index:6000 !important;
+}
+
+/* слой фона и затемнение */
+.region-overlay .bg{
+  position:absolute; inset:0; z-index:1;
+  background:center / cover no-repeat !important;
+}
+.region-overlay .bg::after{ content:""; position:absolute; inset:0; background:rgba(0,0,0,.42); }
+
+/* контент над фоном */
+.region-overlay .content, .region-overlay .panel{ position:relative; z-index:2; }
+
+/* когда открыт оверлей — страница под ним не скроллится */
+html.no-scroll, body.no-scroll{ overflow:hidden !important; }
+/* === BG-ONLY DEBUG MODE === */
+#region-overlay[data-only-bg="1"]{
+  /* оверлей поверх, скролл внутри не нужен */
+  overflow:hidden !important;
+}
+#region-overlay[data-only-bg="1"] .bg{
+  display:block !important;
+  opacity:1 !important;
+}
+#region-overlay[data-only-bg="1"] .bg::after{
+  /* без затемнения, чтобы видеть чистую картинку */
+  background:none !important;
+}
+/* прячем весь интерфейс меню */
+#region-overlay[data-only-bg="1"] .content,
+#region-overlay[data-only-bg="1"] .panel,
+#region-overlay[data-only-bg="1"] .header,
+#region-overlay[data-only-bg="1"] .controls,
+#region-overlay[data-only-bg="1"] #region-title,
+#region-overlay[data-only-bg="1"] #region-list{
+  display:none !important;
+}

@@ -50,10 +50,39 @@
 
   function openRegion(r){
   const overlay = document.getElementById("region-overlay");
-  const title   = overlay.querySelector("#region-title");
-  let   bgEl    = overlay.querySelector(".bg");
-  const list    = overlay.querySelector("#region-list");
+  let bgEl = overlay.querySelector(".bg");
   if(!bgEl){ bgEl = document.createElement("div"); bgEl.className = "bg"; overlay.insertBefore(bgEl, overlay.firstChild); }
+
+  // Абсолютная база GH Pages
+  const base = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
+
+  // Имена файлов ровно как у тебя в папке (с учётом регистра)
+  const map = {
+    "kiranomiya":     "FonKiranomiya.png",
+    "noroburg":       "FonNorroburg.png",
+    "russet-skyline": "FonRussetSkyline.png",
+    "san-maris":      "FonSanMaris.png",
+    "solmara":        "FonSolmara.png",
+    "valparyn":       "FonValparin.png",
+    "nordhaven":      "FonNordhavean.png",
+    "nihon":          "FonNihon.png"
+  };
+
+  const file = map[r.id] || "";
+  const url  = file ? (base + file + "?v=" + Date.now()) : "";
+
+  // Показать только фон
+  bgEl.style.background = url ? "center / cover no-repeat url('" + url + "')" : "none";
+
+  // Включаем режим "только фон"
+  overlay.setAttribute("data-only-bg","1");
+  overlay.classList.add("active");
+  overlay.setAttribute("aria-hidden","false");
+
+  // Блокируем прокрутку под оверлеем
+  document.documentElement.classList.add("no-scroll");
+  document.body.classList.add("no-scroll");
+}
 
   title.textContent = r.name;
 
@@ -343,6 +372,7 @@
   // Экспорт (для отладки)
   window.CityChainNFT = { openRegion:openRegion, closeRegion:closeRegion, REGIONS:REGIONS };
 })();
+
 
 
 
