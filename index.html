@@ -4,7 +4,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>CityChainNFT</title>
-  <link rel="stylesheet" href="styles.css?v=20251031215011">
+  <link rel="stylesheet" href="styles.css?v=20251031215421">
+<style id="ccnft-onlybg-style">
+/* FORCE ONLY-BG (inline) */
+:root{ --tabbar-h:56px; --header-h:44px; }
+#region-overlay{ position:fixed; left:0; right:0; top:var(--header-h); bottom:var(--tabbar-h); display:none; overflow:auto; background:transparent !important; z-index:6000; }
+#region-overlay.active{ display:block; }
+#region-overlay .bg{ position:absolute; inset:0; background-position:center; background-size:cover; background-repeat:no-repeat; }
+#region-overlay .bg::after{ content:""; position:absolute; inset:0; background:rgba(0,0,0,.35); }
+/* hide EVERYTHING when only-bg mode is on */
+#region-overlay[data-only-bg="1"] .panel,
+#region-overlay[data-only-bg="1"] .content,
+#region-overlay[data-only-bg="1"] .header,
+#region-overlay[data-only-bg="1"] .controls,
+#region-overlay[data-only-bg="1"] .list,
+#region-overlay[data-only-bg="1"] .card{ display:none !important; }
+.bottombar,.tabbar{ position:fixed; left:0; right:0; bottom:0; z-index:7000; }
+</style>
 </head>
 <body>
   <div id="app">
@@ -59,7 +75,7 @@
     </div>
   </div>
 
-  <script src="app.js?v=20251031215011"></script>></script>></script>
+  <script src="app.js?v=20251031215421"></script>></script>></script>
   <script>
   // INLINE_FALLBACK_REGIONS: если сетка пустая через 300мс — рисуем меню инлайном
   (function(){
@@ -118,8 +134,70 @@
       if(bg) bg.style.backgroundImage = '';
     }
   </script>
+<script id="ccnft-onlybg-script">
+(function(){
+  console.log("[CityChainNFT] ONLYBG inline patch ACTIVE");
+  const BASE = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
+  const FILES = {
+    kiranomiya:"FonKiranomiya.png",
+    noroburg:"FonNorroburg.png",
+    "russet-skyline":"FonRussetSkyline.png",
+    "san-maris":"FonSanMaris.png",
+    solmara:"FonSolmara.png",
+    valparyn:"FonValparin.png",
+    nordhaven:"FonNordhavean.png",
+    nihon:"FonNihon.png"
+  };
+
+  // ensure bg helper
+  function ensureBg(overlay){
+    let bg = overlay.querySelector(".bg");
+    if(!bg){
+      bg = document.createElement("div");
+      bg.className = "bg";
+      overlay.prepend(bg);
+    }
+    return bg;
+  }
+
+  // hard override openRegion
+  window.openRegion = function(r){
+    const overlay = document.getElementById("region-overlay");
+    if(!overlay) return;
+    const bg = ensureBg(overlay);
+    const file = FILES[r && r.id] || "FonValparin.png";
+    const url  = BASE + file + "?v=" + Date.now();
+    console.log("[CityChainNFT] ONLY-BG ->", r && r.id, url);
+    bg.style.backgroundImage = "url('" + url + "')";
+    overlay.setAttribute("data-only-bg","1");
+    overlay.classList.add("active");
+    overlay.setAttribute("aria-hidden","false");
+    document.documentElement.classList.add("no-scroll");
+    document.body.classList.add("no-scroll");
+  };
+
+  // make sure closeRegion disables only-bg too
+  window.closeRegion = function(){
+    const overlay = document.getElementById("region-overlay");
+    if(!overlay) return;
+    overlay.classList.remove("active");
+    overlay.removeAttribute("data-only-bg");
+    overlay.setAttribute("aria-hidden","true");
+    document.documentElement.classList.remove("no-scroll");
+    document.body.classList.remove("no-scroll");
+  };
+
+  // Safety: watch for overlay re-renders and keep .bg present
+  const ov = document.getElementById("region-overlay");
+  if (ov){
+    const mo = new MutationObserver(()=> ensureBg(ov));
+    mo.observe(ov, {childList:true, subtree:true});
+  }
+})();
+</script>
 </body>
 </html>
+
 
 
 
