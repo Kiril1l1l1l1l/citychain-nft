@@ -57,9 +57,42 @@
 
   title.textContent = r.name;
 
+  // База для GH Pages / локалки — БЕЗ location.origin
+  const pagesBase = (location.pathname.indexOf("/citychain-nft/") !== -1) ? "/citychain-nft/" : "";
+  const base = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
+
+  // Имена файлов РОВНО как в твоей папке (с учётом регистра)
+  const map = {
+    "kiranomiya":     "FonKiranomiya.png",
+    "noroburg":       "FonNorroburg.png",
+    "russet-skyline": "FonRussetSkyline.png",
+    "san-maris":      "FonSanMaris.png",
+    "solmara":        "FonSolmara.png",
+    "valparyn":       "FonValparin.png",
+    "nordhaven":      "FonNordhavean.png",
+    "nihon":          "FonNihon.png"
+  };
+
+  // Ставим фон напрямую
+  const url = (map[r.id] ? (base + map[r.id] + "?v=" + Date.now()) : "");
+  bgEl.style.background = url ? "center / cover no-repeat url('" + url + "')" : "none";
+
+  // Заглушки офферов (3 штуки)
+  list.innerHTML = "";
+  (buildOffersStub(r) || []).forEach(function(o){ list.appendChild(renderOffer(o)); });
+
+  // Показать оверлей + заблокировать прокрутку под ним
+  overlay.classList.add("active");
+  overlay.setAttribute("aria-hidden","false");
+  document.documentElement.classList.add("no-scroll");
+  document.body.classList.add("no-scroll");
+}
+
+  title.textContent = r.name;
+
   // База для GH Pages / локалки: без location.origin
   const pagesBase = (location.pathname.indexOf("/citychain-nft/") !== -1) ? "/citychain-nft/" : "";
-  const base = pagesBase + "static/regions/";  // => /citychain-nft/static/regions/ ... или static/regions/ на локали
+  const base = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";  // => /citychain-nft/static/regions/ ... или static/regions/ на локали
 
   // Карта имён ровно как у тебя в папке (чувствительно к регистру!)
   const map = {
@@ -93,7 +126,7 @@
 
   // База для GH Pages / локалки: без location.origin
   const pagesBase = (location.pathname.indexOf("/citychain-nft/") !== -1) ? "/citychain-nft/" : "";
-  const base = pagesBase + "static/regions/";  // => /citychain-nft/static/regions/ ... или static/regions/ на локали
+  const base = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";  // => /citychain-nft/static/regions/ ... или static/regions/ на локали
 
   // Карта имён ровно как у тебя в папке (чувствительно к регистру!)
   const map = {
@@ -127,7 +160,7 @@
 
   // База для статики: локалка / GH Pages (авто)
   const pagesBase = (location.pathname.includes("/citychain-nft/") ? "/citychain-nft/" : "/");
-  const base = location.origin + pagesBase + "static/regions/";
+  const base = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
 
   // 1) приоритет — реальные имена из твоей папки (Fon*.png)
   // 2) если не нашли — пробуем разумные варианты по id
@@ -310,6 +343,8 @@
   // Экспорт (для отладки)
   window.CityChainNFT = { openRegion:openRegion, closeRegion:closeRegion, REGIONS:REGIONS };
 })();
+
+
 
 
 
