@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>CityChainNFT</title>
-  <link rel="stylesheet" href="styles.css?v=20251031222201">
+  <link rel="stylesheet" href="styles.css?v=20251103115900">
 <style id="ccnft-onlybg-style">
 /* FORCE ONLY-BG (inline) */
 :root{ --tabbar-h:56px; --header-h:44px; }
@@ -75,7 +75,7 @@
     </div>
   </div>
 
-  <script src="app.js?v=20251031222506"></script>></script>></script>
+  <script src="app.js?v=20251103115900"></script>></script>></script>
   <script>
   // INLINE_FALLBACK_REGIONS: если сетка пустая через 300мс — рисуем меню инлайном
   (function(){
@@ -199,61 +199,65 @@
 
 
 
-<script id="ccnft-force-onlybg-final">
+
+<script id="ccnft-setRegionBG-v3">
 (function(){
   const BASE = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
-  const FILES = {
-    kiranomiya:"FonKiranomiya.png",
-    noroburg:"FonNorroburg.png",
+  const MAP = {
+    kiranomiya:     "FonKiranomiya.png",
+    noroburg:       "FonNorroburg.png",
     "russet-skyline":"FonRussetSkyline.png",
-    "san-maris":"FonSanMaris.png",
-    solmara:"FonSolmara.png",
-    valparyn:"FonValparin.png",
-    nordhaven:"FonNordhavean.png",
-    nihon:"FonNihon.png"
+    "san-maris":    "FonSanMaris.png",
+    solmara:        "FonSolmara.png",
+    valparyn:       "FonValparin.png",
+    nordhaven:      "FonNordhavean.png",
+    nihon:          "FonNihon.png"
   };
 
-  function ensureBg(ov){
-    let bg=ov.querySelector(".bg");
+  function ensurePair(){
+    const ov = document.getElementById("region-overlay");
+    if(!ov) return null;
+    let bg = ov.querySelector(".bg");
     if(!bg){
-      bg=document.createElement("div");
-      bg.className="bg";
+      bg = document.createElement("div");
+      bg.className = "bg";
       ov.prepend(bg);
     }
-    return bg;
+    // базовые стили на всякий случай
+    bg.style.position="absolute";
+    bg.style.inset="0";
+    bg.style.backgroundSize="cover";
+    bg.style.backgroundPosition="center";
+    bg.style.backgroundRepeat="no-repeat";
+    return {ov,bg};
   }
 
-  function install(){
-    window.openRegion=function(r){
-      const ov=document.getElementById("region-overlay");
-      if(!ov) return console.warn("[CCNFT] overlay not found");
-      const bg=ensureBg(ov);
-      const id=r?.id;
-      const file=FILES[id] || "FonValparin.png";
-      const url=BASE + file + "?v=" + Date.now();
-
-      console.log("[CCNFT] only-bg region:", id, "=>", url);
-      ov.setAttribute("data-only-bg","1");
-
-      bg.style.backgroundImage="url('"+url+"')";
-      bg.style.backgroundSize="cover";
-      bg.style.backgroundPosition="center";
-      bg.style.backgroundRepeat="no-repeat";
-      bg.style.opacity="1";
-
-      ov.querySelectorAll("*:not(.bg)").forEach(el=>{
-        el.style.display="none";
-      });
-
-      ov.classList.add("active");
-    };
+  function setBGById(id){
+    const pair = ensurePair(); if(!pair) return;
+    const file = MAP[id] || "FonValparin.png";
+    const url  = BASE + file + "?v=" + Date.now();
+    pair.bg.style.backgroundImage = "url('"+url+"')";
+    // делаем оверлей видимым, но контент НЕ скрываем
+    pair.ov.classList.add("active");
+    pair.ov.setAttribute("aria-hidden","false");
   }
 
-  install();
+  // оборачиваем любую существующую openRegion
+  const orig = window.openRegion;
+  window.openRegion = function(r){
+    if (typeof orig === "function") { try { orig(r); } catch(e) { console.warn(e); } }
+    const id = r && (r.id || r.regionId || r.slug);
+    setBGById(id);
+  };
+
+  // Экспорт на всякий случай
+  window.__ccnft_setRegionBG = setBGById;
 })();
 </script>
 </body>
 </html>
+
+
 
 
 
