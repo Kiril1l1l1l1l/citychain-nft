@@ -555,3 +555,7 @@ html::before{
 
 /* нижний бар всегда сверху */
 .tabbar,.bottombar{ position: fixed; left:0; right:0; bottom:0; z-index:7000; }
+/*__ccnft_bg_layer_observer__*/
+#region-overlay{ background:transparent !important; }
+#region-overlay .bg{ position:absolute; inset:0; z-index:1; }
+#region-overlay .panel, #region-overlay .content{ position:relative; z-index:2; }
