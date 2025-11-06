@@ -746,3 +746,65 @@ function closeRegion(){
     });
   })();
 })();
+
+;(() => {
+  // База для GitHub Pages и локалки: пытаемся несколько путей и берём первый рабочий
+  const CANDIDATE_BASES = [
+    './static/regions/', 'static/regions/', '/static/regions/', './', 'img/'
+  ];
+
+  function resolveBg(file) {
+    return new Promise((resolve) => {
+      const tryNext = (i) => {
+        if (i >= CANDIDATE_BASES.length) return resolve(null);
+        const url = CANDIDATE_BASES[i] + file;
+        const img = new Image();
+        img.onload = () => resolve(url);
+        img.onerror = () => tryNext(i+1);
+        img.src = url;
+      };
+      tryNext(0);
+    });
+  }
+
+  async function setRegionBackground(regionId) {
+    try {
+      const r = (Array.isArray(window.REGIONS) ? window.REGIONS : []).find(x => x.id === regionId);
+      if (!r) { console.warn('[BG] region not found:', regionId); return; }
+      const url = await resolveBg(r.bg);
+      if (!url) { console.warn('[BG FAIL] no path found for', r.id, r.bg); return; }
+      document.body.style.backgroundImage = 'url(\"' + url + '\")';
+      document.body.style.backgroundSize = 'cover';
+      document.body.style.backgroundPosition = 'center center';
+      document.body.style.backgroundRepeat = 'no-repeat';
+      console.log('[BG OK]', r.id, '->', url);
+    } catch(e){ console.warn('[BG ERROR]', e); }
+  }
+
+  // Экспортируем на всякий случай
+  window.setRegionBackground = setRegionBackground;
+
+  // Автоопределение региона из URL (?region=... или #region=...)
+  function getRegionFromLocation() {
+    const sp = new URLSearchParams(location.search);
+    if (sp.get('region')) return sp.get('region');
+    const m = location.hash.match(/region=([a-z0-9\-]+)/i);
+    if (m) return m[1];
+    return null;
+  }
+
+  // Делегирование кликов: любой элемент с data-region-id
+  document.addEventListener('click', (e) => {
+    const el = e.target.closest('[data-region-id]');
+    if (el) {
+      const id = el.getAttribute('data-region-id');
+      if (id) setRegionBackground(id);
+    }
+  });
+
+  // Инициализация на загрузке: из URL или первый регион
+  window.addEventListener('DOMContentLoaded', () => {
+    const initId = getRegionFromLocation() || (window.REGIONS && window.REGIONS[0]?.id);
+    if (initId) setRegionBackground(initId);
+  });
+})();
