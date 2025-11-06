@@ -1,25 +1,25 @@
-﻿;(function(){ /*__bg_overlay_styles__*/
-  if(!document.getElementById('ccnft-bg-styles')){
-    var s=document.createElement('style'); s.id='ccnft-bg-styles';
-    s.textContent = [
-      '#region-overlay{background:#000;}',                             
-      '#region-overlay.ccnft-has-bg{',
-      '  background-position:center!important;',
-      '  background-repeat:no-repeat!important;',
-      '  background-size:cover!important;',
-      '}'
-    ].join('');
-    document.head.appendChild(s);
-  }
-})();
-console.warn("[CCNFT] app.js loaded:", new Date().toISOString());
+﻿console.warn("[CCNFT] app.js loaded:", new Date().toISOString());
 
 (function(){
-  // ===== utils =====
   const qs  = (s, r=document)=>r.querySelector(s);
   const qsa = (s, r=document)=>Array.from(r.querySelectorAll(s));
 
-  // ===== regions (имена РОВНО как в static/regions) =====
+  // ===== стили для фона на overlay =====
+  (function injectStyles(){
+    if(document.getElementById("ccnft-bg-styles")) return;
+    const s = document.createElement("style"); s.id="ccnft-bg-styles";
+    s.textContent = [
+      "#region-overlay{background:#000;min-height:100vh;}",
+      "#region-overlay.ccnft-has-bg{",
+      "  background-position:center!important;",
+      "  background-repeat:no-repeat!important;",
+      "  background-size:cover!important;",
+      "}"
+    ].join("");
+    document.head.appendChild(s);
+  })();
+
+  // ===== регионы — имена РОВНО как в static/regions =====
   const REGIONS = [
     { id:"kiranomiya",     name:"Kiranomiya",     bg:"FonKiranomiya.png" },
     { id:"noroburg",       name:"Noroburg",       bg:"FonNorroburg.png" },
@@ -32,7 +32,7 @@ console.warn("[CCNFT] app.js loaded:", new Date().toISOString());
   ];
   window.REGIONS = REGIONS;
 
-  // ===== абсолютная база (GH Pages) — не ломает WebApp внутри t.me =====
+  // Абсолютная база (GH Pages)
   const BASE = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
 
   // ===== меню =====
@@ -57,7 +57,6 @@ console.warn("[CCNFT] app.js loaded:", new Date().toISOString());
   };
   const fmt = n=>"$ " + n.toLocaleString("en-US");
   const basePrice = id=>Math.round(100000 * (REGION_FACTORS[id]||1));
-
   function buildOffersStub(region){
     const price = fmt(basePrice(region.id));
     const o = { type:"House", district:"A", area:120, priceText:price, status:"Available" };
@@ -84,40 +83,29 @@ console.warn("[CCNFT] app.js loaded:", new Date().toISOString());
     const overlay = qs("#region-overlay");
     if(!overlay) return;
 
-    // title
     const title = qs("#region-title, .region-title, h2", overlay);
     if(title) title.textContent = r.name;
 
-    // ensure bg layer
-    let bg = overlay.querySelector(".bg");
-    if(!bg){ bg = document.createElement("div"); bg.className = "bg"; overlay.prepend(bg); }
-
-    // set background
     const url = BASE + r.bg + "?v=" + Date.now();
-    bg.style.backgroundImage  = `url('${url}')`;
-    bg.style.backgroundSize   = "cover";
-    bg.style.backgroundPosition = "center";
-    bg.style.backgroundRepeat = "no-repeat";
-    console.log("[BG TRY]", r.id, "->", url);
+    overlay.style.background = `center / cover no-repeat url('${url}')`;
+    overlay.classList.add("ccnft-has-bg","active");
+    overlay.setAttribute("aria-hidden","false");
+    document.documentElement.classList.add("no-scroll");
+    document.body.classList.add("no-scroll");
+    console.log("[BG TRY overlay]", r.id, "->", url);
 
-    // offers list
     const list = qs("#region-list, .region-list, .cards", overlay);
     if(list){
       list.innerHTML = "";
       buildOffersStub(r).forEach(o=>list.appendChild(renderOffer(o)));
     }
-
-    overlay.classList.add("active");
-    overlay.setAttribute("aria-hidden","false");
-    document.documentElement.classList.add("no-scroll");
-    document.body.classList.add("no-scroll");
   }
-
   function closeRegion(){
     const overlay = qs("#region-overlay");
     if(!overlay) return;
-    overlay.classList.remove("active");
+    overlay.classList.remove("active","ccnft-has-bg");
     overlay.setAttribute("aria-hidden","true");
+    overlay.style.background = "";
     document.documentElement.classList.remove("no-scroll");
     document.body.classList.remove("no-scroll");
   }
@@ -149,7 +137,5 @@ console.warn("[CCNFT] app.js loaded:", new Date().toISOString());
     });
   })();
 
-  // start
   try{ renderMenu(); }catch(e){ console.error("renderMenu failed", e); }
 })();
-
