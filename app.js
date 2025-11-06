@@ -574,12 +574,12 @@ function closeRegion(){
   const BASE = 'https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/';
   const REGIONS = [
   { id:'kiranomiya',     name:'Kiranomiya',     bg:'static/regions/FonKiranomiya.png' },
-  { id:'noroburg',       name:'Noroburg',       bg:'static/regions/FonNoroburg.png' },
+  { id:'noroburg',       name:'Noroburg',       bg:'static/regions/FonNorroburg.png' },
   { id:'russet-skyline', name:'Russet Skyline', bg:'static/regions/FonRussetSkyline.png' },
   { id:'san-maris',      name:'San Maris',      bg:'static/regions/FonSanMaris.png' },
   { id:'solmara',        name:'Solmara',        bg:'static/regions/FonSolmara.png' },
-  { id:'valparyn',       name:'Valparyn',       bg:'static/regions/FonValparyn.png' },
-  { id:'nordhaven',      name:'Nordhaven',      bg:'static/regions/FonNordhaven.png' },
+  { id:'valparyn',       name:'Valparyn',       bg:'static/regions/FonValparin.png' },
+  { id:'nordhaven',      name:'Nordhaven',      bg:'static/regions/FonNordhavean.png' },
   { id:'nihon',          name:'Nihon',          bg:'static/regions/FonNihon.png' }
 ];
 
@@ -713,3 +713,12 @@ function closeRegion(){
 })();
 
 
+
+;(function(){
+  (window.REGIONS||[]).forEach(r=>{
+    const img=new Image();
+    img.onload =()=>console.log('[BG OK]', r.id, r.bg, img.naturalWidth+'x'+img.naturalHeight);
+    img.onerror=()=>console.warn('[BG FAIL]', r.id, r.bg);
+    img.src=r.bg;
+  });
+})();
