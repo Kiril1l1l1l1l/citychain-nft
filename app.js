@@ -1,810 +1,103 @@
-﻿console.warn('[CCNFT] app.js loaded: ' + new Date().toISOString());
-/* ===== CityChainNFT — Regions Menu (robust) ===== */
-(function(){
-  var TS = Date.now();
+﻿console.warn("[CCNFT] app.js loaded:", new Date().toISOString());
 
+(function(){
+  // ===== utils =====
   function qs(sel, root){ return (root||document).querySelector(sel); }
   function qsa(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
 
-  // Навигация табов: закрываем оверлей при переключении
-  ['shop','map','profile'].forEach(function(name){
-    var el = qs('#tab-btn-' + name);
-    if(el){
-      el.addEventListener('click', function(e){
-        e.preventDefault();
-        closeRegion();
-        qsa('.tab').forEach(function(t){ t.classList.remove('active'); });
-        var pane = qs('#tab-' + name) || qs('[data-tab-pane="' + name + '"]');
-        if(pane) pane.classList.add('active');
-      });
-    }
-  });
-
-  // Список регионов и имена файлов фона (нижний регистр!)
-  var REGIONS = [
-    { id:'kiranomiya',     name:'Kiranomiya',     bg:'kiranomiya.png' },
-    { id:'noroburg',       name:'Noroburg',       bg:'noroburg.png' },
-    { id:'russet-skyline', name:'Russet Skyline', bg:'russet-skyline.png' },
-    { id:'san-maris',      name:'San Maris',      bg:'san-maris.png' },
-    { id:'solmara',        name:'Solmara',        bg:'solmara.png' },
-    { id:'valparyn',       name:'Valparyn',       bg:'valparyn.png' },
-    { id:'nordhaven',      name:'Nordhaven',      bg:'nordhaven.png' },
-    { id:'nihon',          name:'Nihon',          bg:'nihon.png' }
+  // ===== regions (имена РОВНО как в папке static/regions) =====
+  const REGIONS = [
+    { id:"kiranomiya",     name:"Kiranomiya",     bg:"FonKiranomiya.png" },
+    { id:"noroburg",       name:"Noroburg",       bg:"FonNorroburg.png" },
+    { id:"russet-skyline", name:"Russet Skyline", bg:"FonRussetSkyline.png" },
+    { id:"san-maris",      name:"San Maris",      bg:"FonSanMaris.png" },
+    { id:"solmara",        name:"Solmara",        bg:"FonSolmara.png" },
+    { id:"valparyn",       name:"Valparyn",       bg:"FonValparin.png" },
+    { id:"nordhaven",      name:"Nordhaven",      bg:"FonNordhavean.png" },
+    { id:"nihon",          name:"Nihon",          bg:"FonNihon.png" }
   ];
 
-  // Рендер сетки кнопок
+  // ===== base path auto (локалка / GH Pages) =====
+  function bgBase(){
+    var hasRepo = location.pathname.indexOf("/citychain-nft/") !== -1;
+    return (hasRepo ? "/citychain-nft/" : "static/".slice(0,0)) + "static/regions/";
+    // пояснение: локалка -> "static/regions/"; GH Pages -> "/citychain-nft/static/regions/"
+  }
+
+  // ===== render menu =====
   function renderMenu(){
-    var grid = qs('#regions-grid');
+    var grid = qs("#regions-grid") || qs(".regions-grid");
     if(!grid) return;
-    grid.innerHTML = '';
+    grid.innerHTML = "";
     REGIONS.forEach(function(r){
-      var btn = document.createElement('button');
-      btn.className = 'region-btn';
-      btn.setAttribute('data-region', r.id);
-      btn.innerHTML = '<div class="name">'+r.name+'</div><small>Открыть</small>';
-      btn.addEventListener('click', function(){ openRegion(r); });
+      var btn = document.createElement("button");
+      btn.className = "region-btn";
+      btn.setAttribute("data-region", r.id);
+      btn.innerHTML = '<div class="name">'+r.name+'</div><small>Open</small>';
+      btn.addEventListener("click", function(){ openRegion(r); });
       grid.appendChild(btn);
     });
   }
 
-  // ===== Оверлей =====
-  var overlay = qs('#region-overlay');
-
+  // ===== overlay =====
   function openRegion(r){
-  const overlay = document.getElementById("region-overlay");
-  let bgEl = overlay.querySelector(".bg");
-  if(!bgEl){
-    bgEl = document.createElement("div");
-    bgEl.className = "bg";
-    overlay.insertBefore(bgEl, overlay.firstChild);
-  }
-
-  const base = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
-  const map = {
-    "kiranomiya":     "FonKiranomiya.png",
-    "noroburg":       "FonNorroburg.png",
-    "russet-skyline": "FonRussetSkyline.png",
-    "san-maris":      "FonSanMaris.png",
-    "solmara":        "FonSolmara.png",
-    "valparyn":       "FonValparin.png",
-    "nordhaven":      "FonNordhavean.png",
-    "nihon":          "FonNihon.png"
-  };
-
-  const file = map[r.id] || "";
-  const url  = file ? (base + file + "?v=" + Date.now()) : "";
-
-  bgEl.style.background = url ? "center / cover no-repeat url('" + url + "')" : "none";
-
-  overlay.setAttribute("data-only-bg","1");     // ВКЛ только фон
-  overlay.classList.add("active");
-  overlay.setAttribute("aria-hidden","false");
-
-  document.documentElement.classList.add("no-scroll");
-  document.body.classList.add("no-scroll");
-}
-
-  const base = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
-  const map = {
-    "kiranomiya":     "FonKiranomiya.png",
-    "noroburg":       "FonNorroburg.png",
-    "russet-skyline": "FonRussetSkyline.png",
-    "san-maris":      "FonSanMaris.png",
-    "solmara":        "FonSolmara.png",
-    "valparyn":       "FonValparin.png",
-    "nordhaven":      "FonNordhavean.png",
-    "nihon":          "FonNihon.png"
-  };
-
-  const file = map[r.id] || "";
-  const url  = file ? (base + file + "?v=" + Date.now()) : "";
-
-  bgEl.style.background = url ? "center / cover no-repeat url('" + url + "')" : "none";
-
-  // включаем режим "показывать только фон"
-  overlay.setAttribute("data-only-bg","1");
-  overlay.classList.add("active");
-  overlay.setAttribute("aria-hidden","false");
-
-  // блокируем прокрутку под оверлеем
-  document.documentElement.classList.add("no-scroll");
-  document.body.classList.add("no-scroll");
-}
-
-  // Абсолютная база GH Pages
-  const base = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
-
-  // Имена файлов ровно как у тебя в папке (с учётом регистра)
-  const map = {
-    "kiranomiya":     "FonKiranomiya.png",
-    "noroburg":       "FonNorroburg.png",
-    "russet-skyline": "FonRussetSkyline.png",
-    "san-maris":      "FonSanMaris.png",
-    "solmara":        "FonSolmara.png",
-    "valparyn":       "FonValparin.png",
-    "nordhaven":      "FonNordhavean.png",
-    "nihon":          "FonNihon.png"
-  };
-
-  const file = map[r.id] || "";
-  const url  = file ? (base + file + "?v=" + Date.now()) : "";
-
-  // Показать только фон
-  bgEl.style.background = url ? "center / cover no-repeat url('" + url + "')" : "none";
-
-  // Включаем режим "только фон"
-  overlay.setAttribute("data-only-bg","1");
-  overlay.classList.add("active");
-  overlay.setAttribute("aria-hidden","false");
-
-  // Блокируем прокрутку под оверлеем
-  document.documentElement.classList.add("no-scroll");
-  document.body.classList.add("no-scroll");
-}
-
-  title.textContent = r.name;
-
-  // База для GH Pages / локалки — БЕЗ location.origin
-  const pagesBase = (location.pathname.indexOf("/citychain-nft/") !== -1) ? "/citychain-nft/" : "";
-  const base = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
-
-  // Имена файлов РОВНО как в твоей папке (с учётом регистра)
-  const map = {
-    "kiranomiya":     "FonKiranomiya.png",
-    "noroburg":       "FonNorroburg.png",
-    "russet-skyline": "FonRussetSkyline.png",
-    "san-maris":      "FonSanMaris.png",
-    "solmara":        "FonSolmara.png",
-    "valparyn":       "FonValparin.png",
-    "nordhaven":      "FonNordhavean.png",
-    "nihon":          "FonNihon.png"
-  };
-
-  // Ставим фон напрямую
-  const url = (map[r.id] ? (base + map[r.id] + "?v=" + Date.now()) : "");
-  bgEl.style.background = url ? "center / cover no-repeat url('" + url + "')" : "none";
-
-  // Заглушки офферов (3 штуки)
-  list.innerHTML = "";
-  (buildOffersStub(r) || []).forEach(function(o){ list.appendChild(renderOffer(o)); });
-
-  // Показать оверлей + заблокировать прокрутку под ним
-  overlay.classList.add("active");
-  overlay.setAttribute("aria-hidden","false");
-  document.documentElement.classList.add("no-scroll");
-  document.body.classList.add("no-scroll");
-}
-
-  title.textContent = r.name;
-
-  // База для GH Pages / локалки: без location.origin
-  const pagesBase = (location.pathname.indexOf("/citychain-nft/") !== -1) ? "/citychain-nft/" : "";
-  const base = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";  // => /citychain-nft/static/regions/ ... или static/regions/ на локали
-
-  // Карта имён ровно как у тебя в папке (чувствительно к регистру!)
-  const map = {
-    "kiranomiya":     "FonKiranomiya.png",
-    "noroburg":       "FonNorroburg.png",
-    "russet-skyline": "FonRussetSkyline.png",
-    "san-maris":      "FonSanMaris.png",
-    "solmara":        "FonSolmara.png",
-    "valparyn":       "FonValparin.png",
-    "nordhaven":      "FonNordhavean.png",
-    "nihon":          "FonNihon.png"
-  };
-
-  // Ставим фон напрямую (без прелоадера) — если файла нет, фон просто не покажется
-  const url = (map[r.id] ? (base + map[r.id] + "?v=" + Date.now()) : "");
-  bgEl.style.background = url ? "center / cover no-repeat url('" + url + "')" : "none";
-
-  // Офферы (как было)
-  list.innerHTML = "";
-  (buildOffersStub(r) || []).forEach(function(o){ list.appendChild(renderOffer(o)); });
-
-  overlay.classList.add("active");
-  overlay.setAttribute("aria-hidden","false");
-
-  // Блокируем прокрутку страницы под оверлеем
-  document.documentElement.classList.add("no-scroll");
-  document.body.classList.add("no-scroll");
-}
-
-  title.textContent = r.name;
-
-  // База для GH Pages / локалки: без location.origin
-  const pagesBase = (location.pathname.indexOf("/citychain-nft/") !== -1) ? "/citychain-nft/" : "";
-  const base = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";  // => /citychain-nft/static/regions/ ... или static/regions/ на локали
-
-  // Карта имён ровно как у тебя в папке (чувствительно к регистру!)
-  const map = {
-    "kiranomiya":     "FonKiranomiya.png",
-    "noroburg":       "FonNorroburg.png",
-    "russet-skyline": "FonRussetSkyline.png",
-    "san-maris":      "FonSanMaris.png",
-    "solmara":        "FonSolmara.png",
-    "valparyn":       "FonValparin.png",
-    "nordhaven":      "FonNordhavean.png",
-    "nihon":          "FonNihon.png"
-  };
-
-  // Ставим фон напрямую (без прелоадера) — если файла нет, фон просто не покажется
-  const url = (map[r.id] ? (base + map[r.id] + "?v=" + Date.now()) : "");
-  bgEl.style.background = url ? "center / cover no-repeat url('" + url + "')" : "none";
-
-  // Офферы (как было)
-  list.innerHTML = "";
-  (buildOffersStub(r) || []).forEach(function(o){ list.appendChild(renderOffer(o)); });
-
-  overlay.classList.add("active");
-  overlay.setAttribute("aria-hidden","false");
-
-  // Блокируем прокрутку страницы под оверлеем
-  document.documentElement.classList.add("no-scroll");
-  document.body.classList.add("no-scroll");
-}
-
-  title.textContent = r.name;
-
-  // База для статики: локалка / GH Pages (авто)
-  const pagesBase = (location.pathname.includes("/citychain-nft/") ? "/citychain-nft/" : "/");
-  const base = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
-
-  // 1) приоритет — реальные имена из твоей папки (Fon*.png)
-  // 2) если не нашли — пробуем разумные варианты по id
-  const fallbackById = {
-    "kiranomiya":     ["FonKiranomiya.png","Kiranomiya.png","kiranomiya.png"],
-    "noroburg":       ["FonNorroburg.png","Noroburg.png","noroburg.png"],
-    "russet-skyline": ["FonRussetSkyline.png","RussetSkyline.png","russet-skyline.png"],
-    "san-maris":      ["FonSanMaris.png","SanMaris.png","san-maris.png"],
-    "solmara":        ["FonSolmara.png","Solmara.png","solmara.png"],
-    "valparyn":       ["FonValparin.png","Valparyn.png","valparyn.png","Valparin.png"],
-    "nordhaven":      ["FonNordhavean.png","Nordhaven.png","nordhaven.png","Nordhavean.png"],
-    "nihon":          ["FonNihon.png","Nihon.png","nihon.png"]
-  };
-  const candidates = (fallbackById[r.id] || []).map(name => base + name);
-
-  // Последовательно пробуем варианты, пока какой-то не загрузится
-  function setBgByCandidates(list){
-    if(!list || !list.length){ bgEl.style.backgroundImage = "none"; return; }
-    const url = list[0] + "?v=" + Date.now();
-    const probe = new Image();
-    probe.onload = function(){
-      bgEl.style.backgroundImage = "url('" + url + "')";
-      bgEl.style.backgroundPosition = "center";
-      bgEl.style.backgroundSize = "cover";
-      bgEl.style.backgroundRepeat = "no-repeat";
-    };
-    probe.onerror = function(){ setBgByCandidates(list.slice(1)); };
-    probe.src = url;
-  }
-  setBgByCandidates(candidates);
-
-  // Контент офферов (как было)
-  list.innerHTML = "";
-  (buildOffersStub(r) || []).forEach(function(o){ list.appendChild(renderOffer(o)); });
-
-  overlay.classList.add("active");
-  overlay.setAttribute("aria-hidden","false");
-
-  // блокируем прокрутку фона страницы (чтоб не «уезжала»)
-  document.documentElement.classList.add("no-scroll");
-  document.body.classList.add("no-scroll");
-}
-
-  title.textContent = r.name;
-
-  // Абсолютные пути для GitHub Pages
-  const base = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
-  const bgMap = {
-    "kiranomiya":     base + "FonKiranomiya.png",
-    "noroburg":       base + "FonNorroburg.png",
-    "russet-skyline": base + "FonRussetSkyline.png",
-    "san-maris":      base + "FonSanMaris.png",
-    "solmara":        base + "FonSolmara.png",
-    "valparyn":       base + "FonValparin.png",
-    "nordhaven":      base + "FonNordhavean.png",
-    "nihon":          base + "FonNihon.png"
-  };
-  const url = bgMap[r.id] ? (bgMap[r.id] + "?v=" + Date.now()) : "";
-
-  // CSS background
-  bgEl.style.backgroundImage = url ? "url('" + url + "')" : "none";
-
-  // Контент (как было)
-  list.innerHTML = "";
-  (buildOffersStub(r) || []).forEach(function(o){ list.appendChild(renderOffer(o)); });
-
-  overlay.classList.add("active");
-  overlay.setAttribute("aria-hidden","false");
-};
-
-  const url = bgMap[r.id] ? (bgMap[r.id] + "?v=" + Date.now()) : "";
-
-  if (bgEl){
-    bgEl.style.display = "block";
-    bgEl.style.backgroundImage  = url ? "url('" + url + "')" : "none";
-    bgEl.style.backgroundSize   = "cover";
-    bgEl.style.backgroundPosition = "center";
-  }
-
-  list.innerHTML = "";
-  (buildOffersStub(r) || []).forEach(function(o){
-    list.appendChild(renderOffer(o));
-  });
-
-  overlay.classList.add("active");
-  overlay.setAttribute("aria-hidden","false");
-};
-  var url = bgMap[r.id] ? (bgMap[r.id] + "?v=" + Date.now()) : "";
-
-  // CSS-фон
-  if(bgEl){
-    bgEl.style.backgroundImage = url ? "url('" + url + "')" : "none";
-  }
-  // <img> fallback (на случай, если background не отрисуется)
-  var img = document.getElementById("region-bg-img");
-  if(!img){
-    img = document.createElement("img");
-    img.id = "region-bg-img";
-    img.alt = "";
-    img.className = "region-bg-img";
-    bgEl && bgEl.appendChild(img);
-  }
-  img.src = url || "";
-  img.style.display = url ? "block" : "none";
-
-  // офферы (как были)
-  list.innerHTML = "";
-  (buildOffersStub(r) || []).forEach(function(o){ list.appendChild(renderOffer(o)); });
-
-  overlay.classList.add("active");
-  overlay.setAttribute("aria-hidden","false");
-};
-
-  var url = bgMap[r.id] ? (bgMap[r.id] + "?v=" + Date.now()) : "";
-  if(bgEl){
-    bgEl.style.display = "block";
-    bgEl.style.backgroundImage = url ? "url('" + url + "')" : "none";
-  }
-
-  list.innerHTML = "";
-  (buildOffersStub(r) || []).forEach(function(o){ list.appendChild(renderOffer(o)); });
-
-  overlay.classList.add("active");
-  overlay.setAttribute("aria-hidden","false");
-});
-    }
-    overlay.classList.add('active');
-    overlay.setAttribute('aria-hidden','false');
-  }
-
-  
-
-  var back = qs('#btn-back', overlay);
-  if(back){ back.addEventListener('click', function(){ closeRegion(); }); }
-
-  // 3 одинаковых оффера (заглушка)
-  var REGION_FACTORS = {
-    'kiranomiya':1.30, 'russet-skyline':1.25, 'noroburg':1.15, 'san-maris':1.10,
-    'solmara':1.05, 'valparyn':1.00, 'nihon':1.00, 'nordhaven':0.95
-  };
-  function calcBase(regionId){
-    var base = 100000;
-    var mult = REGION_FACTORS[regionId] || 1.0;
-    return Math.round(base * mult);
-  }
-  function formatPrice(n){ return '$ ' + n.toLocaleString('en-US'); }
-  function buildOffersStub(region){
-    var price = formatPrice(calcBase(region.id));
-    var base = { regionId:region.id, type:'House', district:'A', area:120, priceText:price, status:'Available' };
-    return [base, Object.assign({}, base), Object.assign({}, base)];
-  }
-  function renderOffer(o){
-    var el = document.createElement('div');
-    el.className = 'card';
-    el.innerHTML =
-      '<div>' +
-        '<div class="title">'+o.type+'</div>' +
-        '<div class="meta"><span>Класс: '+o.district+'</span><span>Площадь: '+o.area+' m²</span></div>' +
-      '</div>' +
-      '<div class="actions">' +
-        '<div class="price">'+o.priceText+'</div>' +
-        '<div class="status">'+o.status+'</div>' +
-        '<button class="btn" disabled>Buy (скоро)</button>' +
-      '</div>';
-    return el;
-  }
-
-  // Старт с защитой
-  try { renderMenu(); }
-  catch(err){
-    console.error('[CityChainNFT] renderMenu failed:', err);
-  }
-
-  // Экспорт (для отладки)
-  window.CityChainNFT = { openRegion:openRegion, closeRegion:closeRegion, REGIONS:REGIONS };
-})();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function closeRegion(){
-  const overlay = document.getElementById("region-overlay");
-  if(!overlay) return;
-  overlay.classList.remove("active");
-  overlay.setAttribute("aria-hidden","true");
-  overlay.removeAttribute("data-only-bg");   // ВЫКЛ режим только фон
-  document.documentElement.classList.remove("no-scroll");
-  document.body.classList.remove("no-scroll");
-}
-
-/*__ccnft_overlay_guard__*/
-(function(){
-  const ov = document.getElementById('region-overlay');
-  function hideOverlay(){
-    if(!ov) return;
-    ov.classList?.remove('open');
-    ov.setAttribute('aria-hidden','true');
-    // на случай инлайновых стилей
-    ov.style.display = '';
-  }
-  // экспортируем на всякий случай
-  window.__hideRegionOverlay = hideOverlay;
-
-  // закрывать при клике по таббару
-  document.addEventListener('click', (e)=>{
-    const btn = e.target && e.target.closest && e.target.closest('#tabbar [data-tab]');
-    if(btn){ hideOverlay(); }
-  });
-
-  // закрывать при смене hash-роута
-  window.addEventListener('hashchange', hideOverlay);
-})();
-
-/*__ccnft_menu_bg__*/
-(function(){
-  const base = 'https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/';
-  const menu = document.querySelector('.menu-regions') || document.querySelector('#tab-map, #screen-map');
-  if(!menu) return;
-
-  // фон по умолчанию
-  menu.style.backgroundImage = 'url(' + base + 'FonValparin.png?v=' + Date.now() + ')';
-  menu.style.backgroundSize = 'cover';
-  menu.style.backgroundPosition = 'center';
-  menu.style.transition = 'background-image .4s ease';
-
-  const regionMap = {
-    kiranomiya: 'FonKiranomiya.png',
-    noroburg: 'FonNorroburg.png',
-    'russet-skyline': 'FonRussetSkyline.png',
-    'san-maris': 'FonSanMaris.png',
-    solmara: 'FonSolmara.png',
-    valparyn: 'FonValparin.png',
-    nordhaven: 'FonNordhavean.png',
-    nihon: 'FonNihon.png'
-  };
-
-  // hover — подменяем фон
-  menu.addEventListener('mouseover', function(e){
-    const btn = e.target && e.target.closest && e.target.closest('[data-region]');
-    if(!btn) return;
-    const id = btn.getAttribute('data-region');
-    if(regionMap[id]){
-      menu.style.backgroundImage = 'url(' + base + regionMap[id] + '?v=' + Date.now() + ')';
-    }
-  });
-
-  // mouseleave — возвращаем дефолт
-  menu.addEventListener('mouseleave', function(){
-    menu.style.backgroundImage = 'url(' + base + 'FonValparin.png?v=' + Date.now() + ')';
-  });
-
-  // click — фиксируем выбранный фон (опционально)
-  menu.addEventListener('click', function(e){
-    const btn = e.target && e.target.closest && e.target.closest('[data-region]');
-    if(!btn) return;
-    const id = btn.getAttribute('data-region');
-    if(regionMap[id]){
-      menu.style.backgroundImage = 'url(' + base + regionMap[id] + '?v=' + Date.now() + ')';
-    }
-  });
-})();
-
-
-
-
-/*__ccnft_openRegion_force__*/
-(function(){
-  const BASE = 'https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/';
-  const FILE = {
-    kiranomiya:'FonKiranomiya.png', noroburg:'FonNorroburg.png',
-    'russet-skyline':'FonRussetSkyline.png', 'san-maris':'FonSanMaris.png',
-    solmara:'FonSolmara.png', valparyn:'FonValparin.png',
-    nordhaven:'FonNordhavean.png', nihon:'FonNihon.png'
-  };
-  window.openRegion = function(r){
-    const overlay = document.getElementById('region-overlay');
+    var overlay = qs("#region-overlay");
     if(!overlay) return;
 
-    // ensure .bg
-    let bg = overlay.querySelector('.bg');
-    if(!bg){
-      bg = document.createElement('div');
-      bg.className = 'bg';
-      overlay.prepend(bg);
-    }
+    var bg = overlay.querySelector(".bg");
+    if(!bg){ bg = document.createElement("div"); bg.className = "bg"; overlay.prepend(bg); }
 
-    // URL и лог
-    const file = FILE[r && r.id] || 'FonValparin.png';
-    const url = BASE + file + '?v=' + Date.now();
-    console.log('[CityChainNFT] BG ->', url);
-
-    // CSS background + <img> fallback
-    bg.style.backgroundImage = 'url(' + url + ')';
-    let img = bg.querySelector('#region-bg-img');
-    if(!img){
-      img = document.createElement('img');
-      img.id = 'region-bg-img';
-      img.className = 'region-bg-img';
-      bg.appendChild(img);
-    }
-    img.src = url;
-
-    // показать overlay
-    overlay.classList.add('active');
-    overlay.setAttribute('aria-hidden','false');
-    document.documentElement.classList.add('no-scroll');
-    document.body.classList.add('no-scroll');
-  };
-})();
-/*__ccnft_pure_image_menu_js__*/
-(function(){
-  const BASE = 'https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/';
-  const REGIONS = [
-  { id:'kiranomiya',     name:'Kiranomiya',     bg:'FonKiranomiya.png' },
-  { id:'noroburg',       name:'Noroburg',       bg:'FonNorroburg.png' },
-  { id:'russet-skyline', name:'Russet Skyline', bg:'FonRussetSkyline.png' },
-  { id:'san-maris',      name:'San Maris',      bg:'FonSanMaris.png' },
-  { id:'solmara',        name:'Solmara',        bg:'FonSolmara.png' },
-  { id:'valparyn',       name:'Valparyn',       bg:'FonValparin.png' },
-  { id:'nordhaven',      name:'Nordhaven',      bg:'FonNordhavean.png' },
-  { id:'nihon',          name:'Nihon',          bg:'FonNihon.png' }
-];
-
-  function mountTiles(){
-    const grid = document.querySelector('#regions-grid') || document.querySelector('.regions-grid');
-    if(!grid) return;
-    grid.innerHTML = '';
-    REGIONS.forEach(function(r){
-      const tile = document.createElement('button');
-      tile.className = 'region-tile';
-      tile.setAttribute('data-region', r.id);
-      tile.setAttribute('aria-label', r.name);
-      tile.style.backgroundImage = 'url(' + BASE + r.file + '?v=' + Date.now() + ')';
-      tile.addEventListener('click', function(){ openRegion({id:r.id, name:r.name}); });
-      grid.appendChild(tile);
-    });
-  }
-
-  // Override: открыть оверлей с ТОЛЬКО фоном
-  window.openRegion = function(r){
-    const overlay = document.getElementById('region-overlay');
-    if(!overlay) return;
-    let bg = overlay.querySelector('.bg');
-    if(!bg){ bg = document.createElement('div'); bg.className='bg'; overlay.prepend(bg); }
-
-    const map = {
-      kiranomiya:'FonKiranomiya.png', noroburg:'FonNorroburg.png',
-      'russet-skyline':'FonRussetSkyline.png', 'san-maris':'FonSanMaris.png',
-      solmara:'FonSolmara.png', valparyn:'FonValparin.png',
-      nordhaven:'FonNordhavean.png', nihon:'FonNihon.png'
-    };
-    const file = map[r && r.id] || 'FonValparin.png';
-    const url  = BASE + file + '?v=' + Date.now();
-    console.log('[CityChainNFT] only-bg ->', url);
-
-    bg.style.backgroundImage = 'url(' + url + ')';
-    overlay.setAttribute('data-only-bg','1');
-    overlay.classList.add('active');
-    overlay.setAttribute('aria-hidden','false');
-    document.documentElement.classList.add('no-scroll');
-    document.body.classList.add('no-scroll');
-  };
-
-  try{ mountTiles(); }catch(e){ console.error('mountTiles failed', e); }
-})();
-/*__ccnft_openRegion_only_bg__*/
-(function(){
-  const BASE = 'https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/';
-  const FILES = {
-    kiranomiya:'FonKiranomiya.png',
-    noroburg:'FonNorroburg.png',
-    'russet-skyline':'FonRussetSkyline.png',
-    'san-maris':'FonSanMaris.png',
-    solmara:'FonSolmara.png',
-    valparyn:'FonValparin.png',
-    nordhaven:'FonNordhavean.png',
-    nihon:'FonNihon.png'
-  };
-
-  window.openRegion = function(r){
-    const overlay = document.getElementById('region-overlay');
-    if(!overlay) return;
-
-    // ensure .bg layer
-    let bg = overlay.querySelector('.bg');
-    if(!bg){ bg = document.createElement('div'); bg.className='bg'; overlay.prepend(bg); }
-
-    const file = FILES[r && r.id] || 'FonValparin.png';
-    const url  = BASE + file + '?v=' + Date.now();
-    console.log('[CityChainNFT] ONLY-BG ->', r && r.id, url);
-
-    bg.style.backgroundImage = 'url(' + url + ')';
-
-    // enable only-bg mode
-    overlay.setAttribute('data-only-bg','1');
-    overlay.classList.add('active');
-    overlay.setAttribute('aria-hidden','false');
-
-    document.documentElement.classList.add('no-scroll');
-    document.body.classList.add('no-scroll');
-  };
-
-  // keep closeRegion turning the mode off
-  window.closeRegion = function(){
-    const overlay = document.getElementById('region-overlay');
-    if(!overlay) return;
-    overlay.classList.remove('active');
-    overlay.removeAttribute('data-only-bg');
-    overlay.setAttribute('aria-hidden','true');
-    document.documentElement.classList.remove('no-scroll');
-    document.body.classList.remove('no-scroll');
-  };
-})();
-/*__ccnft_openRegion_only_bg_v1__*/
-(function(){
-  const BASE = "https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/";
-  const FILE = {
-    kiranomiya:"FonKiranomiya.png",
-    noroburg:"FonNorroburg.png",
-    "russet-skyline":"FonRussetSkyline.png",
-    "san-maris":"FonSanMaris.png",
-    solmara:"FonSolmara.png",
-    valparyn:"FonValparin.png",
-    nordhaven:"FonNordhavean.png",
-    nihon:"FonNihon.png"
-  };
-  window.openRegion = function(r){
-    const ov = document.getElementById("region-overlay");
-    if(!ov) return;
-    let bg = ov.querySelector(".bg");
-    if(!bg){ bg = document.createElement("div"); bg.className="bg"; ov.prepend(bg); }
-    const file = FILE[r && r.id] || "FonValparin.png";
-    const url  = BASE + file + "?v=" + Date.now();
-    console.warn("[CCNFT] openRegion only-bg ->", r && r.id, url);
+    var url = bgBase() + r.bg + "?v=" + Date.now();
     bg.style.backgroundImage = "url('" + url + "')";
-    ov.setAttribute("data-only-bg","1");
-    ov.classList.add("active");
-    ov.setAttribute("aria-hidden","false");
+    bg.style.backgroundSize = "cover";
+    bg.style.backgroundPosition = "center";
+    bg.style.backgroundRepeat = "no-repeat";
+
+    overlay.classList.add("active");
+    overlay.setAttribute("aria-hidden","false");
     document.documentElement.classList.add("no-scroll");
     document.body.classList.add("no-scroll");
-  };
-  window.closeRegion = function(){
-    const ov = document.getElementById("region-overlay");
-    if(!ov) return;
-    ov.classList.remove("active");
-    ov.removeAttribute("data-only-bg");
-    ov.setAttribute("aria-hidden","true");
+
+    console.log("[BG TRY]", r.id, "->", url);
+  }
+
+  function closeRegion(){
+    var overlay = qs("#region-overlay");
+    if(!overlay) return;
+    overlay.classList.remove("active");
+    overlay.setAttribute("aria-hidden","true");
     document.documentElement.classList.remove("no-scroll");
     document.body.classList.remove("no-scroll");
-  };
-})();
-
-
-
-;(function(){
-  (window.REGIONS||[]).forEach(r=>{
-    const img=new Image();
-    img.onload =()=>console.log('[BG OK]', r.id, r.bg, img.naturalWidth+'x'+img.naturalHeight);
-    img.onerror=()=>console.warn('[BG FAIL]', r.id, r.bg);
-    img.src=r.bg;
-  });
-})();
-
-;(function(){
-  var _base = 'static/regions/';
-  if (Array.isArray(window.REGIONS)) {
-    window.REGIONS = window.REGIONS.map(function(r){
-      var file = r.bg||'';
-      var path = /\/|^https?:/.test(file) ? file : (_base + file);
-      if (path.startsWith('static/regions/static/regions/')) {
-        path = path.replace('static/regions/','');
-        path = _base + path;
-      }
-      if (window?.console) console.log('[BG MAP]', r.id, '->', path);
-      return Object.assign({}, r, { bg: path });
-    });
-  }
-  (function probe(){
-    (window.REGIONS||[]).forEach(function(r){
-      var img=new Image();
-      img.onload =function(){ console.log('[BG OK]', r.id, r.bg, this.naturalWidth+'x'+this.naturalHeight); };
-      img.onerror=function(){ console.warn('[BG FAIL]', r.id, r.bg); };
-      img.src=r.bg;
-    });
-  })();
-})();
-
-;(() => {
-  // База для GitHub Pages и локалки: пытаемся несколько путей и берём первый рабочий
-  const CANDIDATE_BASES = [
-    './static/regions/', 'static/regions/', '/static/regions/', './', 'img/'
-  ];
-
-  function resolveBg(file) {
-    return new Promise((resolve) => {
-      const tryNext = (i) => {
-        if (i >= CANDIDATE_BASES.length) return resolve(null);
-        const url = CANDIDATE_BASES[i] + file;
-        const img = new Image();
-        img.onload = () => resolve(url);
-        img.onerror = () => tryNext(i+1);
-        img.src = url;
-      };
-      tryNext(0);
-    });
   }
 
-  async function setRegionBackground(regionId) {
-    try {
-      const r = (Array.isArray(window.REGIONS) ? window.REGIONS : []).find(x => x.id === regionId);
-      if (!r) { console.warn('[BG] region not found:', regionId); return; }
-      const url = await resolveBg(r.bg);
-      if (!url) { console.warn('[BG FAIL] no path found for', r.id, r.bg); return; }
-      document.body.style.backgroundImage = 'url(\"' + url + '\")';
-      document.body.style.backgroundSize = 'cover';
-      document.body.style.backgroundPosition = 'center center';
-      document.body.style.backgroundRepeat = 'no-repeat';
-      console.log('[BG OK]', r.id, '->', url);
-    } catch(e){ console.warn('[BG ERROR]', e); }
-  }
-
-  // Экспортируем на всякий случай
-  window.setRegionBackground = setRegionBackground;
-
-  // Автоопределение региона из URL (?region=... или #region=...)
-  function getRegionFromLocation() {
-    const sp = new URLSearchParams(location.search);
-    if (sp.get('region')) return sp.get('region');
-    const m = location.hash.match(/region=([a-z0-9\-]+)/i);
-    if (m) return m[1];
-    return null;
-  }
-
-  // Делегирование кликов: любой элемент с data-region-id
-  document.addEventListener('click', (e) => {
-    const el = e.target.closest('[data-region-id]');
-    if (el) {
-      const id = el.getAttribute('data-region-id');
-      if (id) setRegionBackground(id);
+  // ===== tabs (закрытие оверлея при переключении) =====
+  ["shop","map","profile"].forEach(function(name){
+    var el = qs("#tab-btn-" + name);
+    if(el){
+      el.addEventListener("click", function(e){
+        e.preventDefault();
+        closeRegion();
+        qsa(".tab").forEach(function(t){ t.classList.remove("active"); });
+        var pane = qs("#tab-" + name) || qs('[data-tab-pane="'+name+'"]');
+        if(pane) pane.classList.add("active");
+      });
     }
   });
 
-  // Инициализация на загрузке: из URL или первый регион
-  window.addEventListener('DOMContentLoaded', () => {
-    const initId = getRegionFromLocation() || (window.REGIONS && window.REGIONS[0]?.id);
-    if (initId) setRegionBackground(initId);
-  });
+  // ===== preload probe (лог в консоль) =====
+  (function(){
+    var base = bgBase();
+    REGIONS.forEach(function(r){
+      var img = new Image();
+      img.onload  = function(){ console.log("[BG OK]", r.id, base + r.bg, this.naturalWidth+"x"+this.naturalHeight); };
+      img.onerror = function(){ console.warn("[BG FAIL]", r.id, base + r.bg); };
+      img.src = base + r.bg + "?v=" + Date.now();
+    });
+  })();
+
+  // ===== start =====
+  try { renderMenu(); } catch(e){ console.error("renderMenu failed", e); }
+
+  // export for debug
+  window.CityChainNFT = { openRegion: openRegion, closeRegion: closeRegion, REGIONS: REGIONS };
 })();
