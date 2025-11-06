@@ -573,14 +573,14 @@ function closeRegion(){
 (function(){
   const BASE = 'https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/';
   const REGIONS = [
-  { id:'kiranomiya',     name:'Kiranomiya',     bg:'FonKiranomiya.png' },
-  { id:'noroburg',       name:'Noroburg',       bg:'FonNoroburg.png' },
-  { id:'russet-skyline', name:'Russet Skyline', bg:'FonRussetSkyline.png' },
-  { id:'san-maris',      name:'San Maris',      bg:'FonSanMaris.png' },
-  { id:'solmara',        name:'Solmara',        bg:'FonSolmara.png' },
-  { id:'valparyn',       name:'Valparyn',       bg:'FonValparyn.png' },
-  { id:'nordhaven',      name:'Nordhaven',      bg:'FonNordhaven.png' },
-  { id:'nihon',          name:'Nihon',          bg:'FonNihon.png' }
+  { id:'kiranomiya',     name:'Kiranomiya',     bg:'static/regions/FonKiranomiya.png' },
+  { id:'noroburg',       name:'Noroburg',       bg:'static/regions/FonNoroburg.png' },
+  { id:'russet-skyline', name:'Russet Skyline', bg:'static/regions/FonRussetSkyline.png' },
+  { id:'san-maris',      name:'San Maris',      bg:'static/regions/FonSanMaris.png' },
+  { id:'solmara',        name:'Solmara',        bg:'static/regions/FonSolmara.png' },
+  { id:'valparyn',       name:'Valparyn',       bg:'static/regions/FonValparyn.png' },
+  { id:'nordhaven',      name:'Nordhaven',      bg:'static/regions/FonNordhaven.png' },
+  { id:'nihon',          name:'Nihon',          bg:'static/regions/FonNihon.png' }
 ];
 
   function mountTiles(){
@@ -711,4 +711,5 @@ function closeRegion(){
     document.body.classList.remove("no-scroll");
   };
 })();
+
 
