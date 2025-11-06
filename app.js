@@ -573,14 +573,14 @@ function closeRegion(){
 (function(){
   const BASE = 'https://kiril1l1l1l1l.github.io/citychain-nft/static/regions/';
   const REGIONS = [
-  { id:'kiranomiya',     name:'Kiranomiya',     bg:'static/regions/FonKiranomiya.png' },
-  { id:'noroburg',       name:'Noroburg',       bg:'static/regions/FonNorroburg.png' },
-  { id:'russet-skyline', name:'Russet Skyline', bg:'static/regions/FonRussetSkyline.png' },
-  { id:'san-maris',      name:'San Maris',      bg:'static/regions/FonSanMaris.png' },
-  { id:'solmara',        name:'Solmara',        bg:'static/regions/FonSolmara.png' },
-  { id:'valparyn',       name:'Valparyn',       bg:'static/regions/FonValparin.png' },
-  { id:'nordhaven',      name:'Nordhaven',      bg:'static/regions/FonNordhavean.png' },
-  { id:'nihon',          name:'Nihon',          bg:'static/regions/FonNihon.png' }
+  { id:'kiranomiya',     name:'Kiranomiya',     bg:'FonKiranomiya.png' },
+  { id:'noroburg',       name:'Noroburg',       bg:'FonNorroburg.png' },
+  { id:'russet-skyline', name:'Russet Skyline', bg:'FonRussetSkyline.png' },
+  { id:'san-maris',      name:'San Maris',      bg:'FonSanMaris.png' },
+  { id:'solmara',        name:'Solmara',        bg:'FonSolmara.png' },
+  { id:'valparyn',       name:'Valparyn',       bg:'FonValparin.png' },
+  { id:'nordhaven',      name:'Nordhaven',      bg:'FonNordhavean.png' },
+  { id:'nihon',          name:'Nihon',          bg:'FonNihon.png' }
 ];
 
   function mountTiles(){
@@ -721,4 +721,28 @@ function closeRegion(){
     img.onerror=()=>console.warn('[BG FAIL]', r.id, r.bg);
     img.src=r.bg;
   });
+})();
+
+;(function(){
+  var _base = 'static/regions/';
+  if (Array.isArray(window.REGIONS)) {
+    window.REGIONS = window.REGIONS.map(function(r){
+      var file = r.bg||'';
+      var path = /\/|^https?:/.test(file) ? file : (_base + file);
+      if (path.startsWith('static/regions/static/regions/')) {
+        path = path.replace('static/regions/','');
+        path = _base + path;
+      }
+      if (window?.console) console.log('[BG MAP]', r.id, '->', path);
+      return Object.assign({}, r, { bg: path });
+    });
+  }
+  (function probe(){
+    (window.REGIONS||[]).forEach(function(r){
+      var img=new Image();
+      img.onload =function(){ console.log('[BG OK]', r.id, r.bg, this.naturalWidth+'x'+this.naturalHeight); };
+      img.onerror=function(){ console.warn('[BG FAIL]', r.id, r.bg); };
+      img.src=r.bg;
+    });
+  })();
 })();
