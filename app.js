@@ -1,4 +1,18 @@
-﻿console.warn("[CCNFT] app.js loaded:", new Date().toISOString());
+﻿;(function(){ /*__bg_overlay_styles__*/
+  if(!document.getElementById('ccnft-bg-styles')){
+    var s=document.createElement('style'); s.id='ccnft-bg-styles';
+    s.textContent = [
+      '#region-overlay{background:#000;}',                             
+      '#region-overlay.ccnft-has-bg{',
+      '  background-position:center!important;',
+      '  background-repeat:no-repeat!important;',
+      '  background-size:cover!important;',
+      '}'
+    ].join('');
+    document.head.appendChild(s);
+  }
+})();
+console.warn("[CCNFT] app.js loaded:", new Date().toISOString());
 
 (function(){
   // ===== utils =====
@@ -138,3 +152,4 @@
   // start
   try{ renderMenu(); }catch(e){ console.error("renderMenu failed", e); }
 })();
+
