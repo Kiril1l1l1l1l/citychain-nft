@@ -20,16 +20,16 @@
   })();
 
   // ===== регионы — имена РОВНО как в static/regions =====
-  const REGIONS = [
-    { id:"kiranomiya",     name:"Kiranomiya",     bg:"FonKiranomiya.png" },
-    { id:"noroburg",       name:"Noroburg",       bg:"FonNorroburg.png" },
-    { id:"russet-skyline", name:"Russet Skyline", bg:"FonRussetSkyline.png" },
-    { id:"san-maris",      name:"San Maris",      bg:"FonSanMaris.png" },
-    { id:"solmara",        name:"Solmara",        bg:"FonSolmara.png" },
-    { id:"valparyn",       name:"Valparyn",       bg:"FonValparin.png" },
-    { id:"nordhaven",      name:"Nordhaven",      bg:"FonNordhavean.png" },
-    { id:"nihon",          name:"Nihon",          bg:"FonNihon.png" }
-  ];
+  
+  { id:'kiranomiya',     name:'Kiranomiya',     bg:'FonKiranomiya.png' },
+  { id:'noroburg',       name:'Noroburg',       bg:'FonNorroburg.png' },
+  { id:'russet-skyline', name:'Russet Skyline', bg:'FonRussetSkyline.png' },
+  { id:'san-maris',      name:'San Maris',      bg:'FonSanMaris.png' },
+  { id:'solmara',        name:'Solmara',        bg:'FonSolmara.png' },
+  { id:'valparyn',       name:'Valparyn',       bg:'FonValparin.png' },
+  { id:'nordhaven',      name:'Nordhaven',      bg:'FonNordhavean.png' },
+  { id:'nihon',          name:'Nihon',          bg:'FonNihon.png' }
+
   window.REGIONS = REGIONS;
 
   // Абсолютная база (GH Pages)
@@ -139,3 +139,4 @@
 
   try{ renderMenu(); }catch(e){ console.error("renderMenu failed", e); }
 })();
+
