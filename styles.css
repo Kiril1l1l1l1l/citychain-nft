@@ -559,3 +559,7 @@ html::before{
 #region-overlay{ background:transparent !important; }
 #region-overlay .bg{ position:absolute; inset:0; z-index:1; }
 #region-overlay .panel, #region-overlay .content{ position:relative; z-index:2; }
+/* hard show overlay bg */
+.region-overlay{ background:#000 !important; z-index:6000 !important; }
+.region-overlay .bg{ display:block !important; background:center/cover no-repeat !important; position:absolute; inset:0; }
+.region-overlay .bg::after{ content:""; position:absolute; inset:0; background:rgba(0,0,0,.40); }
