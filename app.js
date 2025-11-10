@@ -140,3 +140,33 @@
   try{ renderMenu(); }catch(e){ console.error("renderMenu failed", e); }
 })();
 
+const ASSET_VERSION = new URLSearchParams(location.search).get('v') || String(Date.now());
+
+function regionBgUrl(bgFile) {
+  return `static/regions/${bgFile}?v=${ASSET_VERSION}`;
+}
+
+function loadRegionBg(region) {
+  const overlay = document.querySelector('.region-overlay');
+  if (!overlay) return;
+  const bgEl = overlay.querySelector('.bg');
+  if (!bgEl) return;
+
+  const url = regionBgUrl(region.bg);
+  const testImg = new Image();
+  testImg.onload = () => {
+    bgEl.style.backgroundImage = `url("${url}")`;
+    console.log('[BG OK]', region.id, url);
+  };
+  testImg.onerror = () => {
+    console.warn('[BG FAIL]', region.id, url);
+    bgEl.style.background = 'linear-gradient(180deg,#0b0b0b,#1a1a1a)';
+  };
+  testImg.src = url;
+}
+
+function openRegionOverlay(regionId){
+  const region = REGIONS.find(r => r.id === regionId);
+  // ... существующий код ...
+  loadRegionBg(region); // вызов подгрузки фона
+}
