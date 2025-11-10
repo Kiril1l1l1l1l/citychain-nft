@@ -268,3 +268,9 @@ function loadRegionBg(region) {
     if (region) setTimeout(()=>{ ensureOverlayBg(); loadRegionBg(region); }, 0);
   }, true);
 })();
+window.__forceOneBg = true;
+if (window.__forceOneBg) {
+  const ONE = "FonRussetSkyline.png";
+  (window.REGIONS||[]).forEach(r => r.bg = ONE);
+  console.warn("[BG] forced single background for all regions:", ONE);
+}
