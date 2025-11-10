@@ -196,3 +196,75 @@ function loadRegionBg(region) {
 }
 
 // Вставь вызов loadRegionBg(region) в свою функцию открытия оверлея, если ещё не вставлен.
+// === hard patch: ensure overlay background always loads ===
+(function(){
+  // 1) REGIONS fallback (если где-то не задан)
+  if (!window.REGIONS) {
+    window.REGIONS = [
+      { id:"kiranomiya",     name:"Kiranomiya",     bg:"FonKiranomiya.png" },
+      { id:"noroburg",       name:"Noroburg",       bg:"FonNorroburg.png" },
+      { id:"russet-skyline", name:"Russet Skyline", bg:"FonRussetSkyline.png" },
+      { id:"san-maris",      name:"San Maris",      bg:"FonSanMaris.png" },
+      { id:"solmara",        name:"Solmara",        bg:"FonSolmara.png" },
+      { id:"valparyn",       name:"Valparyn",       bg:"FonValparin.png" },
+      { id:"nordhaven",      name:"Nordhaven",      bg:"FonNordhavean.png" },
+      { id:"nihon",          name:"Nihon",          bg:"FonNihon.png" }
+    ];
+    console.warn("[REGIONS fallback injected]");
+  }
+
+  // 2) версия ассетов для ?v=
+  if (!window.ASSET_VERSION) {
+    window.ASSET_VERSION = new URLSearchParams(location.search).get("v") || String(Date.now());
+  }
+  function regionBgUrl(bgFile){ return `static/regions/${bgFile}?v=${window.ASSET_VERSION}`; }
+
+  // 3) гарантируем, что .region-overlay и .bg есть
+  function ensureOverlayBg(){
+    const overlay = document.querySelector(".region-overlay");
+    if (!overlay) { console.warn("[BG] no .region-overlay found yet"); return null; }
+    let bg = overlay.querySelector(".bg");
+    if (!bg) {
+      bg = document.createElement("div");
+      bg.className = "bg";
+      overlay.prepend(bg);
+      console.log("[BG] .bg element created");
+    }
+    return bg;
+  }
+
+  // 4) загрузчик (с логами)
+  function loadRegionBg(region){
+    const overlay = document.querySelector(".region-overlay");
+    const bgEl = ensureOverlayBg();
+    if (!overlay || !bgEl) return;
+
+    const url = regionBgUrl(region.bg);
+    const testImg = new Image();
+    testImg.onload  = () => { bgEl.style.backgroundImage = `url("${url}")`; console.log("[BG OK]", region.id, url); };
+    testImg.onerror = () => { console.warn("[BG FAIL]", region.id, url); bgEl.style.background = "linear-gradient(180deg,#0b0b0b,#1a1a1a)"; };
+    testImg.src = url;
+  }
+  window.loadRegionBg = window.loadRegionBg || loadRegionBg;
+
+  // 5) мягкий перехват openRegionOverlay, если он есть
+  const orig = window.openRegionOverlay;
+  window.openRegionOverlay = function(regionId){
+    if (typeof orig === "function") { orig.apply(this, arguments); }
+    const region = (window.REGIONS || []).find(r => r.id === regionId);
+    if (region) { // подождём рендер оверлея и подставим фон
+      setTimeout(() => { ensureOverlayBg(); loadRegionBg(region); }, 0);
+    } else {
+      console.warn("[BG] region not found by id:", regionId);
+    }
+  };
+
+  // 6) страховка: если клики по тайлам без вызова openRegionOverlay
+  document.addEventListener("click", (e)=>{
+    const tile = e.target.closest("[data-region-id]");
+    if (!tile) return;
+    const rid = tile.getAttribute("data-region-id");
+    const region = (window.REGIONS || []).find(r => r.id === rid);
+    if (region) setTimeout(()=>{ ensureOverlayBg(); loadRegionBg(region); }, 0);
+  }, true);
+})();

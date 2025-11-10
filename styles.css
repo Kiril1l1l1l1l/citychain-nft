@@ -568,3 +568,7 @@ html::before{
 .region-overlay .bg{ display:block !important; position:absolute; inset:0; background:center/cover no-repeat !important; }
 .region-overlay .bg::after{ content:""; position:absolute; inset:0; background:rgba(0,0,0,.40); }
 
+/* overlay bg safety */
+.region-overlay{ background:#000 !important; z-index:6000 !important; }
+.region-overlay .bg{ display:block !important; position:absolute; inset:0; background:center/cover no-repeat !important; }
+.region-overlay .bg::after{ content:""; position:absolute; inset:0; background:rgba(0,0,0,.40); }
