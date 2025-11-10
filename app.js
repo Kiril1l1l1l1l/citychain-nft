@@ -170,3 +170,29 @@ function openRegionOverlay(regionId){
   // ... существующий код ...
   loadRegionBg(region); // вызов подгрузки фона
 }
+if (!window.ASSET_VERSION) {
+  window.ASSET_VERSION = new URLSearchParams(location.search).get("v") || String(Date.now());
+}
+function regionBgUrl(bgFile) {
+  return `static/regions/${bgFile}?v=${window.ASSET_VERSION}`;
+}
+function loadRegionBg(region) {
+  const overlay = document.querySelector(".region-overlay");
+  if (!overlay) return;
+  const bgEl = overlay.querySelector(".bg");
+  if (!bgEl) return;
+
+  const url = regionBgUrl(region.bg);
+  const testImg = new Image();
+  testImg.onload = () => {
+    bgEl.style.backgroundImage = `url("${url}")`;
+    console.log("[BG OK]", region.id, url);
+  };
+  testImg.onerror = () => {
+    console.warn("[BG FAIL]", region.id, url);
+    bgEl.style.background = "linear-gradient(180deg,#0b0b0b,#1a1a1a)";
+  };
+  testImg.src = url;
+}
+
+// Вставь вызов loadRegionBg(region) в свою функцию открытия оверлея, если ещё не вставлен.
